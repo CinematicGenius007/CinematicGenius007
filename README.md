@@ -4,7 +4,7 @@
 - 💞️ I’m looking to collaborate on anything associated with Computer Science (given I can do it).
 - 📫 How to reach me, well if you are seeing this page, REALLY!!
 
-![](https://hit.yhype.me/github/profile?user_id=75163638)
+![CinematicGenius's GitHub stats](https://github-readme-stats.vercel.app/api?username=CinematicGenius007&show_icons=true&theme=radical)
 
 <!---
 CinematicGenius007/CinematicGenius007 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
