@@ -5,6 +5,8 @@
 - 📫 How to reach me, well if you are seeing this page, REALLY!!
 
 ![CinematicGenius's GitHub stats](https://github-readme-stats.vercel.app/api?username=CinematicGenius007&show_icons=true&theme=radical)
+<br>
+![CinematicGenius's Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=CinematicGenius007)
 
 <!---
 CinematicGenius007/CinematicGenius007 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
