@@ -93,7 +93,7 @@ class CinematicGenius {
 object Main extends CinematicGenius {
   def main(args: Array[String]): Unit = {
     var whosCallin: String = readline()
-    println()
+    println(dial())
   }
 }
 ```
