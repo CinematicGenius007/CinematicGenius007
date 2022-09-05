@@ -84,8 +84,8 @@ class CinematicGenius {
   var instagram: String = "I don't use it"
   var facebook: String = "What is that?"
   
-  def dial(whosCalling: String): String {
-    if (!x.trim.isEmpty) return "I'm out of your league"
+  def dial(whosCallin: String): String {
+    if (!whosCallin.trim.isEmpty) return "I'm out of your league"
     else return "I'm still out of your league"
   }
 }
