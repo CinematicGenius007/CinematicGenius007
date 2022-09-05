@@ -34,17 +34,66 @@
 
 # 💪 Flexing my skills
   
-- [Tic Tac Toe - AI](https://github.com/CinematicGenius007/tic-tac-toe-ai)
+<p>
+  <img style="" src="https://github-readme-stats.vercel.app/api/pin?username=CinematicGenius007&repo=tic-tac-toe-ai&title_color=fff&icon_color=f9f9f9&text_color=9f9f9f&bg_color=151515&show_owner=true" />
+</p>
+<p>
+  <img style="" src="https://github-readme-stats.vercel.app/api/pin?username=CinematicGenius007&repo=Chess&title_color=fff&icon_color=f9f9f9&text_color=9f9f9f&bg_color=151515&show_owner=true" />
+</p>
+<p>
+  <img style="" src="https://github-readme-stats.vercel.app/api/pin?username=CinematicGenius007&repo=Movies-box-3&title_color=fff&icon_color=f9f9f9&text_color=9f9f9f&bg_color=151515&show_owner=true" />
+</p>
+  
+<!-- - [Tic Tac Toe - AI](https://github.com/CinematicGenius007/tic-tac-toe-ai)
 - [Chess](https://github.com/CinematicGenius007/Chess)
-- [MoviesBox v3](https://github.com/CinematicGenius007/Movies-box-3)
+- [MoviesBox v3](https://github.com/CinematicGenius007/Movies-box-3) -->
+  
+# 💪💪 All the skills that I admit to flex
+
+<p >
+  <img style="width: 450px; display: block;" src="https://github-readme-stats.vercel.app/api?username=CinematicGenius007&show_icons=true&theme=gradient&count_private=false&bg_color=0,11998E,38EF7D&title_color=fff&text_color=fff&icon_color=79ff97" />
+</p>
+<p>
+  <img style="width:450px; display: block;" src="https://github-readme-stats.vercel.app/api/top-langs/?username=CinematicGenius007&langs_count=8&count_private=false&bg_color=0,11998E,38EF7D&title_color=fff&text_color=fff&icon_color=79ff97" />
+</p>
 
 # 🤯 Mind blown yet!
 
 ![I know](https://i.imgur.com/TyP5EK9.gif)
 
 <br><br>
+
+# ✌️ Apart from the Coolest username ever
+
 > If you are wondering what is my real name, you'll have to decode this list of binary numbers, the easiest way is in python but c++ and java are just more fun to do in 😉
 
 ```Java
 public static final String NAME = "1000001 1111001 1110101 1110011 1101000 100000 1010011 1100001 1101001 1101110 1101001";
+```
+
+# 😉 And for many reasons if you want to know more about me
+
+```Scala
+package awesomeness
+import scala.io.StdIn.readLine
+
+class CinematicGenius {
+  var awesomeUsername: String = "CinematicGenius007"
+  var email: String = "ayush.trillionarie@gmail.com"
+  var mobile: String = "**********"
+  var instagram: String = "I don't use it"
+  var facebook: String = "What is that?"
+  
+  def dial(whosCalling: String): String {
+    if (!x.trim.isEmpty) return "I'm out of your league"
+    else return "I'm still out of your league"
+  }
+}
+
+object Main extends CinematicGenius {
+  def main(args: Array[String]): Unit = {
+    var whosCallin: String = readline()
+    println()
+  }
+}
 ```
