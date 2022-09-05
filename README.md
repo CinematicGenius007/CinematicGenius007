@@ -79,7 +79,7 @@ import scala.io.StdIn.readLine
 
 class CinematicGenius {
   var awesomeUsername: String = "CinematicGenius007"
-  var email: String = "ayush.trillionarie@gmail.com"
+  var email: String = "ayush.trillionarie@gmail.com"  // not a typo but a well thought mistake
   var mobile: String = "**********"
   var instagram: String = "I don't use it"
   var facebook: String = "What is that?"
