@@ -35,17 +35,17 @@
 # 💪 Flexing my skills
   
 <p>
-  <img style="" src="https://github-readme-stats.vercel.app/api/pin?username=CinematicGenius007&repo=tic-tac-toe-ai&title_color=fff&icon_color=f9f9f9&text_color=9f9f9f&bg_color=151515&show_owner=true" />
+  <img style="" src="https://github-readme-stats.vercel.app/api/pin?username=CinematicGenius007&repo=to-do-app&title_color=fff&icon_color=f9f9f9&text_color=9f9f9f&bg_color=151515&show_owner=true" />
 </p>
 <p>
-  <img style="" src="https://github-readme-stats.vercel.app/api/pin?username=CinematicGenius007&repo=Chess&title_color=fff&icon_color=f9f9f9&text_color=9f9f9f&bg_color=151515&show_owner=true" />
+  <img style="" src="https://github-readme-stats.vercel.app/api/pin?username=CinematicGenius007&repo=to-do-api&title_color=fff&icon_color=f9f9f9&text_color=9f9f9f&bg_color=151515&show_owner=true" />
 </p>
 <p>
   <img style="" src="https://github-readme-stats.vercel.app/api/pin?username=CinematicGenius007&repo=Movies-box-3&title_color=fff&icon_color=f9f9f9&text_color=9f9f9f&bg_color=151515&show_owner=true" />
 </p>
   
-<!-- - [Tic Tac Toe - AI](https://github.com/CinematicGenius007/tic-tac-toe-ai)
-- [Chess](https://github.com/CinematicGenius007/Chess)
+<!-- - [Tic Tac Toe - AI](https://github.com/CinematicGenius007/to-do-app)
+- [Chess](https://github.com/CinematicGenius007/to-do-api)
 - [MoviesBox v3](https://github.com/CinematicGenius007/Movies-box-3) -->
   
 # 💪💪 All the skills that I admit to flex
@@ -73,27 +73,38 @@ public static final String NAME = "1000001 1111001 1110101 1110011 1101000 10000
 
 # 😉 And for many reasons if you want to know more about me
 
-```Scala
-package awesomeness
-import scala.io.StdIn.readLine
+```Kotlin
 
-class CinematicGenius {
-  var awesomeUsername: String = "CinematicGenius007"
-  var email: String = "ayush.trillionarie@gmail.com"  // not a typo but a well thought mistake
-  var mobile: String = "**********"
-  var instagram: String = "I don't use it"
-  var facebook: String = "What is that?"
+class CinematicGenius007 {
+  companion object {
+    const val awesomeUsername: String = "CinematicGenius007"
+    const val awesomeEmail: String = "ayush.trillionarie@gmail.com" // Not a typo but a well thought mistake!
+    const val mobile: String = "?<>979<8<?"  // You may decode it!
+    const val facebook: String = "I don't use it!"
+    const val instagram: String = "What is that?"
+  }
   
-  def dial(whosCallin: String): String {
-    if (!whosCallin.trim.isEmpty) return "I'm out of your league"
-    else return "I'm still out of your league"
+  fun contact(whosCallin: String, purpose: String): String {
+    return if ("money" in purpose.lowercase()) {
+      "How may I help you?"
+    } else if ("important" in purpose.lowercase()) {
+      "connecting..."
+    } else if (whosCallin.lowercase() in listOf("PRIME MINISTER", "PRESIDENT", "SOMEONE IMPORTANT")) {
+      "really connecting..."
+    } else if (whosCallin.lowercase() in listOf("JAVASCRIPT", "JAVA", "KOTLIN", "PYTHON", "C++")) {
+      "not really working..."
+    } else {
+      "probably not gonna work... but keep trying..."
+    }
   }
 }
 
-object Main extends CinematicGenius {
-  def main(args: Array[String]): Unit = {
-    var whosCallin: String = readline()
-    println(dial(whosCallin))
-  }
+fun main(args: Array<String>) {
+  val yourIdentity: String = readln()
+  val purposeForCallin: String = readln()
+  val geniusObject: CinematicGenius007 = CinematicGenius007()
+  // Contacting the owner...
+  println(geniusObject.contact(yourIdentity, purposeForCallin))
 }
+
 ```
