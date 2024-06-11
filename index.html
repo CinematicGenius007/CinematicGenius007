@@ -28,36 +28,146 @@
     <meta property="og:description" content="Under construction portfolio website">
     <meta property="og:site_name" content="CinematicGenius007" />
     <!-- cross browser support -->
-    
+
+    <!-- remote css files -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
 	<!--[if lt IE 9]>
      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
     <style>
+        :root {
+            --primary-color: #fff;
+            --secondary-color: #000;
+
+            --primary-font: 'Fira Mono', monospace;
+        }
+
         body {
-            background-color: #111;
-            color: #fff;
-            font-family: sans-serif;
-            font-size: 1.5em;
-            text-align: center;
-            padding: 10%;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            font-family: var(--primary-font);
+            font-size: 1.2rem;
+            margin: 0;
+            padding: 1rem;
+            text-transform: lowercase;
         }
-        h1 {
-            font-size: 3em;
-            margin-bottom: 0;
+
+        .dark-theme {
+            --primary-color: #000;
+            --secondary-color: #fff;
         }
-        p {
-            margin-top: 0;
+
+        header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1rem;
+        }
+
+        button {
+            background: none;
+            border: none;
+            color: var(--secondary-color);
+            font-family: var(--primary-font);
+            font-size: 1.2rem;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        main {
+            padding: 5rem;
+        }
+
+        @media screen and (max-width: 768px) {
+            body {
+                font-size: 1rem;
+                padding: 0.5rem;
+            }
+        }
+
+        @media screen and (min-width: 992px) {
+            main {
+                padding-inline: 10rem;
+            }
+            
         }
     </style>
 </head>
 <body>
+    <header>
+        <button id="theme-button" class="text">theme</button>
+    </header>
 
-    <section>
-        <h1>🚧 Under Construction 🏗️</h1>
-        <p>Please come back on 1st May, 2024</p>
-    </section>
+    <main>
+        <p>
+            ayush saini
+            <br \>
+            haryana, india
+        </p>
+        <!-- <br \> -->
+        <p>
+            hi,
+            <br \>
+            <strong>cinematicgenius007</strong> is under construction.
+        </p>
+        <p>
+            <strong>v0</strong> | coming in <span id="countdown"></span>.
+        </p>
+        <p>
+            thanks for stopping by.
+            <br \>
+            see you soon!
+        </p>
+    </main>
 
+    <!-- scripts -->
+    <script>
+        const themeButton = document.getElementById('theme-button');
+        const body = document.body;
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            body.classList.add('dark-theme');
+        }
+
+        themeButton.onclick = () => {
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                localStorage.removeItem('theme');
+            } else {
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'enabled');
+            }
+        };
+
+        // Set the end date to end of month
+        const endDate = new Date();
+        endDate.setMonth(endDate.getMonth() + 1);
+
+        const countdown = document.getElementById('countdown');
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = endDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (distance < 0) {
+                clearInterval(interval);
+                countdown.innerHTML = 'expired';
+            }
+        }
+
+        const interval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
 </body>    
 </html>
