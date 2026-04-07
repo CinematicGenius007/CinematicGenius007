@@ -6,6 +6,14 @@ type Experience = {
   bullets: string[];
 };
 
+type Project = {
+  number: string;
+  name: string;
+  description: string;
+  tech: string[];
+  url: string;
+};
+
 const experiences: Experience[] = [
   {
     title: "Software Development Engineer 1",
@@ -72,146 +80,139 @@ const notes = [
   "Prefers shipping work that survives production reality.",
 ];
 
+const projects: Project[] = [
+  {
+    number: "p.01",
+    name: "Interviews by Zariya",
+    description:
+      "An AI interviewer platform I initiated with Oddmind to make interview practice sharper and more realistic. Built as a focused product around conversational evaluation and feedback loops.",
+    tech: ["AI", "Product", "Full Stack"],
+    url: "https://interviews.zariya.ai/",
+  },
+  {
+    number: "p.02",
+    name: "Sudoku Solver",
+    description:
+      "Two algorithms - brute force and intelligent - solving the same board in real time. Every step, guess, and backtrack animated. Built to make the difference between strategy and exhaustion visible.",
+    tech: ["Next.js", "TypeScript", "CSS"],
+    url: "https://sudoku-solver.cinematicgenius007.com/",
+  },
+  {
+    number: "p.03",
+    name: "Ultimate TTT",
+    description:
+      "Tic-tac-toe inside tic-tac-toe. Your move dictates where your opponent must play next. Simple rules, deep strategy - a two-player game that rewards thinking a move ahead.",
+    tech: ["React", "Vite", "TypeScript"],
+    url: "https://ultimate-ttt.cinematicgenius007.com/",
+  },
+];
+
 function App() {
   return (
     <div className="page-shell">
-      <div className="paper-noise" aria-hidden="true" />
-      <div className="floating-clips floating-clips-left" aria-hidden="true" />
-      <div className="floating-clips floating-clips-right" aria-hidden="true" />
-
       <main className="front-page">
-        <section className="nameplate">
-          <p className="eyebrow">Ayush Saini / Software Engineer / Panipat, India</p>
-          <div className="nameplate-rule" />
-          <div className="nameplate-grid">
-            <div>
-              <div className="title-row">
-                <div>
-                  <p className="issue-label">Edition 02</p>
-                  <h1>The Debugger&apos;s Gazette</h1>
-                </div>
-              </div>
-              <p className="subhead">
-                Newspaper restraint, a little Hogwarts mystery, and software work built for production instead of applause.
+        <section className="hero">
+          <p className="hero-marker">01 / INTRODUCTION</p>
+          <div className="hero-name-wrap">
+            <h1>AYUSH SAINI</h1>
+            <div className="hero-geometry" aria-hidden="true" />
+          </div>
+          <p className="hero-role">SOFTWARE ENGINEER - FULL STACK</p>
+          <p className="hero-statement">&quot;I work best where code, ownership, and ambiguity meet.&quot;</p>
+          <p className="hero-scroll">↓ scroll</p>
+        </section>
+
+        <section className="about-section section-block">
+          <div className="section-head">
+            <p className="section-number">02</p>
+            <p className="section-kicker">THE WORK</p>
+          </div>
+          <div className="section-rule" />
+          <div className="about-grid">
+            <article className="about-copy">
+              <p>
+                I gravitate toward high-ownership problems where unclear systems need to become reliable. Over the last
+                couple of years I&apos;ve built features,
+                debugged fragile systems, and supported production-critical workflows.
               </p>
-            </div>
-            <aside className="nameplate-meta">
-              {/* <div className="life-signal" aria-hidden="true">
-                <svg viewBox="0 0 220 72" role="presentation">
-                  <path
-                    className="trail"
-                    d="M0 36 H42 L58 36 L72 14 L88 58 L104 24 L118 36 H144 L158 36 L172 22 L186 50 L198 36 H220"
-                  />
-                  <path
-                    className="pulse"
-                    pathLength="300"
-                    d="M0 36 H42 L58 36 L72 14 L88 58 L104 24 L118 36 H144 L158 36 L172 22 L186 50 L198 36 H220"
-                  />
-                </svg>
-              </div> */}
-              <a href="mailto:ayush.trillionarie@gmail.com">ayush.trillionarie@gmail.com</a>
-              <a href="https://www.linkedin.com/in/ayush-saini-858357200/" target="_blank" rel="noreferrer">
-                linkedin / ayush-saini-858357200
-              </a>
-              <a href="https://github.com/CinematicGenius007" target="_blank" rel="noreferrer">
-                github / CinematicGenius007
-              </a>
+              <p>
+                My center of gravity is backend-heavy work, but I&apos;m comfortable wherever the system needs attention. I also
+                enjoy helping younger developers become effective contributors.
+              </p>
+            </article>
+            <aside className="field-notes">
+              {notes.map((note) => (
+                <p key={note}>
+                  <span>//</span>
+                  {note}
+                </p>
+              ))}
             </aside>
           </div>
         </section>
 
-        <section className="hero-grid">
-          <article className="lead-story">
-            <p className="section-kicker">Front Page</p>
-            <h2>
-              Engineer who likes the hard part:
-              <span> understanding why a system misbehaves in production.</span>
-            </h2>
-            <p className="dropcap">
-              I work best where code, ownership, and ambiguity meet. Over the last couple of years I&apos;ve built features,
-              debugged fragile systems, supported production-critical workflows, and helped younger engineers become
-              effective contributors. My center of gravity is backend-heavy work, but I&apos;m comfortable wherever the
-              system needs attention.
-            </p>
-          </article>
-
-          <aside className="briefing-card">
-            <p className="section-kicker">Field Notes</p>
-            <ul>
-              {notes.map((note) => (
-                <li key={note}>{note}</li>
-              ))}
-            </ul>
-          </aside>
-        </section>
-
-        <section className="split-layout">
-          <article className="column-story">
-            <p className="section-kicker">Experience</p>
-            <div className="timeline">
-              {experiences.map((experience) => (
-                <section className="timeline-item" key={`${experience.company}-${experience.title}`}>
-                  <div className="timeline-heading">
-                    <div>
-                      <h3>{experience.company}</h3>
-                      <p className="role-line">{experience.title}</p>
-                    </div>
-                    <div className="timeline-meta">
-                      <span>{experience.period}</span>
-                      <span>{experience.mode}</span>
-                    </div>
-                  </div>
+        <section className="experience-section section-block">
+          <div className="section-head">
+            <p className="section-number">03</p>
+            <p className="section-kicker">EXPERIENCE</p>
+          </div>
+          <div className="section-rule" />
+          <div className="experience-list">
+            {experiences.map((experience) => (
+              <article className="experience-item" key={`${experience.company}-${experience.title}`}>
+                <p className="experience-period">{experience.period}</p>
+                <div className="experience-main">
+                  <h3>{experience.company}</h3>
+                  <p className="experience-role">{experience.title}</p>
+                  <p className="experience-mode">{experience.mode}</p>
                   <ul>
                     {experience.bullets.map((bullet) => (
                       <li key={bullet}>{bullet}</li>
                     ))}
                   </ul>
-                </section>
-              ))}
-            </div>
-          </article>
-
-          <aside className="side-column">
-            <section className="side-card">
-              <p className="section-kicker">Strengths</p>
-              <ul className="tag-list">
-                {strengths.map((strength) => (
-                  <li key={strength}>{strength}</li>
-                ))}
-              </ul>
-            </section>
-
-            <section className="side-card">
-              <p className="section-kicker">Education</p>
-              <div className="education-block">
-                <h3>Chitkara University</h3>
-                <p>B.E. in Computer Science</p>
-                <p>2020 - 2024</p>
-                <strong>CGPA 9.95 / 10</strong>
-              </div>
-              <div className="education-block">
-                <h3>CBSE Class XII</h3>
-                <p>2020</p>
-                <strong>96.4%</strong>
-              </div>
-            </section>
-
-            <section className="side-card">
-              <p className="section-kicker">Outside The IDE</p>
-              <p>Member of the Debating Society. Theatre club participant. Comfortable in rooms where communication matters as much as code.</p>
-            </section>
-          </aside>
+                </div>
+              </article>
+            ))}
+          </div>
         </section>
 
-        <section className="skill-ledger">
-          <div className="ledger-heading">
-            <p className="section-kicker">Ledger</p>
-            <h2>Tools, languages, and the habits behind the work.</h2>
+        <section className="projects-section section-block">
+          <div className="section-head">
+            <p className="section-number">04</p>
+            <p className="section-kicker">PROJECTS</p>
           </div>
+          <div className="section-rule" />
+          <div className="projects-grid">
+            {projects.map((project) => (
+              <article className="project-card" key={project.number}>
+                <div className="project-top">
+                  <p>{project.number}</p>
+                  <a href={project.url} target="_blank" rel="noreferrer">
+                    STATUS: LIVE ↗
+                  </a>
+                </div>
+                <h3>{project.name}</h3>
+                <p className="project-description">{project.description}</p>
+                <div className="project-rule" />
+                <ul className="project-tech">
+                  {project.tech.map((item) => (
+                    <li key={`${project.number}-${item}`}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </section>
 
-          <div className="ledger-grid">
+        <section className="profile-section section-block">
+          <div className="section-head">
+            <p className="section-number">05</p>
+            <p className="section-kicker">SKILLS &amp; PROFILE</p>
+          </div>
+          <div className="section-rule" />
+          <div className="skills-row">
             {skillGroups.map((group) => (
-              <article className="ledger-card" key={group.label}>
+              <article className="skill-column" key={group.label}>
                 <h3>{group.label}</h3>
                 <ul>
                   {group.items.map((item) => (
@@ -221,11 +222,44 @@ function App() {
               </article>
             ))}
           </div>
+          <div className="strength-row">
+            {strengths.map((strength) => (
+              <p key={strength}>
+                <span>//</span>
+                {strength}
+              </p>
+            ))}
+          </div>
+          <div className="bio-row">
+            <article className="education-column">
+              <div className="education-block">
+                <h3>Chitkara University</h3>
+                <p>B.E. in Computer Science</p>
+                <p>2020 - 2024</p>
+                <p>CGPA 9.95 / 10</p>
+              </div>
+              <div className="education-block">
+                <h3>CBSE Class XII</h3>
+                <p>2020</p>
+                <p>96.4%</p>
+              </div>
+            </article>
+            <article className="outside-column">
+              <p>
+                Member of the Debating Society. Theatre club participant. Comfortable in rooms where communication matters
+                as much as code.
+              </p>
+            </article>
+          </div>
         </section>
 
-        <section className="closing-note">
-          <p className="section-kicker">Final Column</p>
-          <div className="closing-grid">
+        <section className="contact-section section-block">
+          <div className="section-head">
+            <p className="section-number">06</p>
+            <p className="section-kicker">CONTACT</p>
+          </div>
+          <div className="section-rule" />
+          <div className="contact-grid">
             <div>
               <h2>Available for meaningful engineering conversations.</h2>
               <p>
@@ -233,17 +267,35 @@ function App() {
                 always happy to connect.
               </p>
             </div>
-            <div className="closing-links">
-              <a href="mailto:ayush.trillionarie@gmail.com">Send an email</a>
+            <div className="contact-links">
+              <a href="mailto:ayush.trillionarie@gmail.com">EMAIL ↗</a>
               <a href="https://www.linkedin.com/in/ayush-saini-858357200/" target="_blank" rel="noreferrer">
-                Visit LinkedIn
+                LINKEDIN ↗
               </a>
               <a href="https://github.com/CinematicGenius007" target="_blank" rel="noreferrer">
-                Browse GitHub
+                GITHUB ↗
               </a>
             </div>
           </div>
+          <div className="contact-footer">
+            <div className="section-rule" />
+            <p>AYUSH SAINI / CINEMATICGENIUS007.COM / © {new Date().getFullYear()}</p>
+          </div>
         </section>
+
+        {/* <div className="life-signal" aria-hidden="true">
+          <svg viewBox="0 0 220 72" role="presentation">
+            <path
+              className="trail"
+              d="M0 36 H42 L58 36 L72 14 L88 58 L104 24 L118 36 H144 L158 36 L172 22 L186 50 L198 36 H220"
+            />
+            <path
+              className="pulse"
+              pathLength="300"
+              d="M0 36 H42 L58 36 L72 14 L88 58 L104 24 L118 36 H144 L158 36 L172 22 L186 50 L198 36 H220"
+            />
+          </svg>
+        </div> */}
       </main>
     </div>
   );
