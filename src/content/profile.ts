@@ -18,14 +18,18 @@ export const hero = {
   } as ModeText,
   statement: {
     _default:
-      "Full-stack engineer at Optmyzr. I spend most of my week in the C# rule engine that decides what gets changed in someone's Google Ads account overnight — which is a nicer way of saying I spend a lot of time near the part that breaks.",
-    pm: "Full-stack engineer who's shipped ad-tech features end-to-end at production scale. At Optmyzr I own the Rule Engine, Campaign Automator, and Audits — the surfaces that determine what actually changes in a Google Ads account.",
+      "Full-stack engineer at Optmyzr. I work across ad-tech product surfaces where correctness matters: AI campaign creation, portfolio workflows, alerts, audits, automation, scripts, and the bugs that only show up after real customers touch the system.",
+    pm: "Full-stack engineer who's shipped ad-tech features end-to-end at production scale. At Optmyzr I most recently built AI campaign creation from scratch, created portfolio-level alerts, and helped expand portfolio support across the suite.",
     everyday:
-      "I make software for a living. Specifically, I help build the tools that advertisers use to manage their Google Ads campaigns. Most of my week is spent making sure things work correctly — and fixing them when they don't.",
+      "I make software for a living. Specifically, I help build the tools that advertisers use to manage their Google Ads campaigns. Most of my week is spent building new workflows, making sure they work correctly, and fixing them when they don't.",
     designer:
       "I build software that has to work. The aesthetic layer and the correctness layer aren't in competition — one earns the right to the other.",
     anime:
-      "Two years ago he joined an ad-tech company as an intern. He stayed. Then he ended up owning the part that runs overnight and changes strangers' money.",
+      "Two years ago he joined an ad-tech company as an intern. He stayed. Then he moved through dashboards, automations, scripts, alerts, and a full AI campaign creation arc.",
+    signal:
+      "The signal is breadth under pressure: shipped new product surfaces, maintained old ones, debugged production issues, and built the recent AI campaign creation flow from zero.",
+    director:
+      "Theatre kid turned systems engineer. I build the things behind the surface: product flows, automation, infrastructure, and the quiet decisions that keep software coherent.",
     retro:
       "I like old interfaces, loud borders, and systems that explain themselves. Most of my work is still modern software; I just don't think modern has to mean generic.",
   } as ModeText,
@@ -43,31 +47,39 @@ export const about = {
   } as ModeText,
   p1: {
     _default:
-      "I like the parts of a codebase nobody wants to open. Usually because something there is wrong and has been wrong for a while. Over the last two years that's looked like owning Campaign Automator, the Rule Engine, Audits, and the Google Ads Scripts layer at Optmyzr.",
-    pm: "Over the past two years I've shipped mid-to-high complexity features end-to-end at Optmyzr — from spec to production. The work lives in ad-tech, where the Rule Engine deciding what changes in a Google Ads account overnight is the thing that actually matters to customers.",
+      "I like the parts of a codebase nobody wants to open. Usually because something there is wrong and has been wrong for a while. Over the last two years that's meant maintaining Google Ads Scripts, improving Campaign Automator, shipping portfolio dashboards and alerts, and building AI campaign creation from scratch at Optmyzr.",
+    pm: "Over the past two years I've shipped mid-to-high complexity features end-to-end at Optmyzr — from spec to production. The work lives in ad-tech: dashboards, portfolios, audits, alerts, automation, scripts, and campaign creation flows where bad assumptions can touch real ad spend.",
     everyday:
-      "I make software for a living. Specifically, I help build the tools that advertisers use to manage their Google Ads campaigns. Most of my week is spent making sure things work correctly and fixing them when they don't.",
-    data: "Primary role: SDE-1 at Optmyzr (ad-tech, Google Ads tooling). Side role: founding engineer at Zariya (early-stage SaaS). Two years of continuous production ownership.",
+      "I make software for a living. Specifically, I help build the tools that advertisers use to manage their Google Ads campaigns. That includes new AI-assisted campaign flows, account and portfolio dashboards, alerts, audits, scripts, and a steady amount of production debugging.",
+    data: "Primary role: SDE-1 at Optmyzr (ad-tech, Google Ads tooling). Side role: founding/architectural engineer at Zariya AI (early-stage SaaS). Two years of continuous production work across new features, maintenance, debugging, and infrastructure.",
     designer:
-      "At Optmyzr I work on the parts that decide what actually changes in a customer's Google Ads account. It's backend-heavy, correctness-heavy work, which is exactly why I care about form: if the internal logic is messy, the surface usually leaks it.",
+      "At Optmyzr I work on product surfaces that turn complex advertising intent into usable workflows. It's backend-heavy, correctness-heavy work, which is exactly why I care about form: if the internal logic is messy, the surface usually leaks it.",
     retro:
-      "I gravitate toward systems with visible guts. Rule engines, production bugs, side projects with strong constraints, anything where the structure shows if you're paying attention.",
+      "I gravitate toward systems with visible guts. Automation tools, production bugs, dashboards, scripts, side projects with strong constraints, anything where the structure shows if you're paying attention.",
+    signal:
+      "Two years working near the places where ad-tech software touches real money. AI campaign creation, Campaign Automator features and fixes, portfolio alerts, audits, scripts, and production issues where correctness is the only acceptable output.",
+    director:
+      "Most of my work is invisible until it fails. Dashboards, alerts, scripts, automation, campaign creation, servers, infrastructure. That's the role — not always in the spotlight, but often deciding whether the spotlight behaves.",
   } as ModeText,
   p2: {
     _default:
       "Backend is where I'm most useful, but I've spent enough time on the other side to know when a bug is really a UI assumption in a trench coat.",
-    pm: "I've also co-founded Zariya's engineering culture, which means making technical decisions with a small team — not just implementing them. The scope is smaller than Optmyzr; the decision radius is bigger.",
+    pm: "At Zariya AI, my role is more architectural: software design, technical direction, product foundations, and the servers behind it. The scope is smaller than Optmyzr; the decision radius is bigger.",
     everyday:
       "Outside of work I've built a few personal projects — an AI interview tool, a sudoku solver you can actually watch think, and a two-player strategy game that's harder than it sounds.",
-    data: "Core competency: backend systems, large-scale debugging, feature ownership end-to-end. Secondary: frontend, mentorship, technical communication.",
+    data: "Core competency: backend systems, large-scale debugging, feature ownership end-to-end, architecture, infrastructure. Secondary: frontend, mentorship, technical communication.",
     designer:
       "This portfolio isn't supposed to be one neat template with six paint jobs. It's the same person reframed six different ways, because audience changes hierarchy, rhythm, and what deserves the spotlight.",
     retro:
       "I still like the old-web instinct of making interfaces feel like places instead of blank containers. That doesn't mean nostalgia for its own sake. It means giving the UI a point of view.",
+    signal:
+      "Backend-first. But I've found enough bugs hiding behind a clean UI to know the signal breaks wherever it wants. I just find it faster now.",
+    director:
+      "I do this at Optmyzr and at Zariya — different stages, different scales, same craft. Build the thing that works. Then make it work better.",
   } as ModeText,
   notes: [
     {
-      _default: "Two years in ad-tech. Long enough to have opinions about Google Ads Scripts.",
+      _default: "Two years in ad-tech. Long enough to have opinions about Google Ads Scripts, campaign creation, and portfolio workflows.",
     },
     {
       _default:
@@ -108,58 +120,67 @@ export const experiences: Experience[] = [
     bullets: [
       {
         _default:
-          "Own Campaign Automator, Rule Engine, Audits, and Google Ads Scripts support end-to-end.",
+          "Built AI campaign creation from scratch and own it end-to-end as the most recent major project.",
       },
       {
         _default:
-          "Shipped Criteria Filter View, Portfolios, and Portfolio Alerts from spec to production.",
+          "Created portfolio-level alerts and helped expand portfolio support across Portfolio Dashboard, All Account Dashboard, Audits, Alerts, and related workflows.",
       },
       {
         _default:
-          "On-call for the bugs other people hand off. The Rule Engine's decision tree is in my head, for better and worse.",
+          "Helped maintain and improve Campaign Automator with feature work and long-running bugfix ownership; contributed occasional Rule Engine fixes without overstating ownership.",
       },
       {
-        _default: "Four interns through onboarding. Three of them still work here.",
+        _default:
+          "Continuously maintained Google Ads Scripts: new features, bug fixes, customer queries, and production support.",
+      },
+      {
+        _default:
+          "Strong bug-duty record across a wide variety of product surfaces; often trusted with messy, cross-cutting issues.",
       },
     ],
     pmCase: {
       context:
-        "Ad-tech SaaS. The Rule Engine is the core product surface — it decides what changes happen in a customer's Google Ads account overnight. High correctness requirement; a bug here costs real money.",
+        "Ad-tech SaaS with mature and newer product surfaces: dashboards, portfolios, alerts, audits, automation, scripts, and AI-assisted campaign creation. The correctness bar is high because bad software assumptions can touch real ad spend.",
       shipped:
-        "Campaign Automator overhaul, Criteria Filter View, Portfolios, and Portfolio Alerts — shipped end-to-end from spec. Also own the Google Ads Scripts layer and production bug triage.",
+        "AI campaign creation from scratch; portfolio-level alerts; portfolio support across dashboards, audits, and alerts; Campaign Automator features and fixes; ongoing Google Ads Scripts maintenance and production bug triage.",
       signal:
-        "Trusted with the highest-complexity surfaces on the team. Four interns mentored; all delivered. The bugs that other engineers hand off usually end with me.",
+        "Trusted across a broad product suite and especially useful on bug duty: new feature ownership, legacy maintenance, customer-facing fixes, and cross-surface debugging.",
     },
     arcName: "訓練編 — TRAINING ARC",
     arcChapter: "第1章",
   },
   {
     id: "zariya",
-    company: "Oddmind Innovations (Zariya)",
-    role: "Founding Engineer",
+    company: "Oddmind Innovations (Zariya AI)",
+    role: "Architectural Engineer",
     period: "Late 2024 – Present",
     mode: "Part-time, early-stage",
     bullets: [
       {
         _default:
-          "Picked the stack (Next.js + Express), set up the repo, wrote the first feature.",
+          "Architectural engineer for Zariya AI: software design, technical direction, and product foundations across multiple 0-to-1 features.",
       },
       {
         _default:
-          "Still the person most founders ping when something in production looks wrong.",
+          "Implemented and maintain the full server infrastructure; primary owner for production reliability and deployment shape.",
       },
       {
         _default:
-          "The interviews.zariya.ai product came out of a conversation we kept having about how bad interview practice is.",
+          "Helped reset the software when it was drifting: went back to the drawing board, fixed architectural issues, and stabilized the product surface.",
+      },
+      {
+        _default:
+          "Built multiple products and features from scratch, including Interviews by Zariya, while spending more time on architecture than pure coding.",
       },
     ],
     pmCase: {
       context:
-        "Early-stage SaaS. No inherited codebase, no existing team culture. Joined as the first engineer alongside the founders.",
+        "Early-stage AI SaaS. Small team, large decision radius, and a codebase that needed both new product development and architectural correction.",
       shipped:
-        "Full stack selection (Next.js + Express), repo setup, first working features. The AI interview product (interviews.zariya.ai) — initiated based on a gap I kept noticing in the market.",
+        "System architecture, software design, server infrastructure, multiple 0-to-1 products and features, and the AI interview product at interviews.zariya.ai.",
       signal:
-        "Still the primary technical point of contact. The product is live and has active users.",
+        "Primary technical owner for infrastructure and production stability; architectural point of contact when the product needs to be reshaped instead of patched.",
     },
     arcName: "創設編 — FOUNDING ARC",
     arcChapter: "第3章",
@@ -268,6 +289,7 @@ export const skillGroups = [
     label: "Working Style",
     items: [
       "End-to-end ownership",
+      "Architecture + infrastructure",
       "Large-scale debugging",
       "Maintainable systems",
       "Calm production response",
@@ -279,6 +301,7 @@ export const strengths = [
   "Debugging complex systems",
   "Backend architecture",
   "Feature ownership",
+  "Infrastructure ownership",
   "Mentorship",
   "Production reliability",
 ];

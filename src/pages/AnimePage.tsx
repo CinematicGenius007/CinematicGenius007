@@ -16,7 +16,7 @@ const animeArcs = [
     yr: "2023 →",
     num: "弐",
     title: "Training arc.",
-    body: "Optmyzr. Intern to SDE I. Learns the Rule Engine. Starts owning Campaign Automator. Mentors four interns. Sharpens debugging on live ad-tech systems.",
+    body: "Optmyzr. Intern to SDE I. Moves through Campaign Automator, Scripts, portfolios, audits, alerts, dashboards, and bug duty. Sharpens debugging on live ad-tech systems.",
     current: false,
   },
   {
@@ -24,7 +24,7 @@ const animeArcs = [
     yr: "2024 →",
     num: "参",
     title: "Current arc.",
-    body: "Zariya. Founding engineer. Picks the stack, sets up the repo, ships Interviews. Still at Optmyzr by day. A full-time job and a zero-to-one, in parallel.",
+    body: "Zariya AI. Architectural engineer. Designs the software, maintains the servers, helps rebuild the product when the shape goes wrong. Still at Optmyzr by day.",
     current: true,
   },
 ];
@@ -90,8 +90,8 @@ export default function AnimePage({ mode: _mode }: Props) {
           <div>
             <div className="anime-line" />
             <p className="anime-monologue">
-              Two years ago he joined an ad-tech company as an intern. He stayed. He ended up owning the part of the
-              product that runs unsupervised overnight and changes strangers' money. He sleeps fine. Usually.
+              Two years ago he joined an ad-tech company as an intern. He stayed. He built AI campaign creation,
+              portfolio alerts, scripts support, dashboards, and enough bugfixes to recognize trouble by silhouette.
             </p>
           </div>
         </div>

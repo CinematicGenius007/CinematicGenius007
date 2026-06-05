@@ -33,7 +33,7 @@ export default function EngineerPage({ mode }: Props) {
           </div>
           <div className="engineer-console__body">
             <p><span>$</span> surface.area</p>
-            <p>Optmyzr / Rule Engine / Campaign Automator / Audits</p>
+            <p>Optmyzr / AI Campaign Creation / Portfolios / Scripts / Automation</p>
             <p><span>$</span> current.bias</p>
             <p>debugging hard things before they become customer-facing stories</p>
             <p><span>$</span> personal.rule</p>
