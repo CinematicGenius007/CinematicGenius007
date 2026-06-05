@@ -1,4 +1,4 @@
-export type ModeId = "engineer" | "pm" | "designer" | "data" | "everyday" | "anime" | "retro" | "pdf";
+export type ModeId = "engineer" | "pm" | "designer" | "data" | "everyday" | "anime" | "retro" | "pdf" | "signal" | "director" | "codebase";
 
 export type ModeTheme = {
   colors: {
@@ -20,10 +20,10 @@ export type ModeTheme = {
   motion: "off" | "calm" | "kinetic";
 };
 
-export type HeroVariant = "bauhaus" | "plate" | "cell" | "panel" | "letter";
-export type ExperienceVariant = "list" | "case" | "table" | "arc";
-export type ProjectsVariant = "grid" | "case" | "tile" | "json" | "story";
-export type SkillsVariant = "columns" | "table" | "hidden";
+export type HeroVariant = "bauhaus" | "plate" | "cell" | "panel" | "letter" | "signal";
+export type ExperienceVariant = "list" | "case" | "table" | "arc" | "signal";
+export type ProjectsVariant = "grid" | "case" | "tile" | "json" | "story" | "signal";
+export type SkillsVariant = "columns" | "table" | "hidden" | "signal";
 
 export type Persona = {
   id: ModeId;
@@ -34,5 +34,5 @@ export type Persona = {
     projects: ProjectsVariant;
     skills: SkillsVariant;
   };
-  emphasize: Array<"backend" | "outcomes" | "craft" | "data" | "human" | "arc" | "retro">;
+  emphasize: Array<"backend" | "outcomes" | "craft" | "data" | "human" | "arc" | "retro" | "systems">;
 };

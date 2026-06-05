@@ -5,12 +5,15 @@ type Props = { currentMode: ModeId };
 
 const MODES: { id: ModeId; label: string }[] = [
   { id: "engineer", label: "Engineer" },
-  { id: "pm", label: "Product Manager" },
+  { id: "pm", label: "Program Manager" },
   { id: "designer", label: "Designer" },
   { id: "data", label: "Analysts" },
   { id: "everyday", label: "Common Folks" },
   { id: "anime", label: "Anime Fans" },
   { id: "retro", label: "Retro neobrutalist" },
+  { id: "signal", label: "The Signal" },
+  { id: "director", label: "Director's Cut" },
+  { id: "codebase", label: "Live Codebase" },
   { id: "pdf", label: "Resume" },
 ];
 

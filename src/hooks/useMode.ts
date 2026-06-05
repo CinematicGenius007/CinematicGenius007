@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import type { ModeId } from "../modes/types";
 
-const VALID: ModeId[] = ["engineer", "pm", "designer", "data", "everyday", "anime", "retro", "pdf"];
+const VALID: ModeId[] = ["engineer", "pm", "designer", "data", "everyday", "anime", "retro", "pdf", "signal", "director", "codebase"];
 
 export function useMode(): ModeId {
   return useMemo(() => {

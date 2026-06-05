@@ -12,6 +12,9 @@ import EverydayPage from "./pages/EverydayPage";
 import PmPage from "./pages/PmPage";
 import RetroPage from "./pages/RetroPage";
 import PdfPage from "./pages/PdfPage";
+import SignalPage from "./pages/SignalPage";
+import DirectorPage from "./pages/DirectorPage";
+import CodebasePage from "./pages/CodebasePage";
 
 import type { ModeId } from "./modes/types";
 
@@ -23,6 +26,9 @@ const pageMap = {
   everyday: EverydayPage,
   anime: AnimePage,
   retro: RetroPage,
+  signal: SignalPage,
+  director: DirectorPage,
+  codebase: CodebasePage,
 } as const;
 
 function App() {
@@ -49,7 +55,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="page-shell">
+      <div className={`page-shell page-shell--${mode}`}>
         <Page mode={mode} />
         <ModeSwitcher currentMode={mode} />
       </div>

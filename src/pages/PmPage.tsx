@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { contact } from "../content/profile";
 import type { ModeId } from "../modes/types";
 
 type Props = { mode: ModeId };
+type ProgramLens = "launch" | "scale" | "stabilize";
 
 const caseStudies = [
   {
@@ -10,28 +12,28 @@ const caseStudies = [
     period: "Aug 2024 →",
     meta: "Full-time",
     extra: "(Intern Apr 2023–Aug 2024)",
-    title: "Owning the part of the product that touches someone's ad spend.",
-    subtitle: "Campaign Automator · Rule Engine · Audits · Google Ads Scripts",
+    title: "Building across the product suite that supports real ad spend.",
+    subtitle: "AI Campaign Creation · Portfolios · Alerts · Audits · Scripts · Automation",
     context:
-      "Four mature product surfaces, each one a path between a customer's intent and a real change in their Google Ads account. Any bug here costs the customer money.",
+      "A mature ad-tech suite where dashboards, alerts, audits, scripts, automation, and campaign creation flows translate user intent into decisions that can affect real budgets.",
     shipped:
-      "Criteria Filter View, Portfolios, and Portfolio Alerts — from spec, through design review, to production. Mentored four interns through onboarding.",
+      "AI campaign creation from scratch, portfolio-level alerts, portfolio support across dashboards and tools, Campaign Automator features/fixes, and ongoing Google Ads Scripts maintenance.",
     signal:
-      "On-call for the bugs other engineers hand off. Three of the four interns are still here.",
+      "Strong bug-duty record across many product surfaces; trusted with new feature ownership and messy production issues.",
   },
   {
-    company: "Zariya (Oddmind)",
-    role: "Founding engineer",
+    company: "Zariya AI (Oddmind)",
+    role: "Architectural engineer",
     period: "Late 2024 →",
     meta: "Part-time",
-    title: "Picking the stack and writing the first feature of an early-stage SaaS.",
-    subtitle: "Next.js · Express · AI-assisted products",
+    title: "Designing the product architecture and keeping the servers alive.",
+    subtitle: "Architecture · Infrastructure · AI-assisted products",
     context:
-      "Founder team with a product idea, no repo, no architectural decisions made. Needed someone who'd ship the zero-to-one and stay around.",
+      "Early-stage AI SaaS with multiple products, a small team, and a codebase that has needed both 0-to-1 building and architectural correction.",
     shipped:
-      "Repo, stack, first working product (interviews.zariya.ai). Ongoing contributor across architecture and hiring.",
+      "Software architecture, server infrastructure, product rebuilds, multiple features from scratch, and Interviews by Zariya.",
     signal:
-      "Still the engineer the founders ping when production looks wrong.",
+      "Primary owner for infrastructure and production stability; architectural point of contact when the product needs reshaping.",
   },
 ];
 
@@ -63,53 +65,170 @@ const projects = [
 ];
 
 const profileScope = [
-  "4 product surfaces at Optmyzr (ad-tech, paid seats)",
-  "Stack + first-feature decisions at Zariya (SaaS, 0→1)",
-  "4 interns mentored (3 retained)",
+  "AI campaign creation owned end-to-end at Optmyzr",
+  "Portfolio-level alerts and portfolio support across Optmyzr",
+  "Google Ads Scripts maintenance, features, bugs, and customer queries",
+  "Architecture + infrastructure ownership at Zariya AI",
   "CS, Chitkara · CGPA 9.95 · 2024",
 ];
 
+const programLenses: {
+  id: ProgramLens;
+  label: string;
+  title: string;
+  summary: string;
+  decision: string;
+  risk: string;
+  metric: string;
+  workstreams: {
+    lane: string;
+    items: string[];
+  }[];
+}[] = [
+  {
+    id: "launch",
+    label: "Launch",
+    title: "AI campaign creation from zero to usable product.",
+    summary:
+      "Turn an ambiguous AI-assisted workflow into a production surface: define the shape, build the path, keep correctness visible, and ship without hiding behind demo magic.",
+    decision: "Bias toward a boring, inspectable V1 before clever automation.",
+    risk: "AI output can look confident while still being wrong for a real ad account.",
+    metric: "0→1 owned build",
+    workstreams: [
+      { lane: "Scope", items: ["Campaign creation flow", "User intent capture", "Reviewable output"] },
+      { lane: "Delivery", items: ["Backend path", "UI states", "Production release"] },
+      { lane: "Alignment", items: ["Tradeoff notes", "Edge-case handling", "Stakeholder language"] },
+    ],
+  },
+  {
+    id: "scale",
+    label: "Scale",
+    title: "Portfolio support across surfaces, not as a one-off patch.",
+    summary:
+      "Portfolio work touched dashboards, audits, alerts, and account-level views. The program problem was consistency: make the same idea behave across multiple product contexts.",
+    decision: "Treat portfolio as a system capability, not a screen-specific feature.",
+    risk: "A partial rollout creates inconsistent customer expectations across tools.",
+    metric: "Portfolio alerts created",
+    workstreams: [
+      { lane: "Surfaces", items: ["Portfolio Dashboard", "All Account Dashboard", "Audits + Alerts"] },
+      { lane: "Dependencies", items: ["Shared assumptions", "Data shape", "Alert semantics"] },
+      { lane: "Outcome", items: ["Portfolio-level alerts", "Broader support", "Cleaner mental model"] },
+    ],
+  },
+  {
+    id: "stabilize",
+    label: "Stabilize",
+    title: "Maintenance, bugs, and infrastructure as the real operating system.",
+    summary:
+      "Campaign Automator, Scripts, bug duty, and Zariya AI infrastructure all point to the same program skill: keep the system understandable when the easy version has stopped working.",
+    decision: "Fix the system shape when local patches are creating more drag.",
+    risk: "Production issues multiply when ownership boundaries are fuzzy.",
+    metric: "Infra + bug-duty owner",
+    workstreams: [
+      { lane: "Reliability", items: ["Scripts support", "Campaign Automator fixes", "Customer queries"] },
+      { lane: "Architecture", items: ["Zariya AI servers", "Product resets", "Software design"] },
+      { lane: "Communication", items: ["Explain failures", "Translate tradeoffs", "Close loops"] },
+    ],
+  },
+];
+
 export default function PmPage({ mode }: Props) {
+  const [activeLens, setActiveLens] = useState<ProgramLens>("launch");
+  const program = programLenses.find((item) => item.id === activeLens) ?? programLenses[0];
+
   return (
     <main className="pm-page">
       <section className="pm-hero">
         <div className="pm-hero__left">
-          <p className="pm-hero__tag">01 · Brief for a product hiring manager</p>
+          <p className="pm-hero__tag">01 · Brief for a program hiring manager</p>
           <h1>
             Ayush Saini
             <br />
             <span className="pm-hero__dash">—</span>
             <br />
-            engineer who can hold
+            engineer who can run
             <br />
-            a product conversation.
+            the program room.
           </h1>
           <p className="pm-hero__lede">
-            SDE at Optmyzr (ad-tech). Founding engineer at Zariya (early-stage). Two years of building
-            the thing, debugging it at night, and explaining to a non-engineer why it broke in the
-            morning.
+            SDE at Optmyzr (ad-tech). Architectural engineer at Zariya AI (early-stage). Two years of
+            turning ambiguous work into shippable scope, dependency maps, risk calls, and production
+            follow-through.
           </p>
         </div>
         <div className="pm-hero__right">
           <b>Scope</b>
-          4 product surfaces at Optmyzr.
+          AI campaign creation, portfolios, alerts, audits, scripts.
           <br />
           <b>Decision radius</b>
-          Stack, repo, first features at Zariya.
+          Architecture, infrastructure, product resets at Zariya AI.
           <br />
-          <b>Team</b>
-          4 interns mentored; 3 stayed.
+          <b>Strength</b>
+          Bug duty across a wide product suite.
           <br />
           <b>Based in</b>
           India · remote-friendly.
           <br />
           <b>Available for</b>
-          Engineering or PM-adjacent.
+          Engineering, TPM, or program-heavy product work.
+        </div>
+      </section>
+
+      <section className="pm-control" aria-label="Program control room">
+        <div className="pm-control__top">
+          <div>
+            <span className="pm-mono pm-eyebrow">02</span>
+            <h2>Program control room</h2>
+          </div>
+          <div className="pm-control__tabs" aria-label="Program lens">
+            {programLenses.map((item) => (
+              <button
+                key={item.id}
+                className={`pm-control__tab${activeLens === item.id ? " pm-control__tab--active" : ""}`}
+                onClick={() => setActiveLens(item.id)}
+                type="button"
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="pm-control__grid">
+          <article className="pm-program-card">
+            <p className="pm-program-card__metric">{program.metric}</p>
+            <h3>{program.title}</h3>
+            <p>{program.summary}</p>
+            <div className="pm-program-card__decision">
+              <span>Decision</span>
+              <p>{program.decision}</p>
+            </div>
+            <div className="pm-program-card__risk">
+              <span>Risk</span>
+              <p>{program.risk}</p>
+            </div>
+          </article>
+
+          <div className="pm-workstreams">
+            {program.workstreams.map((lane, index) => (
+              <article className="pm-workstream" key={lane.lane}>
+                <div className="pm-workstream__head">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <h3>{lane.lane}</h3>
+                </div>
+                <ul>
+                  {lane.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
       <div className="pm-sec-head">
-        <span className="pm-mono pm-eyebrow">02</span>
+        <span className="pm-mono pm-eyebrow">03</span>
         <span className="pm-mono pm-mute">CASES</span>
       </div>
       <div className="pm-sec-rule" />
@@ -148,7 +267,7 @@ export default function PmPage({ mode }: Props) {
       </section>
 
       <div className="pm-sec-head">
-        <span className="pm-mono pm-eyebrow">03</span>
+        <span className="pm-mono pm-eyebrow">04</span>
         <span className="pm-mono pm-mute">PROJECTS (PROBLEM → OUTCOME)</span>
       </div>
       <div className="pm-sec-rule" />
@@ -173,7 +292,7 @@ export default function PmPage({ mode }: Props) {
       </section>
 
       <div className="pm-sec-head">
-        <span className="pm-mono pm-eyebrow">04</span>
+        <span className="pm-mono pm-eyebrow">05</span>
         <span className="pm-mono pm-mute">PROFILE</span>
       </div>
       <div className="pm-sec-rule" />
@@ -203,7 +322,7 @@ export default function PmPage({ mode }: Props) {
 
       <section className="pm-contact">
         <div>
-          <h2>Open to engineer or engineer-adjacent product roles.</h2>
+          <h2>Open to engineer, TPM, or program-heavy product roles.</h2>
           <p>{contact.body.pm ?? contact.body._default}</p>
         </div>
         <div className="pm-contact__links">

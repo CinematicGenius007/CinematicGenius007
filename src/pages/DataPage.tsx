@@ -3,9 +3,9 @@ import type { ModeId } from "../modes/types";
 type Props = { mode: ModeId };
 
 const experienceRows = [
-  ["0", "Optmyzr", "SDE I", "Aug 2024", "current", "Rule Engine · Campaign Automator · Audits · GAds Scripts"],
+  ["0", "Optmyzr", "SDE I", "Aug 2024", "current", "AI campaign creation · portfolios · alerts · scripts · automation"],
   ["1", "Optmyzr", "Intern", "Apr 2023", "Aug 2024", "(promoted)"],
-  ["2", "Zariya", "Founding Eng.", "Late 2024", "current", "Stack, repo, first V1; interviews.zariya.ai"],
+  ["2", "Zariya AI", "Arch. Eng.", "Late 2024", "current", "Architecture · infrastructure · 0→1 products · interviews.zariya.ai"],
   ["3", "JetBrains HS", "Tester", "2022", "2023", "Java + Go curriculum QA"],
 ];
 
@@ -27,9 +27,11 @@ export default function DataPage({ mode }: Props) {
         <div className="data-prose">
           <h2>About</h2>
           <p>
-            Full-stack engineer at Optmyzr (ad-tech, C# / TS) since 2023. Founding engineer at Zariya
-            (early-stage SaaS) since late 2024. This notebook is the source-of-truth version of the
-            portfolio — the other modes are just queries over this.
+            Full-stack engineer at Optmyzr (ad-tech, C# / TS) since 2023, working across AI campaign
+            creation, portfolios, alerts, audits, scripts, automation, dashboards, and production bugs.
+            Architectural engineer at Zariya AI since late 2024, responsible for software design and
+            server infrastructure. This notebook is the source-of-truth version of the portfolio — the
+            other modes are just queries over this.
           </p>
         </div>
       </div>
@@ -49,7 +51,7 @@ export default function DataPage({ mode }: Props) {
           <br />
           &nbsp;&nbsp;<span className="data-codeblk__str">"years_professional"</span>: <span className="data-codeblk__num">2.0</span>,
           <br />
-          &nbsp;&nbsp;<span className="data-codeblk__str">"strengths"</span>: [<span className="data-codeblk__str">"debugging"</span>, <span className="data-codeblk__str">"feature ownership"</span>, <span className="data-codeblk__str">"mentorship"</span>],
+          &nbsp;&nbsp;<span className="data-codeblk__str">"strengths"</span>: [<span className="data-codeblk__str">"debugging"</span>, <span className="data-codeblk__str">"feature ownership"</span>, <span className="data-codeblk__str">"architecture"</span>, <span className="data-codeblk__str">"infrastructure"</span>],
           <br />
           &nbsp;&nbsp;<span className="data-codeblk__str">"primary_stack"</span>: [<span className="data-codeblk__str">"C#"</span>, <span className="data-codeblk__str">"TypeScript"</span>, <span className="data-codeblk__str">"Next.js"</span>, <span className="data-codeblk__str">"Express"</span>]
           <br />
@@ -184,7 +186,7 @@ export default function DataPage({ mode }: Props) {
       <div className="data-cell">
         <div className="data-lbl">In [5]:</div>
         <div className="data-prose">
-          <p>Timeline of roles, aligned to a single axis. Overlap is intentional — the Zariya thing started while Optmyzr was already full-time.</p>
+          <p>Timeline of roles, aligned to a single axis. Overlap is intentional — Zariya AI started while Optmyzr was already full-time.</p>
         </div>
       </div>
 
@@ -215,7 +217,7 @@ export default function DataPage({ mode }: Props) {
             </div>
             <div className="data-tl__segment data-tl__segment--zar" style={{ left: "84%", width: "16%" }} />
             <div className="data-tl__label data-tl__label--zar" style={{ left: "84%", top: "calc(50% + 26px)" }}>
-              Zariya
+              Zariya AI
             </div>
           </div>
         </div>

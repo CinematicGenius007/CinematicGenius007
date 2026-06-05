@@ -153,6 +153,63 @@ export const themes: Record<string, ModeTheme> = {
     radius: 0,
     motion: "off",
   },
+  codebase: {
+    colors: {
+      bg: "#1e1e1e",
+      surface: "#252526",
+      ink: "#d4d4d4",
+      mute: "#6a6a6a",
+      rule: "#3e3e42",
+      accent: "#569cd6",
+      accentDim: "#264f78",
+      gridColor: "transparent",
+    },
+    fonts: {
+      display: "'JetBrains Mono', monospace",
+      body: "'JetBrains Mono', monospace",
+      mono: "'JetBrains Mono', monospace",
+    },
+    radius: 0,
+    motion: "calm",
+  },
+  director: {
+    colors: {
+      bg: "#111009",
+      surface: "#1c1810",
+      ink: "#ede4cf",
+      mute: "#7a6a4a",
+      rule: "#2c2418",
+      accent: "#c8902a",
+      accentDim: "#5a3e10",
+      gridColor: "transparent",
+    },
+    fonts: {
+      display: "'Fraunces', serif",
+      body: "'DM Sans', sans-serif",
+      mono: "'JetBrains Mono', monospace",
+    },
+    radius: 0,
+    motion: "kinetic",
+  },
+  signal: {
+    colors: {
+      bg: "#060a08",
+      surface: "#0c110e",
+      ink: "#d4ffe6",
+      mute: "#3a6049",
+      rule: "#132318",
+      accent: "#00e87a",
+      accentDim: "#005c30",
+      gridColor: "rgba(0,232,122,0.035)",
+    },
+    fonts: {
+      display: "'JetBrains Mono', monospace",
+      body: "'JetBrains Mono', monospace",
+      mono: "'JetBrains Mono', monospace",
+    },
+    radius: 0,
+    motion: "kinetic",
+  },
   pdfDark: {
     colors: {
       bg: "#1c1c1c",
