@@ -1,3 +1,4 @@
+import { contacts } from "../content/contacts";
 import { useState, useEffect, useCallback } from "react";
 import { experiences, projects, skillGroups, education } from "../content/profile";
 import type { ModeId } from "../modes/types";
@@ -267,15 +268,15 @@ function ContactFile() {
         <Token cls="cmt">{"- "}</Token>
         <Token cls="str">{"email"}</Token>
         {" → "}
-        <a className="ide-link" href="mailto:ayush.trillionarie@gmail.com">
-          ayush.trillionarie@gmail.com
+        <a className="ide-link" href={contacts.emailHref}>
+          {contacts.email}
         </a>
       </div>
       <div className="ide-line">
         <Token cls="cmt">{"- "}</Token>
         <Token cls="str">{"linkedin"}</Token>
         {" → "}
-        <a className="ide-link" href="https://www.linkedin.com/in/ayush-saini-858357200/" target="_blank" rel="noreferrer">
+        <a className="ide-link" href={contacts.linkedin} target="_blank" rel="noreferrer">
           ayush-saini-858357200
         </a>
       </div>
@@ -283,7 +284,7 @@ function ContactFile() {
         <Token cls="cmt">{"- "}</Token>
         <Token cls="str">{"github"}</Token>
         {" → "}
-        <a className="ide-link" href="https://github.com/CinematicGenius007" target="_blank" rel="noreferrer">
+        <a className="ide-link" href={contacts.github} target="_blank" rel="noreferrer">
           CinematicGenius007
         </a>
       </div>

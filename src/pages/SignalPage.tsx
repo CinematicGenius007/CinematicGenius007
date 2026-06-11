@@ -1,3 +1,4 @@
+import { contacts } from "../content/contacts";
 import { useState, useEffect, useRef } from "react";
 import {
   hero,
@@ -833,13 +834,13 @@ export default function SignalPage({ mode }: Props) {
           </p>
           <div className="signal-terminal__links">
             <a
-              href="mailto:ayush.trillionarie@gmail.com"
+              href={contacts.emailHref}
               className="signal-terminal__cmd"
             >
               → email<span className="signal-dim-txt">()</span>
             </a>
             <a
-              href="https://www.linkedin.com/in/ayush-saini-858357200/"
+              href={contacts.linkedin}
               target="_blank"
               rel="noreferrer"
               className="signal-terminal__cmd"
@@ -847,7 +848,7 @@ export default function SignalPage({ mode }: Props) {
               → linkedin<span className="signal-dim-txt">()</span>
             </a>
             <a
-              href="https://github.com/CinematicGenius007"
+              href={contacts.github}
               target="_blank"
               rel="noreferrer"
               className="signal-terminal__cmd"

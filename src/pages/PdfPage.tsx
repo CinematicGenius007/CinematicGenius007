@@ -1,3 +1,4 @@
+import { contacts } from "../content/contacts";
 import { experiences, projects, skillGroups, education, outside } from "../content/profile";
 
 type Props = {
@@ -22,11 +23,11 @@ export default function PdfPage({ dark, onToggleTheme }: Props) {
           <h1>Ayush Saini</h1>
         </div>
         <div className="pdf-header__contact">
-          <a href="mailto:ayush.trillionarie@gmail.com">ayush.trillionarie@gmail.com</a>
+          <a href={contacts.emailHref}>{contacts.email}</a>
           <span className="pdf-header__sep">·</span>
-          <a href="https://www.linkedin.com/in/ayush-saini-858357200/" target="_blank" rel="noreferrer">linkedin</a>
+          <a href={contacts.linkedin} target="_blank" rel="noreferrer">linkedin</a>
           <span className="pdf-header__sep">·</span>
-          <a href="https://github.com/CinematicGenius007" target="_blank" rel="noreferrer">github</a>
+          <a href={contacts.github} target="_blank" rel="noreferrer">github</a>
           <span className="pdf-header__sep">·</span>
           <a href="https://cinematicgenius007.com" target="_blank" rel="noreferrer">cinematicgenius007.com</a>
         </div>

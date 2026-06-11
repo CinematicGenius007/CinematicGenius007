@@ -1,3 +1,4 @@
+import { contacts } from "../content/contacts";
 import type { ModeId } from "../modes/types";
 
 type Props = { mode: ModeId };
@@ -236,7 +237,7 @@ export default function DataPage({ mode }: Props) {
         <div className="data-codeblk">
           <span className="data-codeblk__kw">contact</span> = {"{"}
           <br />
-          &nbsp;&nbsp;<span className="data-codeblk__str">"email"</span>: <span className="data-codeblk__str">"ayush.trillionarie@gmail.com"</span>,
+          &nbsp;&nbsp;<span className="data-codeblk__str">"email"</span>: <span className="data-codeblk__str">"{contacts.email}"</span>,
           <br />
           &nbsp;&nbsp;<span className="data-codeblk__str">"linkedin"</span>: <span className="data-codeblk__str">"/in/ayush-saini-858357200"</span>,
           <br />
@@ -249,11 +250,11 @@ export default function DataPage({ mode }: Props) {
       </div>
 
       <div className="data-contact-links">
-        <a href="mailto:ayush.trillionarie@gmail.com">email ↗</a>
-        <a href="https://www.linkedin.com/in/ayush-saini-858357200/" target="_blank" rel="noreferrer">
+        <a href={contacts.emailHref}>email ↗</a>
+        <a href={contacts.linkedin} target="_blank" rel="noreferrer">
           linkedin ↗
         </a>
-        <a href="https://github.com/CinematicGenius007" target="_blank" rel="noreferrer">
+        <a href={contacts.github} target="_blank" rel="noreferrer">
           github ↗
         </a>
       </div>

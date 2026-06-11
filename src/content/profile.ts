@@ -1,6 +1,7 @@
 import type { ModeId } from "../modes/types";
+import type { Experience, ModeText, Project } from "./types";
 
-type ModeText = { _default: string } & Partial<Record<ModeId, string>>;
+export type { Experience, ModeText, Project } from "./types";
 
 export function resolve(text: ModeText | string, mode: ModeId): string {
   if (typeof text === "string") return text;
@@ -92,22 +93,6 @@ export const about = {
       _default: "Prefers shipping work that survives production reality.",
     },
   ] as ModeText[],
-};
-
-export type Experience = {
-  id: string;
-  company: string;
-  role: string;
-  period: string;
-  mode: string;
-  bullets: ModeText[];
-  pmCase?: {
-    context: string;
-    shipped: string;
-    signal: string;
-  };
-  arcName?: string;
-  arcChapter?: string;
 };
 
 export const experiences: Experience[] = [
@@ -210,17 +195,6 @@ export const experiences: Experience[] = [
     arcChapter: "第2章",
   },
 ];
-
-export type Project = {
-  id: string;
-  number: string;
-  name: string;
-  url: string;
-  tech: string[];
-  description: ModeText;
-  pmProblem?: string;
-  pmOutcome?: string;
-};
 
 export const projects: Project[] = [
   {

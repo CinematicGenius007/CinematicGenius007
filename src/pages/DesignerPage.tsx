@@ -1,3 +1,4 @@
+import { contacts } from "../content/contacts";
 import { useState } from "react";
 import { about, contact, experiences, hero, projects, resolve } from "../content/profile";
 import type { ModeId } from "../modes/types";
@@ -190,11 +191,11 @@ export default function DesignerPage({ mode }: Props) {
           {resolve(contact.h2, mode)} if the <em>surface</em> matters to you.
         </h2>
         <div className="designer-contact__links">
-          <a href="mailto:ayush.trillionarie@gmail.com">EMAIL ↗</a>
-          <a href="https://www.linkedin.com/in/ayush-saini-858357200/" target="_blank" rel="noreferrer">
+          <a href={contacts.emailHref}>EMAIL ↗</a>
+          <a href={contacts.linkedin} target="_blank" rel="noreferrer">
             LINKEDIN ↗
           </a>
-          <a href="https://github.com/CinematicGenius007" target="_blank" rel="noreferrer">
+          <a href={contacts.github} target="_blank" rel="noreferrer">
             GITHUB ↗
           </a>
         </div>

@@ -1,3 +1,4 @@
+import { contacts } from "../content/contacts";
 import { useState, useEffect, useRef } from "react";
 import {
   hero,
@@ -362,12 +363,12 @@ export default function DirectorPage({ mode }: Props) {
           <p className="director-credits__body">{resolve(contact.body, mode)}</p>
 
           <div className="director-credits__links">
-            <a href="mailto:ayush.trillionarie@gmail.com" className="director-credits__link">
+            <a href={contacts.emailHref} className="director-credits__link">
               <span className="director-credits__role">EMAIL</span>
-              <span className="director-credits__name">ayush.trillionarie@gmail.com</span>
+              <span className="director-credits__name">{contacts.email}</span>
             </a>
             <a
-              href="https://www.linkedin.com/in/ayush-saini-858357200/"
+              href={contacts.linkedin}
               target="_blank"
               rel="noreferrer"
               className="director-credits__link"
@@ -376,7 +377,7 @@ export default function DirectorPage({ mode }: Props) {
               <span className="director-credits__name">ayush-saini-858357200</span>
             </a>
             <a
-              href="https://github.com/CinematicGenius007"
+              href={contacts.github}
               target="_blank"
               rel="noreferrer"
               className="director-credits__link"

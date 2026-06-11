@@ -1,3 +1,4 @@
+import { contacts } from "../content/contacts";
 import { about, contact, experiences, outside, projects, resolve } from "../content/profile";
 import type { ModeId } from "../modes/types";
 
@@ -61,11 +62,11 @@ export default function EverydayPage({ mode }: Props) {
         <h2>{resolve(contact.h2, mode)}</h2>
         <p>{resolve(contact.body, mode)}</p>
         <div className="everyday-contact__links">
-          <a href="mailto:ayush.trillionarie@gmail.com">Email</a>
-          <a href="https://www.linkedin.com/in/ayush-saini-858357200/" target="_blank" rel="noreferrer">
+          <a href={contacts.emailHref}>Email</a>
+          <a href={contacts.linkedin} target="_blank" rel="noreferrer">
             LinkedIn
           </a>
-          <a href="https://github.com/CinematicGenius007" target="_blank" rel="noreferrer">
+          <a href={contacts.github} target="_blank" rel="noreferrer">
             GitHub
           </a>
         </div>

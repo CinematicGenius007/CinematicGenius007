@@ -1,3 +1,4 @@
+import { contacts } from "../content/contacts";
 import type { ModeId } from "../modes/types";
 
 type Props = { mode: ModeId };
@@ -161,15 +162,15 @@ export default function AnimePage({ mode: _mode }: Props) {
           <div className="anime-cta__label">To be continued →</div>
           <ul>
             <li>
-              <a href="mailto:ayush.trillionarie@gmail.com">Email <span>↗</span></a>
+              <a href={contacts.emailHref}>Email <span>↗</span></a>
             </li>
             <li>
-              <a href="https://www.linkedin.com/in/ayush-saini-858357200/" target="_blank" rel="noreferrer">
+              <a href={contacts.linkedin} target="_blank" rel="noreferrer">
                 LinkedIn <span>↗</span>
               </a>
             </li>
             <li>
-              <a href="https://github.com/CinematicGenius007" target="_blank" rel="noreferrer">
+              <a href={contacts.github} target="_blank" rel="noreferrer">
                 GitHub <span>↗</span>
               </a>
             </li>
