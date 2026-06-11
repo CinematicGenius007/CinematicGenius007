@@ -1,5 +1,6 @@
 import { contacts } from "../content/contacts";
 import { useState, useEffect, useRef } from "react";
+import { useMotionPreference } from "../engine/useMotionPreference";
 import {
   hero,
   about,
@@ -17,8 +18,8 @@ type Props = { mode: ModeId };
 
 type IntroPhase = "counting" | "slate" | "content";
 
-function useIntro(): { phase: IntroPhase; count: number; skip: () => void } {
-  const seen = sessionStorage.getItem("director-intro") === "seen";
+function useIntro(enabled: boolean): { phase: IntroPhase; count: number; skip: () => void } {
+  const seen = !enabled || sessionStorage.getItem("director-intro") === "seen";
   const [phase, setPhase] = useState<IntroPhase>(seen ? "content" : "counting");
   const [count, setCount] = useState(3);
 
@@ -43,12 +44,13 @@ function useIntro(): { phase: IntroPhase; count: number; skip: () => void } {
   return { phase, count, skip };
 }
 
-function useFollowCursor() {
+function useFollowCursor(enabled: boolean) {
   const target = useRef({ x: -200, y: -200 });
   const cur = useRef({ x: -200, y: -200 });
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!enabled) return;
     const onMove = (e: MouseEvent) => {
       target.current = { x: e.clientX, y: e.clientY };
       const el = document.elementFromPoint(e.clientX, e.clientY);
@@ -73,7 +75,7 @@ function useFollowCursor() {
       window.removeEventListener("mousemove", onMove);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [enabled]);
 
   return ringRef;
 }
@@ -269,9 +271,40 @@ function FilmCard({
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
+const COMMENTARY: Record<string, string> = {
+  "act-1": "We open on a wide shot. The subject claims \u2018full stack\u2019 \u2014 the footage backs it up.",
+  "act-2": "No stunt doubles were used on bug duty. That\u2019s all him. The Zariya reset was shot in one take \u2014 a long one.",
+  "act-3": "The weekend trilogy. Low budget, real props, no test screenings \u2014 they shipped anyway.",
+  credits: "Every technology in this cast worked on a real production. No extras were hired.",
+};
+
+const CAST: [string, string][] = [
+  ["THE BACKEND", "C#"],
+  ["THE PRODUCT SURFACE", "TypeScript"],
+  ["THE INTERFACE", "React / Next.js"],
+  ["THE INFRASTRUCTURE", "the Zariya servers"],
+  ["PRODUCTION BUGS", "as themselves"],
+];
+
+const CREW: [string, string][] = [
+  ["DIRECTED & WRITTEN BY", "Ayush Saini"],
+  ["CONTINUITY (TESTS)", "also Ayush"],
+  ["PRODUCED BY", "Optmyzr \u00d7 Zariya AI"],
+  ["TRAINED AT", "Chitkara University \u00b7 CGPA 9.95"],
+  ["FIRST GIG", "JetBrains Hyperskill"],
+  ["SPECIAL THANKS", "the cousin who won four times in a row"],
+];
+
+function Commentary({ on, act }: { on: boolean; act: string }) {
+  if (!on) return null;
+  return <p className="director-comm">\u25cf REC \u2014 {COMMENTARY[act]}</p>;
+}
+
 export default function DirectorPage({ mode }: Props) {
-  const { phase, count, skip } = useIntro();
-  const ringRef = useFollowCursor();
+  const { level: motion } = useMotionPreference();
+  const { phase, count, skip } = useIntro(motion === "full");
+  const ringRef = useFollowCursor(motion !== "none");
+  const [commentary, setCommentary] = useState(false);
   const active = useActiveAct();
   const { ref: projSectionRef, inView: projInView } = useInView(0.08);
 
@@ -282,7 +315,20 @@ export default function DirectorPage({ mode }: Props) {
   return (
     <>
       {/* Cursor ring */}
-      <div className="director-ring" ref={ringRef} aria-hidden />
+      {motion !== "none" ? <div className="director-ring" ref={ringRef} aria-hidden /> : null}
+
+      {/* letterbox bars */}
+      <div className="director-bar director-bar--top" aria-hidden="true" />
+      <div className="director-bar director-bar--bot" aria-hidden="true" />
+
+      {/* commentary track toggle */}
+      <button
+        className={`director-comm-toggle${commentary ? " director-comm-toggle--on" : ""}`}
+        onClick={() => setCommentary((v) => !v)}
+        aria-pressed={commentary}
+      >
+        {commentary ? "\u25cf commentary ON" : "\u25cb director\u2019s commentary"}
+      </button>
 
       <main className="director-page">
         {/* ── ACT I — PROLOGUE ───────────────────────────────────── */}
@@ -317,6 +363,7 @@ export default function DirectorPage({ mode }: Props) {
               <SceneItem key={exp.id} experience={exp} index={i} />
             ))}
           </div>
+          <Commentary on={commentary} act="act-2" />
         </section>
 
         {/* ── ACT III — SCENES ───────────────────────────────────── */}
@@ -340,6 +387,8 @@ export default function DirectorPage({ mode }: Props) {
               />
             ))}
           </div>
+
+          <Commentary on={commentary} act="act-3" />
 
           {/* Education as a brief interlude */}
           <div className="director-interlude">
