@@ -1,621 +1,353 @@
+import { useEffect, useMemo, useRef, useState } from "react";
+import { contacts } from "../content/contacts";
 import {
   SIGNAL_CHAPTERS,
   SIGNAL_LENSES,
   SIGNAL_LINKS,
   SIGNAL_NODES,
   SKILL_SIGNALS,
-  type SignalChapterId,
-  type SignalLensId,
   type SignalNodeId,
 } from "./signalContent";
-import { contacts } from "../content/contacts";
-import { useState, useEffect, useRef } from "react";
-import {
-  hero,
-  about,
-  experiences,
-  projects,
-  contact,
-  resolve,
-} from "../content/profile";
+import { revealOnScroll } from "../engine/animation";
+import { useMotionPreference } from "../engine/useMotionPreference";
 import type { ModeId } from "../modes/types";
 
 type Props = { mode: ModeId };
 
-// ─── Hooks ────────────────────────────────────────────────────────────────────
+/* ── text scramble decode ── */
 
-function useLatency() {
-  const [ms, setMs] = useState(12);
-  useEffect(() => {
-    let lastFire = 0;
-    const jitter = () => {
-      const now = Date.now();
-      if (now - lastFire > 100) {
-        setMs(Math.floor(6 + Math.random() * 18));
-        lastFire = now;
-      }
-    };
-    window.addEventListener("mousemove", jitter);
-    const id = setInterval(() => setMs(Math.floor(6 + Math.random() * 18)), 1800);
-    return () => {
-      window.removeEventListener("mousemove", jitter);
-      clearInterval(id);
-    };
-  }, []);
-  return ms;
-}
+const GLYPHS = "█▓▒░<>/\\|=+*#@$%&01";
 
-function useInView(threshold = 0.15) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setInView(true); },
-      { threshold }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-  return { ref, inView };
-}
-
-type HeroPhase = "idle" | "spiking" | "stable";
-
-function useHeroPhase(): HeroPhase {
-  const [phase, setPhase] = useState<HeroPhase>("idle");
-  useEffect(() => {
-    const t1 = setTimeout(() => setPhase("spiking"), 700);
-    const t2 = setTimeout(() => setPhase("stable"), 1700);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, []);
-  return phase;
-}
-
-// ─── Oscilloscope ─────────────────────────────────────────────────────────────
-
-const SPIKE_PATH =
-  "M0,50 L320,50 L333,43 L343,14 L350,4 L357,16 L364,50 L371,66 L377,57 L384,50 L900,50";
-
-function Oscilloscope({ phase }: { phase: HeroPhase }) {
-  return (
-    <svg
-      className="signal-osc"
-      viewBox="0 0 900 100"
-      fill="none"
-      preserveAspectRatio="none"
-      aria-hidden
-    >
-      {[20, 40, 60, 80].map((y) => (
-        <line key={`h${y}`} x1="0" y1={y} x2="900" y2={y} className="signal-osc__grid-h" />
-      ))}
-      {[180, 360, 540, 720].map((x) => (
-        <line key={`v${x}`} x1={x} y1="0" x2={x} y2="100" className="signal-osc__grid-v" />
-      ))}
-
-      <line x1="0" y1="50" x2="900" y2="50" className="signal-osc__baseline" />
-
-      <path
-        d={SPIKE_PATH}
-        className={[
-          "signal-osc__spike",
-          phase === "spiking" ? "signal-osc__spike--draw" : "",
-          phase === "stable" ? "signal-osc__spike--stable" : "",
-        ]
-          .filter(Boolean)
-          .join(" ")}
-      />
-    </svg>
-  );
-}
-
-// ─── Rule Card (Experience) ────────────────────────────────────────────────────
-
-type RulePhase = "hidden" | "scanning" | "matched";
-
-function RuleCard({
-  experience,
-  index,
-}: {
-  experience: (typeof experiences)[0];
-  index: number;
-}) {
-  const { ref, inView } = useInView(0.12);
-  const [phase, setPhase] = useState<RulePhase>("hidden");
-  const mode: ModeId = "signal";
+function useScramble(text: string, active: boolean) {
+  const [out, setOut] = useState(active ? "" : text);
 
   useEffect(() => {
-    if (!inView) return;
-    setPhase("scanning");
-    const t = setTimeout(() => setPhase("matched"), 480 + index * 60);
-    return () => clearTimeout(t);
-  }, [inView, index]);
-
-  const isActive = experience.period.includes("Present");
-
-  return (
-    <div
-      ref={ref}
-      className={`signal-rule-card signal-rule-card--${phase}`}
-    >
-      <div className="signal-rule-card__hdr">
-        <span className="signal-rule-card__cmd">
-          {phase === "scanning" ? (
-            <>
-              SCOPE<span className="signal-dim-txt">::</span>EVAL
-              <span className="signal-blink">_</span>
-            </>
-          ) : (
-            <>
-              SCOPE<span className="signal-dim-txt">::</span>EVAL
-              {"  "}
-              <span className="signal-dim-txt">id=</span>
-              &ldquo;{experience.id}&rdquo;
-            </>
-          )}
-        </span>
-        {phase === "matched" && (
-          <span className="signal-rule-card__match">MATCH</span>
-        )}
-      </div>
-
-      {phase === "matched" && (
-        <div className="signal-rule-card__body">
-          <div className="signal-rule-card__top">
-            <div>
-              <h3 className="signal-rule-card__company">{experience.company}</h3>
-              <p className="signal-rule-card__role">{experience.role}</p>
-            </div>
-            <span className="signal-rule-card__period">{experience.period}</span>
-          </div>
-          <ul className="signal-rule-card__bullets">
-            {experience.bullets.map((b, i) => (
-              <li key={i}>{resolve(b, mode)}</li>
-            ))}
-          </ul>
-          <div className="signal-rule-card__footer">
-            <div className="signal-rule-card__bar-track">
-              <div className="signal-rule-card__bar-fill" />
-            </div>
-            <span
-              className={`signal-rule-card__status ${
-                isActive ? "signal-rule-card__status--active" : ""
-              }`}
-            >
-              {isActive ? "● ACTIVE" : "○ CLOSED"}
-            </span>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ─── Project Card ─────────────────────────────────────────────────────────────
-
-type CompilePhase = "pending" | "compiling" | "done";
-
-function ProjectCard({
-  project,
-  index,
-  parentInView,
-}: {
-  project: (typeof projects)[0];
-  index: number;
-  parentInView: boolean;
-}) {
-  const [phase, setPhase] = useState<CompilePhase>("pending");
-  const mode: ModeId = "signal";
-
-  useEffect(() => {
-    if (!parentInView) return;
-    const t1 = setTimeout(() => setPhase("compiling"), index * 240);
-    const t2 = setTimeout(() => setPhase("done"), index * 240 + 750);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, [parentInView, index]);
-
-  return (
-    <div className={`signal-project signal-project--${phase}`}>
-      <div className="signal-project__hdr">
-        <span className="signal-dim-txt">{project.number}</span>
-        {phase === "pending" && (
-          <span className="signal-dim-txt">PENDING</span>
-        )}
-        {phase === "compiling" && (
-          <span className="signal-project__compiling">
-            COMPILING<span className="signal-blink">_</span>
-          </span>
-        )}
-        {phase === "done" && (
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noreferrer"
-            className="signal-project__ok"
-          >
-            [OK] ↗
-          </a>
-        )}
-      </div>
-      {phase === "done" && (
-        <>
-          <h3 className="signal-project__name">{project.name}</h3>
-          <p className="signal-project__desc">
-            {resolve(project.description, mode)}
-          </p>
-          <ul className="signal-project__tech">
-            {project.tech.map((t) => (
-              <li key={t}>{t}</li>
-            ))}
-          </ul>
-        </>
-      )}
-    </div>
-  );
-}
-
-// ─── Skill Bars ───────────────────────────────────────────────────────────────
-
-
-function SkillBars({ inView }: { inView: boolean }) {
-  return (
-    <div className="signal-bars">
-      {SKILL_SIGNALS.map(({ label, pct }, i) => (
-        <div key={label} className="signal-bar" style={{ transitionDelay: inView ? `${i * 80}ms` : "0ms" }}>
-          <span className="signal-bar__label">{label}</span>
-          <div className="signal-bar__track">
-            <div
-              className="signal-bar__fill"
-              style={{ width: inView ? `${pct}%` : "0%" }}
-            />
-          </div>
-          <span className="signal-bar__pct">{inView ? `${pct}%` : "---"}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function SignalStoryMap() {
-  const [activeChapter, setActiveChapter] = useState<SignalChapterId>("origin");
-  const [selectedNode, setSelectedNode] = useState<SignalNodeId>("ayush");
-  const stepRefs = useRef<Record<SignalChapterId, HTMLElement | null>>({
-    origin: null,
-    build: null,
-    debug: null,
-    architect: null,
-    evidence: null,
-  });
-
-  useEffect(() => {
+    if (!active) {
+      setOut(text);
+      return;
+    }
     let frame = 0;
-    const updateActiveChapter = () => {
-      frame = 0;
-      const viewportCenter = window.innerHeight / 2;
-      const closest = SIGNAL_CHAPTERS
-        .map((chapter) => {
-          const node = stepRefs.current[chapter.id];
-          if (!node) return null;
-          const rect = node.getBoundingClientRect();
-          return {
-            chapter,
-            distance: Math.abs(rect.top + rect.height / 2 - viewportCenter),
-          };
-        })
-        .filter(Boolean)
-        .sort((a, b) => a!.distance - b!.distance)[0];
-
-      if (!closest) return;
-      const nextChapter = closest.chapter;
-      setActiveChapter(nextChapter.id);
-      if (!nextChapter.nodes.includes(selectedNode)) {
-        setSelectedNode(nextChapter.nodes[0]);
+    const total = 16;
+    const id = window.setInterval(() => {
+      frame++;
+      const settled = Math.floor((frame / total) * text.length);
+      let s = text.slice(0, settled);
+      for (let i = settled; i < text.length; i++) {
+        s += text[i] === " " ? " " : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
       }
-    };
+      setOut(s);
+      if (frame >= total) {
+        setOut(text);
+        window.clearInterval(id);
+      }
+    }, 34);
+    return () => window.clearInterval(id);
+  }, [text, active]);
 
-    const scheduleUpdate = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(updateActiveChapter);
-    };
+  return out;
+}
 
-    updateActiveChapter();
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate);
-    return () => {
-      if (frame) window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("resize", scheduleUpdate);
-    };
-  }, [selectedNode]);
+/* ── clearance strip ── */
 
-  const activeChapterData =
-    SIGNAL_CHAPTERS.find((chapter) => chapter.id === activeChapter) ?? SIGNAL_CHAPTERS[0];
-  const activeNodes = new Set(activeChapterData.nodes);
-  const selected =
-    SIGNAL_NODES.find((node) => node.id === selectedNode) ??
-    SIGNAL_NODES.find((node) => node.id === activeChapterData.nodes[0]) ??
-    SIGNAL_NODES[0];
+const CLEARANCE_LINES = [
+  "CASE FILE 2002-AS · SUBJECT: SAINI, AYUSH",
+  "ROLE UNDER INVESTIGATION: full-stack engineer",
+  "CLEARANCE GRANTED — review all evidence to reach a verdict.",
+];
 
-  const jumpToChapter = (id: SignalChapterId) => {
-    stepRefs.current[id]?.scrollIntoView({ behavior: "smooth", block: "center" });
+function Clearance({ motion }: { motion: string }) {
+  const [chars, setChars] = useState(motion === "none" ? Infinity : 0);
+
+  useEffect(() => {
+    if (motion === "none") {
+      setChars(Infinity);
+      return;
+    }
+    setChars(0);
+    const total = CLEARANCE_LINES.join("\n").length;
+    let i = 0;
+    const id = window.setInterval(() => {
+      i += 2;
+      setChars(i);
+      if (i >= total) window.clearInterval(id);
+    }, 16);
+    return () => window.clearInterval(id);
+  }, [motion]);
+
+  let remaining = chars;
+  return (
+    <div className="inv-clearance" role="status">
+      {CLEARANCE_LINES.map((line, idx) => {
+        const shown = remaining === Infinity ? line : line.slice(0, Math.max(0, remaining));
+        if (remaining !== Infinity) remaining -= line.length;
+        return <p key={idx}>{shown}</p>;
+      })}
+    </div>
+  );
+}
+
+/* ── dossier panel ── */
+
+function Dossier({
+  nodeId,
+  motion,
+  onClose,
+}: {
+  nodeId: SignalNodeId;
+  motion: string;
+  onClose: () => void;
+}) {
+  const node = SIGNAL_NODES.find((n) => n.id === nodeId)!;
+  const chapter = SIGNAL_CHAPTERS.find((c) => c.id === node.chapter)!;
+  const summary = useScramble(node.summary, motion === "full");
+
+  return (
+    <aside className="inv-dossier" role="dialog" aria-label={`Evidence: ${node.label}`}>
+      <div className="inv-dossier__stamp" aria-hidden="true">
+        DECLASSIFIED
+      </div>
+      <header>
+        <h3>{node.label}</h3>
+        <button className="inv-dossier__close" onClick={onClose} aria-label="Close dossier">
+          ✕
+        </button>
+      </header>
+      <p className="inv-dossier__meta">
+        exhibit · {node.meta} — case file {chapter.number} / {chapter.label.toUpperCase()}
+      </p>
+      <p className="inv-dossier__body">{summary}</p>
+      <p className="inv-dossier__context">{chapter.headline}</p>
+    </aside>
+  );
+}
+
+/* ── page ── */
+
+export default function SignalPage({ mode: _mode }: Props) {
+  const { level: motion } = useMotionPreference();
+  const [selected, setSelected] = useState<SignalNodeId | null>(null);
+  const [reviewed, setReviewed] = useState<Set<SignalNodeId>>(new Set());
+  const boardRef = useRef<HTMLDivElement>(null);
+  const pageRef = useRef<HTMLElement>(null);
+
+  const allReviewed = reviewed.size === SIGNAL_NODES.length;
+
+  const select = (id: SignalNodeId | null) => {
+    setSelected(id);
+    if (id) {
+      setReviewed((prev) => {
+        if (prev.has(id)) return prev;
+        const next = new Set(prev);
+        next.add(id);
+        return next;
+      });
+    }
   };
 
-  return (
-    <section className="signal-map-section" aria-label="Signal systems map">
-      <div className="signal-map-section__visual">
-        <div className="signal-map__rail" aria-label="Signal chapters">
-          {SIGNAL_CHAPTERS.map((chapter) => (
-            <button
-              key={chapter.id}
-              className={`signal-map__rail-step${activeChapter === chapter.id ? " signal-map__rail-step--active" : ""}`}
-              onClick={() => jumpToChapter(chapter.id)}
-              type="button"
-            >
-              <span>{chapter.number}</span>
-              {chapter.label}
-            </button>
-          ))}
-        </div>
+  // cursor parallax on the board (full motion only)
+  useEffect(() => {
+    if (motion !== "full") return;
+    const board = boardRef.current;
+    if (!board) return;
+    let raf = 0;
+    const onMove = (e: PointerEvent) => {
+      const rect = board.getBoundingClientRect();
+      const nx = (e.clientX - rect.left) / rect.width - 0.5;
+      const ny = (e.clientY - rect.top) / rect.height - 0.5;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        board.style.setProperty("--par-x", `${-nx * 12}px`);
+        board.style.setProperty("--par-y", `${-ny * 8}px`);
+      });
+    };
+    const onLeave = () => {
+      board.style.setProperty("--par-x", "0px");
+      board.style.setProperty("--par-y", "0px");
+    };
+    board.addEventListener("pointermove", onMove);
+    board.addEventListener("pointerleave", onLeave);
+    return () => {
+      cancelAnimationFrame(raf);
+      board.removeEventListener("pointermove", onMove);
+      board.removeEventListener("pointerleave", onLeave);
+    };
+  }, [motion]);
 
-        <div className="signal-map" aria-label="Interactive professional scope map">
-          <svg className="signal-map__links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
-            {SIGNAL_LINKS.map(([from, to]) => {
-              const a = SIGNAL_NODES.find((node) => node.id === from);
-              const b = SIGNAL_NODES.find((node) => node.id === to);
-              if (!a || !b) return null;
-              const active = activeNodes.has(from) || activeNodes.has(to);
+  useEffect(() => {
+    if (!pageRef.current) return;
+    return revealOnScroll(pageRef.current, "[data-reveal]", motion);
+  }, [motion]);
+
+  const connectedTo = useMemo(() => {
+    if (!selected) return new Set<string>();
+    const set = new Set<string>();
+    for (const [a, b] of SIGNAL_LINKS) {
+      if (a === selected) set.add(b);
+      if (b === selected) set.add(a);
+    }
+    return set;
+  }, [selected]);
+
+  const nodePos = (id: SignalNodeId) => SIGNAL_NODES.find((n) => n.id === id)!;
+
+  return (
+    <main className="inv" ref={pageRef}>
+      {/* ── the board ── */}
+      <section className="inv-room">
+        <Clearance motion={motion} />
+
+        <div className="inv-board" ref={boardRef}>
+          <svg className="inv-threads" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            {SIGNAL_LINKS.map(([a, b]) => {
+              const pa = nodePos(a);
+              const pb = nodePos(b);
+              const lit = selected === a || selected === b;
               return (
                 <line
-                  key={`${from}-${to}`}
-                  x1={a.x}
-                  y1={a.y}
-                  x2={b.x}
-                  y2={b.y}
-                  className={active ? "signal-map__link signal-map__link--active" : "signal-map__link"}
+                  key={`${a}-${b}`}
+                  x1={pa.x}
+                  y1={pa.y}
+                  x2={pb.x}
+                  y2={pb.y}
+                  className={`inv-thread${lit ? " inv-thread--lit" : ""}`}
+                  vectorEffect="non-scaling-stroke"
                 />
               );
             })}
           </svg>
 
-          {SIGNAL_NODES.map((node) => {
-            const isActive = activeNodes.has(node.id);
-            const isSelected = selected.id === node.id;
+          {SIGNAL_NODES.map((node, i) => {
+            const isSel = selected === node.id;
+            const isConn = connectedTo.has(node.id);
+            const isReviewed = reviewed.has(node.id);
             return (
               <button
                 key={node.id}
-                className={[
-                  "signal-map__node",
-                  isActive ? "signal-map__node--active" : "",
-                  isSelected ? "signal-map__node--selected" : "",
-                ].filter(Boolean).join(" ")}
-                style={{ left: `${node.x}%`, top: `${node.y}%` }}
-                onClick={() => setSelectedNode(node.id)}
-                type="button"
+                className={`inv-pin${isSel ? " inv-pin--selected" : ""}${isConn ? " inv-pin--linked" : ""}${
+                  isReviewed ? " inv-pin--reviewed" : ""
+                }`}
+                style={{ left: `${node.x}%`, top: `${node.y}%`, "--pin-depth": `${(i % 3) + 1}` } as React.CSSProperties}
+                onClick={() => select(isSel ? null : node.id)}
+                aria-pressed={isSel}
               >
-                <span className="signal-map__node-dot" />
-                <span className="signal-map__node-label">{node.label}</span>
-                <span className="signal-map__node-meta">{node.meta}</span>
+                <span className="inv-pin__dot" aria-hidden="true" />
+                <span className="inv-pin__label">{node.label}</span>
+                <span className="inv-pin__meta">{node.meta}</span>
               </button>
             );
           })}
         </div>
 
-        <aside className="signal-map-detail" aria-live="polite">
-          <p className="signal-map-detail__eyebrow">{selected.meta}</p>
-          <h3>{selected.label}</h3>
-          <p>{selected.summary}</p>
-        </aside>
-      </div>
-
-      <div className="signal-map-section__story">
-        {SIGNAL_CHAPTERS.map((chapter) => (
-          <article
-            key={chapter.id}
-            className={`signal-map-step${activeChapter === chapter.id ? " signal-map-step--active" : ""}`}
-            data-chapter={chapter.id}
-            ref={(node) => {
-              stepRefs.current[chapter.id] = node;
-            }}
-          >
-            <span className="signal-map-step__number">{chapter.number}</span>
-            <p className="signal-map-step__label">{chapter.label}</p>
-            <h2>{chapter.headline}</h2>
-            <p>{chapter.body}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Main Page ────────────────────────────────────────────────────────────────
-
-export default function SignalPage({ mode }: Props) {
-  const latency = useLatency();
-  const heroPhase = useHeroPhase();
-  const [activeLens, setActiveLens] = useState<SignalLensId>("build");
-  const { ref: expRef, inView: expInView } = useInView(0.05);
-  const { ref: projRef, inView: projInView } = useInView(0.05);
-  const { ref: skillRef, inView: skillInView } = useInView(0.15);
-  const lens = SIGNAL_LENSES.find((item) => item.id === activeLens) ?? SIGNAL_LENSES[0];
-
-  return (
-    <main className="signal-page">
-      {/* ── HERO ───────────────────────────────────────────────────── */}
-      <section className="signal-hero">
-        <div className="signal-hero__topbar">
-          <span className="signal-dim-txt">SIGNAL / 01 / INTRODUCTION</span>
-          <span className="signal-latency">
-            LATENCY{" "}
-            <span className="signal-latency__val">{latency}ms</span>
-          </span>
+        <div className="inv-progress" aria-live="polite">
+          EVIDENCE REVIEWED · {reviewed.size}/{SIGNAL_NODES.length}
+          {allReviewed ? " — VERDICT UNLOCKED ↓" : ""}
         </div>
 
-        <Oscilloscope phase={heroPhase} />
-
-        <div
-          className={`signal-hero__ident signal-hero__ident--${heroPhase}`}
-        >
-          <h1 className="signal-hero__name">{hero.name}</h1>
-          <p className="signal-hero__role">{resolve(hero.role, mode)}</p>
-          <p className="signal-hero__statement">
-            {resolve(hero.statement, mode)}
-          </p>
-        </div>
-
-        <div className="signal-lens" aria-label="Signal focus">
-          <div className="signal-lens__controls">
-            {SIGNAL_LENSES.map((item) => (
-              <button
-                key={item.id}
-                className={`signal-lens__button${activeLens === item.id ? " signal-lens__button--active" : ""}`}
-                onClick={() => setActiveLens(item.id)}
-                type="button"
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-          <div className="signal-lens__terminal">
-            <p>
-              <span className="signal-accent-txt">$</span> {lens.command}
-            </p>
-            <h2>{lens.headline}</h2>
-            <ul>
-              {lens.lines.map((line) => (
-                <li key={line}>{line}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="signal-hero__status">
-          <span className="signal-status-dot" />
-          <span className="signal-dim-txt">SYSTEM ONLINE</span>
-          <span className="signal-dim-txt signal-sep">·</span>
-          <span className="signal-dim-txt">ALL SIGNALS LOADED</span>
-          <span className="signal-dim-txt signal-sep">·</span>
-          <span className="signal-dim-txt">PROCESS RUNNING</span>
-        </div>
+        {selected ? <Dossier nodeId={selected} motion={motion} onClose={() => select(null)} /> : null}
       </section>
 
-      <SignalStoryMap />
-
-      {/* ── PROFILE ────────────────────────────────────────────────── */}
-      <section className="signal-section">
-        <div className="signal-section__hdr">
-          <span className="signal-accent-txt">02</span>
-          <span className="signal-dim-txt">/ SIGNAL PROFILE</span>
-        </div>
-        <div className="signal-profile">
-          <div className="signal-profile__main">
-            <p>{resolve(about.p1, mode)}</p>
-            <p>{resolve(about.p2, mode)}</p>
-          </div>
-          <div className="signal-profile__log">
-            {about.notes.map((note, i) => (
-              <div key={i} className="signal-log-entry">
-                <span className="signal-log-entry__n">
-                  {String(i).padStart(2, "0")}
-                </span>
-                <span>{resolve(note, mode)}</span>
+      {/* ── case files ── */}
+      <section className="inv-section" data-reveal>
+        <header className="inv-section__head">
+          <h2>case files</h2>
+          <p>five chapters, twelve exhibits</p>
+        </header>
+        <div className="inv-cases">
+          {SIGNAL_CHAPTERS.map((chapter) => (
+            <article className="inv-case" key={chapter.id}>
+              <div className="inv-case__no">{chapter.number}</div>
+              <div className="inv-case__body">
+                <h3>{chapter.headline}</h3>
+                <p>{chapter.body}</p>
+                <div className="inv-case__tags">
+                  {chapter.nodes.map((id) => (
+                    <button
+                      key={id}
+                      className={`inv-tag${reviewed.has(id) ? " inv-tag--reviewed" : ""}`}
+                      onClick={() => {
+                        select(id);
+                        boardRef.current?.scrollIntoView({ behavior: motion === "none" ? "auto" : "smooth" });
+                      }}
+                    >
+                      {nodePos(id).label}
+                    </button>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── EXPERIENCE ─────────────────────────────────────────────── */}
-      <section className="signal-section" ref={expRef}>
-        <div className="signal-section__hdr">
-          <span className="signal-accent-txt">03</span>
-          <span className="signal-dim-txt">/ SYSTEM OUTPUT</span>
-          {expInView && (
-            <span className="signal-running">
-              RUNNING<span className="signal-blink">_</span>
-            </span>
-          )}
-        </div>
-        <div className="signal-exp-list">
-          {experiences.map((exp, i) => (
-            <RuleCard key={exp.id} experience={exp} index={i} />
+            </article>
           ))}
         </div>
       </section>
 
-      {/* ── PROJECTS ───────────────────────────────────────────────── */}
-      <section className="signal-section" ref={projRef}>
-        <div className="signal-section__hdr">
-          <span className="signal-accent-txt">04</span>
-          <span className="signal-dim-txt">/ BUILD ARTIFACTS</span>
-        </div>
-        <div className="signal-projects">
-          {projects.map((proj, i) => (
-            <ProjectCard
-              key={proj.id}
-              project={proj}
-              index={i}
-              parentInView={projInView}
-            />
+      {/* ── intercepts (lenses) ── */}
+      <section className="inv-section" data-reveal>
+        <header className="inv-section__head">
+          <h2>intercepted transmissions</h2>
+          <p>three operating modes on record</p>
+        </header>
+        <div className="inv-feeds">
+          {SIGNAL_LENSES.map((lens) => (
+            <article className="inv-feed" key={lens.id}>
+              <p className="inv-feed__cmd">$ {lens.command}</p>
+              <h3>{lens.headline}</h3>
+              <ul>
+                {lens.lines.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </article>
           ))}
         </div>
       </section>
 
-      {/* ── SKILLS ─────────────────────────────────────────────────── */}
-      <section className="signal-section" ref={skillRef}>
-        <div className="signal-section__hdr">
-          <span className="signal-accent-txt">05</span>
-          <span className="signal-dim-txt">/ SIGNAL STRENGTH</span>
+      {/* ── signal strength ── */}
+      <section className="inv-section" data-reveal>
+        <header className="inv-section__head">
+          <h2>signal strength</h2>
+          <p>instrument readings on the subject's toolkit</p>
+        </header>
+        <div className="inv-meters">
+          {SKILL_SIGNALS.map((s) => (
+            <div className="inv-meter" key={s.label}>
+              <span className="inv-meter__label">{s.label}</span>
+              <div className="inv-meter__track">
+                <div className="inv-meter__fill" style={{ width: `${s.pct}%` }} />
+              </div>
+              <span className="inv-meter__pct">{s.pct}</span>
+            </div>
+          ))}
         </div>
-        <SkillBars inView={skillInView} />
       </section>
 
-      {/* ── CONTACT ────────────────────────────────────────────────── */}
-      <section className="signal-section signal-section--contact">
-        <div className="signal-section__hdr">
-          <span className="signal-accent-txt">06</span>
-          <span className="signal-dim-txt">/ OPEN CHANNEL</span>
-        </div>
-        <div className="signal-terminal">
-          <p className="signal-terminal__line">
-            <span className="signal-accent-txt">$</span> connect
-            <span className="signal-dim-txt"> --target</span> ayush.saini
-          </p>
-          <p className="signal-terminal__line signal-terminal__line--out">
-            ✓ Connection established. Routes available:
-          </p>
-          <div className="signal-terminal__links">
-            <a
-              href={contacts.emailHref}
-              className="signal-terminal__cmd"
-            >
-              → email<span className="signal-dim-txt">()</span>
+      {/* ── verdict ── */}
+      <section className={`inv-verdict${allReviewed ? " inv-verdict--unlocked" : ""}`} data-reveal>
+        <p className="inv-verdict__kicker">FINAL DETERMINATION</p>
+        {allReviewed ? (
+          <>
+            <h2 className="inv-verdict__stamp">
+              SUBJECT IS: <span>DEBUGGER</span> <span>BUILDER</span> <span>RELIABLE</span>
+            </h2>
+            <p>All twelve exhibits reviewed. The pattern holds across employers, codebases, and side projects.</p>
+          </>
+        ) : (
+          <>
+            <h2 className="inv-verdict__locked">VERDICT SEALED</h2>
+            <p>
+              {SIGNAL_NODES.length - reviewed.size} exhibits still unreviewed. Pull the threads on the board above.
+            </p>
+          </>
+        )}
+        <div className="inv-contact">
+          <p className="inv-contact__line">$ channel --open</p>
+          <div className="inv-contact__links">
+            <a href={contacts.emailHref}>EMAIL ↗</a>
+            <a href={contacts.linkedin} target="_blank" rel="noreferrer">
+              LINKEDIN ↗
             </a>
-            <a
-              href={contacts.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="signal-terminal__cmd"
-            >
-              → linkedin<span className="signal-dim-txt">()</span>
-            </a>
-            <a
-              href={contacts.github}
-              target="_blank"
-              rel="noreferrer"
-              className="signal-terminal__cmd"
-            >
-              → github<span className="signal-dim-txt">()</span>
+            <a href={contacts.github} target="_blank" rel="noreferrer">
+              GITHUB ↗
             </a>
           </div>
-          <p className="signal-terminal__cursor">
-            <span className="signal-accent-txt">$</span>{" "}
-            <span className="signal-blink">_</span>
-          </p>
         </div>
       </section>
     </main>
