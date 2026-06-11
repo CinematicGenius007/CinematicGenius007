@@ -1,10 +1,10 @@
+import { FILE_LIST, QUIPS, type FileId } from "./codebaseContent";
 import { contacts } from "../content/contacts";
 import { useState, useEffect, useCallback } from "react";
 import { experiences, projects, skillGroups, education } from "../content/profile";
 import type { ModeId } from "../modes/types";
 
 type Props = { mode: ModeId };
-type FileId = "readme" | "experience" | "projects" | "skills" | "contact";
 
 interface TooltipState {
   x: number;
@@ -13,14 +13,6 @@ interface TooltipState {
   detail: string;
 }
 
-// ─── Status bar quips ─────────────────────────────────────────────────────────
-const QUIPS = [
-  "Debugging: 2 known unknowns",
-  "Tests: passing (probably)",
-  "Runtime: 2 yrs in production",
-  "Coverage: ~94% of edge cases",
-  "Build: shipping",
-];
 
 function useQuip() {
   const [i, setI] = useState(0);
@@ -32,13 +24,6 @@ function useQuip() {
 }
 
 // ─── Files ────────────────────────────────────────────────────────────────────
-const FILE_LIST: { id: FileId; name: string; lang: string }[] = [
-  { id: "readme",     name: "README.md",      lang: "md" },
-  { id: "experience", name: "experience.ts",  lang: "ts" },
-  { id: "projects",   name: "projects.ts",    lang: "ts" },
-  { id: "skills",     name: "skills.json",    lang: "json" },
-  { id: "contact",    name: "contact.md",     lang: "md" },
-];
 
 // ─── Hover token ──────────────────────────────────────────────────────────────
 function Token({
