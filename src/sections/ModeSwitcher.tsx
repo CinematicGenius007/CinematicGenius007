@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { setMode } from "../engine/useMode";
 import type { ModeId } from "../modes/types";
 
 type Props = { currentMode: ModeId };
@@ -21,13 +22,8 @@ export default function ModeSwitcher({ currentMode }: Props) {
   const [open, setOpen] = useState(false);
 
   function switchMode(id: ModeId) {
-    const url = new URL(window.location.href);
-    if (id === "engineer") {
-      url.searchParams.delete("as");
-    } else {
-      url.searchParams.set("as", id);
-    }
-    window.location.href = url.toString();
+    setMode(id);
+    setOpen(false);
   }
 
   return (

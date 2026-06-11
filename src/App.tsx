@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMode } from "./hooks/useMode";
+import { useMode } from "./engine/useMode";
 import { personas } from "./modes/personas";
 import { themes } from "./modes/themes";
 import ThemeProvider from "./components/ThemeProvider";
