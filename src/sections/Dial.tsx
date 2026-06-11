@@ -286,8 +286,9 @@ export default function Dial({ currentMode }: Props) {
     }
     setFiring(true);
     const r = el.getBoundingClientRect();
+    const x = window.innerWidth <= 640 ? window.innerWidth / 2 : r.left + r.width / 2;
     gsap.to(el, { opacity: 0, scale: 0.4, duration: 0.12, ease: "power2.in" });
-    firePoof(r.left + r.width / 2, r.top + r.height / 2, id, () => {
+    firePoof(x, r.top + r.height / 2, id, () => {
       setOpen(false);
       setFiring(false);
       setMode(id);
