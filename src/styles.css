@@ -11070,21 +11070,87 @@ a:hover { color: var(--mode-accent); }
 /* ── the mac-style poof ── */
 .macpoof {
   position: fixed;
-  z-index: 240;
+  z-index: 260;
   width: 0;
   height: 0;
   pointer-events: none;
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.2));
+  transform-origin: center;
+}
+
+.macpoof__halo {
+  position: absolute;
+  left: -94px;
+  top: -94px;
+  width: 188px;
+  height: 188px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--poof-accent) 34%, transparent) 0 26%, transparent 27%),
+    radial-gradient(circle, color-mix(in srgb, var(--poof-surface) 92%, transparent) 0 42%, transparent 43%);
+  border: 1px solid color-mix(in srgb, var(--poof-accent) 58%, transparent);
+  box-shadow:
+    0 0 0 8px color-mix(in srgb, var(--poof-accent) 16%, transparent),
+    0 0 42px color-mix(in srgb, var(--poof-accent) 26%, transparent),
+    inset 0 0 28px color-mix(in srgb, var(--poof-bg) 28%, transparent);
 }
 
 .macpoof__frame {
   position: absolute;
-  left: -60px;
-  top: -60px;
-  width: 120px;
-  height: 120px;
+  left: -74px;
+  top: -74px;
+  width: 148px;
+  height: 148px;
+  mix-blend-mode: normal;
 }
 
-.macpoof__frame svg { width: 100%; height: 100%; }
+.macpoof__frame svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 0 color-mix(in srgb, var(--poof-bg) 12%, transparent));
+}
+
+.macpoof__spark {
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  width: 4px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--poof-accent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--poof-accent) 55%, transparent);
+  transform-origin: center;
+}
+
+.macpoof__badge {
+  position: absolute;
+  left: 50%;
+  top: -102px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--poof-surface) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--poof-rule) 84%, var(--poof-accent));
+  color: var(--poof-ink);
+  font-family: var(--mode-font-mono);
+  font-size: 0.58rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.macpoof__badge span {
+  color: var(--poof-accent);
+  font-weight: 700;
+}
+
+.macpoof__badge b {
+  font-weight: 700;
+  text-transform: uppercase;
+}
 
 /* ── dial responsive ── */
 @media (max-width: 640px) {

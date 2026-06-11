@@ -26,6 +26,8 @@ const STEP = 17; // degrees between channels
 const FOCUS = 45; // needle angle (corner diagonal)
 const SPAN = 62; // visibility window either side of the needle
 const MAX = (VIEW_ORDER.length - 1) * STEP;
+const WHEEL_GAIN = 0.16;
+const DRAG_GAIN = 1.28;
 
 // ── the poof — old-Mac-style stepped smoke, hand-placed frames, persona-tinted ──
 
@@ -73,6 +75,17 @@ const POOF_FRAMES: [number, number, number][][] = [
   ],
 ];
 
+const POOF_SPARKS = [
+  [-78, -24, -8],
+  [-58, -70, 12],
+  [-22, -96, -16],
+  [38, -88, 18],
+  [82, -42, -10],
+  [80, 26, 14],
+  [30, 80, -12],
+  [-54, 58, 16],
+];
+
 function poofFrameSvg(
   circles: [number, number, number][],
   frameIdx: number,
@@ -80,10 +93,17 @@ function poofFrameSvg(
   surface: string,
   accent: string,
 ) {
+  const stroke = frameIdx > 2 ? 2 : 2.5;
+  const alpha = frameIdx > 3 ? 0.78 : 0.96;
+  const strokeColor = frameIdx > 1 ? accent : ink;
+  const ring =
+    frameIdx > 0
+      ? `<circle cx="60" cy="60" r="${30 + frameIdx * 8}" fill="none" stroke="${accent}" stroke-opacity="${0.28 - frameIdx * 0.035}" stroke-width="2" stroke-dasharray="2 9"/>`
+      : "";
   const puffs = circles
     .map(
       ([x, y, r]) =>
-        `<circle cx="${x}" cy="${y}" r="${r}" fill="${surface}" stroke="${ink}" stroke-width="2.5"/>`,
+        `<circle cx="${x}" cy="${y}" r="${r}" fill="${surface}" fill-opacity="${alpha}" stroke="${strokeColor}" stroke-width="${stroke}"/>`,
     )
     .join("");
   // later frames pick up accent flecks as the smoke breaks apart
@@ -92,15 +112,25 @@ function poofFrameSvg(
       ? `<circle cx="${20 + frameIdx * 6}" cy="${30 - frameIdx * 3}" r="2.4" fill="${accent}"/>` +
         `<circle cx="${100 - frameIdx * 5}" cy="${88 + frameIdx * 2}" r="2" fill="${accent}"/>`
       : "";
-  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">${puffs}${flecks}</svg>`;
+  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">${ring}${puffs}${flecks}</svg>`;
 }
 
 function firePoof(x: number, y: number, target: ModeId, onCut: () => void) {
-  const c = registry[target].theme.colors;
+  const persona = registry[target];
+  const c = persona.theme.colors;
   const host = document.createElement("div");
   host.className = "macpoof";
   host.style.left = `${x}px`;
   host.style.top = `${y}px`;
+  host.style.setProperty("--poof-ink", c.ink);
+  host.style.setProperty("--poof-surface", c.surface);
+  host.style.setProperty("--poof-accent", c.accent);
+  host.style.setProperty("--poof-bg", c.bg);
+  host.style.setProperty("--poof-rule", c.rule);
+
+  const halo = document.createElement("div");
+  halo.className = "macpoof__halo";
+  host.appendChild(halo);
 
   const frames = POOF_FRAMES.map((circles, i) => {
     const f = document.createElement("div");
@@ -111,18 +141,60 @@ function firePoof(x: number, y: number, target: ModeId, onCut: () => void) {
     return f;
   });
 
+  const sparks = POOF_SPARKS.map(() => {
+    const s = document.createElement("i");
+    s.className = "macpoof__spark";
+    host.appendChild(s);
+    return s;
+  });
+
+  const badge = document.createElement("div");
+  badge.className = "macpoof__badge";
+  badge.innerHTML = `<span>${String(VIEW_ORDER.indexOf(target) + 1).padStart(2, "0")}</span><b>${persona.label}</b>`;
+  host.appendChild(badge);
+
   document.body.appendChild(host);
 
-  // Stepped like a sprite sheet: hard cuts between frames, no tweening inside one.
+  // Stepped like a sprite sheet, with a short spotlight so the cut reads before the page changes.
   const tl = gsap.timeline({ onComplete: () => host.remove() });
-  const at = [0, 0.07, 0.15, 0.24, 0.34];
+  const at = [0, 0.065, 0.135, 0.22, 0.32];
+  tl.set(host, { scale: 0.9, autoAlpha: 1 });
+  tl.fromTo(halo, { autoAlpha: 0, scale: 0.35 }, { autoAlpha: 1, scale: 1, duration: 0.16, ease: "power2.out" }, 0);
+  tl.fromTo(
+    badge,
+    { autoAlpha: 0, y: 10, scale: 0.94 },
+    { autoAlpha: 1, y: 0, scale: 1, duration: 0.18, ease: "back.out(1.7)" },
+    0.08,
+  );
+  sparks.forEach((spark, i) => {
+    const [dx, dy, rot] = POOF_SPARKS[i];
+    const start = 0.08 + i * 0.018;
+    tl.fromTo(
+      spark,
+      { x: 0, y: 0, rotate: 0, scale: 0.4, autoAlpha: 0 },
+      {
+        x: dx,
+        y: dy,
+        rotate: rot,
+        scale: 1,
+        autoAlpha: 1,
+        duration: 0.2,
+        ease: "power3.out",
+      },
+      start,
+    );
+    tl.to(spark, { autoAlpha: 0, duration: 0.14, ease: "power1.in" }, start + 0.16);
+  });
   frames.forEach((f, i) => {
     tl.set(f, { visibility: "visible" }, at[i]);
     if (i > 0) tl.set(frames[i - 1], { visibility: "hidden" }, at[i]);
-    tl.set(host, { scale: 0.85 + i * 0.09 }, at[i]);
+    tl.set(frames[i], { rotate: i % 2 ? 3 : -2 }, at[i]);
+    tl.set(host, { scale: 0.9 + i * 0.075 }, at[i]);
   });
-  tl.add(onCut, 0.12);
-  tl.to(host, { opacity: 0, duration: 0.16 }, 0.34);
+  tl.add(onCut, 0.36);
+  tl.to(badge, { autoAlpha: 0, y: -8, duration: 0.14, ease: "power1.in" }, 0.38);
+  tl.to(halo, { autoAlpha: 0, scale: 1.35, duration: 0.22, ease: "power2.in" }, 0.44);
+  tl.to(host, { opacity: 0, duration: 0.2 }, 0.52);
 }
 
 // ── the dial ──
@@ -166,8 +238,8 @@ export default function Dial({ currentMode }: Props) {
       snapTween.current?.kill();
       snapTween.current = gsap.to(proxy, {
         v: target,
-        duration: 0.45,
-        ease: "power3.out",
+        duration: 0.26,
+        ease: "power4.out",
         onUpdate: () => setOffset(proxy.v),
       });
     }, delay);
@@ -183,8 +255,8 @@ export default function Dial({ currentMode }: Props) {
     const proxy = { v: offsetRef.current };
     snapTween.current = gsap.to(proxy, {
       v: target,
-      duration: 0.4,
-      ease: "power3.out",
+      duration: 0.24,
+      ease: "power4.out",
       onUpdate: () => setOffset(proxy.v),
     });
   }
@@ -250,8 +322,8 @@ export default function Dial({ currentMode }: Props) {
     function onWheel(e: WheelEvent) {
       e.preventDefault();
       killSnap();
-      setOffset((v) => clampSoft(v + e.deltaY * 0.07));
-      snap(150);
+      setOffset((v) => clampSoft(v + e.deltaY * WHEEL_GAIN));
+      snap(70);
     }
     document.addEventListener("wheel", onWheel, { passive: false });
 
@@ -298,7 +370,7 @@ export default function Dial({ currentMode }: Props) {
     const d = phi - drag.current.lastPhi;
     drag.current.lastPhi = phi;
     drag.current.moved += Math.abs(d);
-    setOffset((v) => clampSoft(v - d));
+    setOffset((v) => clampSoft(v - d * DRAG_GAIN));
   }
 
   function onPointerUp() {
