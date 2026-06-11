@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { registry } from "../engine/registry";
+import { registry, preloadPersona } from "../engine/registry";
 import { setMode } from "../engine/useMode";
+import { viewIndex } from "../engine/transitions";
 import { useMotionPreference, type MotionOverride } from "../engine/useMotionPreference";
 import type { ModeId } from "../modes/types";
 
@@ -22,6 +23,18 @@ export default function ModeSwitcher({ currentMode }: Props) {
     setMode(id);
     setOpen(false);
   }
+
+  // ⌘K / Ctrl+K toggles the render-target menu from anywhere.
+  useEffect(() => {
+    function onGlobalKey(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setOpen((v) => !v);
+      }
+    }
+    document.addEventListener("keydown", onGlobalKey);
+    return () => document.removeEventListener("keydown", onGlobalKey);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -57,8 +70,11 @@ export default function ModeSwitcher({ currentMode }: Props) {
               className={`mode-switcher__option${persona.id === currentMode ? " mode-switcher__option--active" : ""}`}
               aria-current={persona.id === currentMode ? "true" : undefined}
               onClick={() => switchMode(persona.id)}
+              onPointerEnter={() => preloadPersona(persona.id)}
             >
-              <span className="mode-switcher__option-label">{persona.label}</span>
+              <span className="mode-switcher__option-label">
+                <span className="mode-switcher__option-num">{viewIndex(persona.id)}</span> {persona.label}
+              </span>
               <span className="mode-switcher__option-desc">{persona.description}</span>
             </button>
           ))}

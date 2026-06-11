@@ -7542,3 +7542,436 @@ a:hover { color: var(--mode-accent); }
     flex-basis: 100%;
   }
 }
+
+/* =====================================================================
+   THE RECOMPILE — persona transition layer + marker
+   ===================================================================== */
+
+.tx {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.tx-slats {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.tx-slat {
+  flex: 1;
+  background: var(--tx-bg, #0c0c0e);
+  transform: scaleY(0);
+  border-right: 1px solid rgba(128, 128, 128, 0.06);
+}
+
+.tx-flash {
+  position: absolute;
+  inset: 0;
+  background: #c81e2e;
+  opacity: 0;
+}
+
+.tx-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.tx-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: var(--tx-ink, #f0ebe1);
+  margin: 0;
+  opacity: 0;
+}
+
+.tx-line:first-child {
+  color: var(--tx-accent, #e8a020);
+}
+
+.tx--alarm .tx-line:first-child {
+  color: #ff4455;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.tx--ink .tx-line {
+  font-family: var(--mode-font-body, sans-serif);
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+.tx-toast {
+  position: fixed;
+  bottom: 4.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 210;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--mode-ink);
+  background: var(--mode-surface);
+  border: 1px solid var(--mode-rule);
+  padding: 0.5rem 1rem;
+}
+
+/* marker — the element that never unmounts */
+.marker {
+  position: fixed;
+  top: 0.9rem;
+  right: 1.1rem;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+  font-family: var(--mode-font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  color: var(--mode-mute);
+  text-transform: uppercase;
+  pointer-events: none;
+  mix-blend-mode: normal;
+}
+
+.marker__name {
+  color: var(--mode-ink);
+  opacity: 0.75;
+}
+
+.marker__view {
+  color: var(--mode-accent);
+}
+
+@media (max-width: 700px) {
+  .marker { display: none; }
+}
+
+@media print {
+  .marker, .tx, .tx-toast { display: none !important; }
+}
+
+/* =====================================================================
+   ANIME — EPISODE 01 kinetic layer (cold open, impact frames, battles)
+   Namespace: anx-
+   ===================================================================== */
+
+/* impact frame: inverted flash + radial speed lines */
+.anx-impact {
+  position: fixed;
+  inset: 0;
+  z-index: 180;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    repeating-conic-gradient(from 0deg at 50% 50%, #0a0a0a 0deg 2deg, transparent 2deg 7deg),
+    #fafaf7;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 18%, black 60%);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 18%, black 60%);
+}
+
+/* ── cold open ──────────────────────────────────────────────────── */
+
+.anx-op {
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  background: #0a0a0a;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.anx-op__panels {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.anx-op__beat {
+  background: #fafaf7;
+  color: #0a0a0a;
+  border: 3px solid #0a0a0a;
+  box-shadow: 6px 6px 0 #d7263d;
+  padding: 1.4rem 1.6rem 1.6rem;
+  max-width: 19rem;
+  position: relative;
+}
+
+.anx-op__beat span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: #d7263d;
+}
+
+.anx-op__beat p {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0.5rem 0 0;
+}
+
+.anx-op__beat em {
+  position: absolute;
+  right: -0.6rem;
+  bottom: -1.4rem;
+  font-style: normal;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 900;
+  font-size: 1.6rem;
+  color: #fafaf7;
+  text-shadow: 2px 2px 0 #d7263d;
+  letter-spacing: 0.2em;
+  writing-mode: vertical-rl;
+}
+
+.anx-op__sfx {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 900;
+  font-size: clamp(4rem, 16vw, 11rem);
+  color: #fafaf7;
+  -webkit-text-stroke: 3px #d7263d;
+  letter-spacing: 0.06em;
+  pointer-events: none;
+}
+
+.anx-op__title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: #0a0a0a;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.anx-op__kana {
+  position: absolute;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 900;
+  font-size: clamp(5rem, 22vw, 16rem);
+  color: rgba(215, 38, 61, 0.18);
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+.anx-op__ep {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.5em;
+  color: #d7263d;
+}
+
+.anx-op__title h1 {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.6rem, 9vw, 6rem);
+  color: #fafaf7;
+  letter-spacing: 0.02em;
+  margin: 0;
+  line-height: 1;
+}
+
+.anx-op__by {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  color: #8a8a8a;
+}
+
+.anx-op__skip {
+  position: absolute;
+  right: 1.4rem;
+  bottom: 1.3rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  color: #fafaf7;
+  background: none;
+  border: 1px solid rgba(250, 250, 247, 0.4);
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+}
+
+.anx-op__skip:hover {
+  border-color: #d7263d;
+  color: #d7263d;
+}
+
+/* ── battle cards ───────────────────────────────────────────────── */
+
+.anx-battles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.anx-battle {
+  position: relative;
+  background: #fafaf7;
+  border: 3px solid #0a0a0a;
+  box-shadow: 7px 7px 0 #0a0a0a;
+  padding: 1.3rem 1.3rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.anx-battle--won {
+  box-shadow: 7px 7px 0 #d7263d;
+}
+
+.anx-battle__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  border-bottom: 3px solid #0a0a0a;
+  padding-bottom: 0.7rem;
+}
+
+.anx-battle__no {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 900;
+  font-size: 1.6rem;
+  color: #d7263d;
+}
+
+.anx-battle__head h4 {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 900;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0;
+  color: #0a0a0a;
+}
+
+.anx-battle__hp {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.anx-battle__hp-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  color: #5a5a5a;
+  white-space: nowrap;
+}
+
+.anx-battle__hp-bar {
+  flex: 1;
+  height: 0.7rem;
+  border: 2px solid #0a0a0a;
+  background: #fafaf7;
+  padding: 1px;
+}
+
+.anx-battle__hp-fill {
+  height: 100%;
+  background: repeating-linear-gradient(-45deg, #d7263d 0 6px, #a01020 6px 12px);
+  transition: width 420ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+[data-motion="none"] .anx-battle__hp-fill { transition: none; }
+
+.anx-battle__round { flex: 1; }
+
+.anx-battle__label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  color: #d7263d;
+  margin: 0 0 0.4rem;
+}
+
+.anx-battle__round p:not(.anx-battle__label) {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.anx-battle__foot {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  border-top: 2px solid #0a0a0a;
+  padding-top: 0.8rem;
+  min-height: 2.4rem;
+}
+
+.anx-battle__attack {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: #fafaf7;
+  background: #0a0a0a;
+  border: none;
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+  transition: background 140ms ease, transform 140ms ease;
+}
+
+.anx-battle__attack:hover {
+  background: #d7263d;
+}
+
+[data-motion="full"] .anx-battle__attack:active {
+  transform: translate(2px, 2px);
+}
+
+.anx-battle__stamp {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: #d7263d;
+  border: 3px solid #d7263d;
+  padding: 0.05rem 0.5rem;
+  transform: rotate(-7deg);
+  line-height: 1.2;
+}
+
+.anx-battle__link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: #0a0a0a;
+  text-decoration: none;
+  border-bottom: 2px solid #d7263d;
+  margin-left: auto;
+}
+
+.anx-battle__link:hover { color: #d7263d; }
+
+@media (max-width: 900px) {
+  .anx-battles { grid-template-columns: 1fr; }
+  .anx-op__panels { flex-direction: column; }
+}

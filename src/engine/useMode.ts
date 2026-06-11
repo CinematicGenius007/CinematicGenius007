@@ -38,7 +38,6 @@ export function setMode(id: ModeId) {
     url.searchParams.set("as", id);
   }
   window.history.pushState({}, "", url);
-  // Reload-based switching always landed at the top; keep that behavior.
-  window.scrollTo(0, 0);
+  // Scroll reset happens at the transition midpoint (TransitionLayer).
   notify();
 }
