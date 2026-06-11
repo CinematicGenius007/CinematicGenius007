@@ -1,52 +1,93 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { registry } from "../engine/registry";
 import { setMode } from "../engine/useMode";
+import { useMotionPreference, type MotionOverride } from "../engine/useMotionPreference";
 import type { ModeId } from "../modes/types";
 
 type Props = { currentMode: ModeId };
 
-const MODES: { id: ModeId; label: string }[] = [
-  { id: "engineer", label: "Engineer" },
-  { id: "pm", label: "Program Manager" },
-  { id: "designer", label: "Designer" },
-  { id: "data", label: "Analysts" },
-  { id: "everyday", label: "Common Folks" },
-  { id: "anime", label: "Anime Fans" },
-  { id: "retro", label: "Retro neobrutalist" },
-  { id: "signal", label: "The Signal" },
-  { id: "director", label: "Director's Cut" },
-  { id: "codebase", label: "Live Codebase" },
-  { id: "pdf", label: "Resume" },
+const MOTION_OPTIONS: { id: MotionOverride; label: string }[] = [
+  { id: "system", label: "System" },
+  { id: "reduced", label: "Reduced" },
+  { id: "full", label: "Full" },
 ];
 
 export default function ModeSwitcher({ currentMode }: Props) {
   const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const pillRef = useRef<HTMLButtonElement>(null);
+  const { override, setMotionOverride } = useMotionPreference();
 
   function switchMode(id: ModeId) {
     setMode(id);
     setOpen(false);
   }
 
+  useEffect(() => {
+    if (!open) return;
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        pillRef.current?.focus();
+      }
+    }
+
+    function onPointerDown(e: PointerEvent) {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [open]);
+
   return (
-    <div className="mode-switcher">
+    <div className="mode-switcher" ref={rootRef}>
       {open && (
-        <div className="mode-switcher__menu">
-          {MODES.map((m) => (
+        <div className="mode-switcher__menu" role="group" aria-label="Choose how to view this portfolio">
+          {Object.values(registry).map((persona) => (
             <button
-              key={m.id}
-              className={`mode-switcher__option${m.id === currentMode ? " mode-switcher__option--active" : ""}`}
-              onClick={() => switchMode(m.id)}
+              key={persona.id}
+              className={`mode-switcher__option${persona.id === currentMode ? " mode-switcher__option--active" : ""}`}
+              aria-current={persona.id === currentMode ? "true" : undefined}
+              onClick={() => switchMode(persona.id)}
             >
-              {m.label}
+              <span className="mode-switcher__option-label">{persona.label}</span>
+              <span className="mode-switcher__option-desc">{persona.description}</span>
             </button>
           ))}
+          <div className="mode-switcher__motion" role="group" aria-label="Motion preference">
+            <span className="mode-switcher__motion-label">Motion</span>
+            <div className="mode-switcher__motion-options">
+              {MOTION_OPTIONS.map((option) => (
+                <button
+                  key={option.id}
+                  className={`mode-switcher__motion-btn${option.id === override ? " mode-switcher__motion-btn--active" : ""}`}
+                  aria-pressed={option.id === override}
+                  onClick={() => setMotionOverride(option.id)}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
       <button
+        ref={pillRef}
         className="mode-switcher__pill"
         onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-haspopup="true"
         aria-label="Switch view mode"
       >
-        viewing as <strong>{currentMode}</strong> · change
+        viewing as <strong>{registry[currentMode].label.toLowerCase()}</strong> · change
       </button>
     </div>
   );
