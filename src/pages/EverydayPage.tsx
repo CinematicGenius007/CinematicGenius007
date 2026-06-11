@@ -1,18 +1,102 @@
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { contacts } from "../content/contacts";
 import { about, contact, experiences, outside, projects, resolve } from "../content/profile";
 import type { ModeId } from "../modes/types";
 
 type Props = { mode: ModeId };
 
+/* ── plain-language terms: tap any underlined phrase to translate it ── */
+
+const PlainCtx = createContext<{ plain: boolean }>({ plain: false });
+
+function Term({ jargon, plain }: { jargon: string; plain: string }) {
+  const ctx = useContext(PlainCtx);
+  const [local, setLocal] = useState<boolean | null>(null);
+
+  // master toggle wins until the reader touches this term again
+  useEffect(() => {
+    setLocal(null);
+  }, [ctx.plain]);
+
+  const showPlain = local ?? ctx.plain;
+  return (
+    <button
+      className={`evd-term${showPlain ? " evd-term--plain" : ""}`}
+      onClick={() => setLocal(!showPlain)}
+      aria-pressed={showPlain}
+      title={showPlain ? "show the real words" : "explain this simply"}
+    >
+      {showPlain ? plain : jargon}
+    </button>
+  );
+}
+
+function Days({ children }: { children: ReactNode }) {
+  return <>{children}</>;
+}
+
+/* ── page ── */
+
 export default function EverydayPage({ mode }: Props) {
+  const [allPlain, setAllPlain] = useState(false);
+
   return (
     <main className="everyday-page">
       <section className="everyday-letter">
-        <p className="everyday-letter__date">April 2026</p>
+        <p className="everyday-letter__date">June 2026</p>
         <h1>Hi, I&apos;m Ayush.</h1>
         <p className="everyday-letter__lede">{resolve(about.p1, mode)}</p>
         <p>{resolve(about.p2, mode)}</p>
       </section>
+
+      <PlainCtx.Provider value={{ plain: allPlain }}>
+        <section className="everyday-section">
+          <div className="everyday-section__head evd-days__head">
+            <span>What my days look like</span>
+            <button className="evd-master" onClick={() => setAllPlain((v) => !v)} aria-pressed={allPlain}>
+              {allPlain ? "show the real words" : "explain everything simply"}
+            </button>
+          </div>
+          <div className="evd-days">
+            <p className="evd-days__hint">The underlined words are real job-speak. Tap any of them.</p>
+            <Days>
+              <p>
+                Most days I&apos;m{" "}
+                <Term
+                  jargon="debugging production systems"
+                  plain="finding out why the software broke for real customers"
+                />
+                . Software breaks in ways nobody predicted — my job is to{" "}
+                <Term jargon="trace the root cause" plain="follow the clues back to the actual mistake" /> and fix it
+                where it started, not where it shouted.
+              </p>
+              <p>
+                At Optmyzr I built{" "}
+                <Term
+                  jargon="AI campaign creation"
+                  plain="a tool where AI does the heavy lifting of setting up online ads"
+                />{" "}
+                and I keep{" "}
+                <Term jargon="automation workflows" plain="the robots that do repetitive work so people don't have to" />{" "}
+                healthy.
+              </p>
+              <p>
+                Evenings and weekends, at Zariya, I look after the{" "}
+                <Term
+                  jargon="server infrastructure"
+                  plain="the always-on computers that keep an app awake through the night"
+                />{" "}
+                and the{" "}
+                <Term
+                  jargon="software architecture"
+                  plain="the floor plan of the code — where everything lives, and why"
+                />
+                .
+              </p>
+            </Days>
+          </div>
+        </section>
+      </PlainCtx.Provider>
 
       <section className="everyday-section">
         <div className="everyday-section__head">
@@ -34,7 +118,7 @@ export default function EverydayPage({ mode }: Props) {
 
       <section className="everyday-section">
         <div className="everyday-section__head">
-          <span>Things I&apos;ve built</span>
+          <span>Things I&apos;ve built — two of them are games you can play right now</span>
         </div>
         <div className="everyday-projects">
           {projects.map((project) => (

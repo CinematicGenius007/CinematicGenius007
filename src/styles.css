@@ -7975,3 +7975,66 @@ a:hover { color: var(--mode-accent); }
   .anx-battles { grid-template-columns: 1fr; }
   .anx-op__panels { flex-direction: column; }
 }
+
+/* =====================================================================
+   EVERYDAY — plain-language term toggles
+   ===================================================================== */
+
+.evd-days__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.evd-master {
+  font-family: var(--mode-font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  color: var(--mode-accent);
+  background: none;
+  border: 1px solid var(--mode-rule);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 150ms ease;
+}
+
+.evd-master:hover { border-color: var(--mode-accent); }
+
+.evd-days p {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  max-width: 38rem;
+  margin: 0 0 1.1rem;
+}
+
+.evd-days__hint {
+  font-size: 0.78rem !important;
+  font-style: italic;
+  color: var(--mode-mute);
+}
+
+.evd-term {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline dotted var(--mode-accent) 2px;
+  text-underline-offset: 3px;
+}
+
+.evd-term:hover {
+  background: var(--mode-accentDim);
+}
+
+.evd-term--plain {
+  background: var(--mode-accentDim);
+  text-decoration: none;
+  padding: 0 0.25em;
+  border-radius: 3px;
+  font-style: italic;
+}
