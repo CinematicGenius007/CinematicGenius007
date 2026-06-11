@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "../engine/animation";
 import { getTransition } from "../engine/transitions";
 import { registry } from "../engine/registry";
@@ -20,7 +20,6 @@ type Props = {
 export default function TransitionLayer({ from, to, onMidpoint, onDone }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const { override, osReduced } = useMotionPreference();
-  const [toast, setToast] = useState<string | null>(null);
 
   const onMidpointRef = useRef(onMidpoint);
   onMidpointRef.current = onMidpoint;
@@ -37,9 +36,7 @@ export default function TransitionLayer({ from, to, onMidpoint, onDone }: Props)
     if (level === "none") {
       onMidpointRef.current();
       onDoneRef.current();
-      setToast(`render target: ${registry[to].label.toLowerCase()}`);
-      const id = window.setTimeout(() => setToast(null), 1400);
-      return () => window.clearTimeout(id);
+      return;
     }
 
     const root = rootRef.current;
@@ -127,11 +124,6 @@ export default function TransitionLayer({ from, to, onMidpoint, onDone }: Props)
           ))}
         </div>
       </div>
-      {toast ? (
-        <div className="tx-toast" role="status">
-          {toast}
-        </div>
-      ) : null}
     </>
   );
 }

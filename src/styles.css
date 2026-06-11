@@ -7613,20 +7613,6 @@ a:hover { color: var(--mode-accent); }
   letter-spacing: 0.01em;
 }
 
-.tx-toast {
-  position: fixed;
-  bottom: 4.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 210;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  color: var(--mode-ink);
-  background: var(--mode-surface);
-  border: 1px solid var(--mode-rule);
-  padding: 0.5rem 1rem;
-}
 
 /* marker — the element that never unmounts */
 .marker {
@@ -7661,7 +7647,7 @@ a:hover { color: var(--mode-accent); }
 }
 
 @media print {
-  .marker, .tx, .tx-toast { display: none !important; }
+  .marker, .tx { display: none !important; }
 }
 
 /* =====================================================================
