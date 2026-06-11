@@ -1,6 +1,7 @@
-import { FILE_LIST, QUIPS, type FileId } from "./codebaseContent";
+import { CAREER_TESTS, FILE_LIST, QUIPS, type FileId } from "./codebaseContent";
 import { contacts } from "../content/contacts";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useMotionPreference } from "../engine/useMotionPreference";
 import { experiences, projects, skillGroups, education } from "../content/profile";
 import type { ModeId } from "../modes/types";
 
@@ -277,6 +278,129 @@ function ContactFile() {
   );
 }
 
+// ─── career.test.ts ───────────────────────────────────────────────────────────
+
+function TestsFile({ motion }: { motion: string }) {
+  const [ranCount, setRanCount] = useState(motion === "none" ? CAREER_TESTS.length : -1);
+  const timers = useRef<number[]>([]);
+
+  useEffect(() => () => timers.current.forEach((t) => window.clearTimeout(t)), []);
+
+  const run = () => {
+    setRanCount(0);
+    CAREER_TESTS.forEach((_, i) => {
+      timers.current.push(
+        window.setTimeout(() => setRanCount(i + 1), motion === "none" ? 0 : 240 * (i + 1)),
+      );
+    });
+  };
+
+  const done = ranCount >= CAREER_TESTS.length;
+  const passed = CAREER_TESTS.filter((t) => !t.todo).length;
+  const totalMs = CAREER_TESTS.reduce((a, t) => a + t.ms, 0);
+
+  return (
+    <div className="ide-editor__content ide-tests">
+      <div className="ide-line">
+        <Token cls="kw">import</Token> {"{ ayush }"} <Token cls="kw">from</Token>{" "}
+        <Token cls="str">"./experience"</Token>;
+      </div>
+      <div className="ide-line ide-line--blank" />
+      <div className="ide-line">
+        <Token cls="prop">describe</Token>(<Token cls="str">"the candidate"</Token>, () {"=> {"}
+      </div>
+      <div className="ide-line ide-line--blank" />
+      <div className="ide-tests__run-row">
+        <button className="ide-tests__run" onClick={run} disabled={ranCount > -1 && !done}>
+          {ranCount === -1 ? "▶ run tests" : done ? "↺ run again" : "◌ running…"}
+        </button>
+      </div>
+      <div className="ide-line ide-line--blank" />
+      {CAREER_TESTS.map((t, i) => {
+        const state = ranCount > i ? (t.todo ? "todo" : "pass") : ranCount === -1 ? "idle" : "wait";
+        return (
+          <div key={t.name} className={`ide-test ide-test--${state}`}>
+            <span className="ide-test__mark">
+              {state === "pass" ? "✓" : state === "todo" ? "○" : state === "wait" ? "·" : " "}
+            </span>
+            <span className="ide-test__name">
+              {t.todo ? "it.todo(" : "it("}
+              <Token cls="str">"{t.name}"</Token>
+              {")"}
+            </span>
+            {state === "pass" ? <span className="ide-test__ms">{t.ms}ms</span> : null}
+          </div>
+        );
+      })}
+      <div className="ide-line ide-line--blank" />
+      <div className="ide-line">{"});"}</div>
+      <div className="ide-line ide-line--blank" />
+      {done ? (
+        <div className="ide-tests__summary">
+          Tests: <b>{passed} passed</b>, 1 todo, {CAREER_TESTS.length} total · {totalMs}ms · the todo is yours to schedule
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+// ─── Quick open (⌘P) ─────────────────────────────────────────────────────────
+
+function QuickOpen({
+  onPick,
+  onClose,
+}: {
+  onPick: (id: FileId) => void;
+  onClose: () => void;
+}) {
+  const [q, setQ] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  const matches = FILE_LIST.filter((f) => f.name.toLowerCase().includes(q.toLowerCase()));
+
+  return (
+    <div className="ide-quickopen" role="dialog" aria-label="Quick open">
+      <div className="ide-quickopen__box">
+        <input
+          ref={inputRef}
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") onClose();
+            if (e.key === "Enter" && matches[0]) {
+              onPick(matches[0].id);
+              onClose();
+            }
+          }}
+          placeholder="Go to file… (Enter opens the first match)"
+          aria-label="File search"
+        />
+        <ul>
+          {matches.map((f) => (
+            <li key={f.id}>
+              <button
+                onClick={() => {
+                  onPick(f.id);
+                  onClose();
+                }}
+              >
+                <span className="ide-file-item__icon">{f.lang === "ts" ? "TS" : f.lang === "json" ? "{}" : "MD"}</span>
+                {f.name}
+              </button>
+            </li>
+          ))}
+          {!matches.length ? <li className="ide-quickopen__none">no files match</li> : null}
+        </ul>
+      </div>
+      <div className="ide-quickopen__backdrop" onClick={onClose} />
+    </div>
+  );
+}
+
 // ─── Tooltip overlay ──────────────────────────────────────────────────────────
 
 function HoverTooltip({ tip }: { tip: TooltipState }) {
@@ -317,7 +441,21 @@ export default function CodebasePage({ mode }: Props) {
   const [active, setActive] = useState<FileId>("readme");
   const [openTabs, setOpenTabs] = useState<FileId[]>(["readme", "experience"]);
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
+  const [quickOpen, setQuickOpen] = useState(false);
+  const { level: motion } = useMotionPreference();
   const quip = useQuip();
+
+  // \u2318P / Ctrl+P — IDE quick-open (\u2318K stays the global persona switcher)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "p") {
+        e.preventDefault();
+        setQuickOpen((v) => !v);
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
 
   const openFile = useCallback((id: FileId) => {
     setActive(id);
@@ -352,6 +490,7 @@ export default function CodebasePage({ mode }: Props) {
       case "experience": return 14 + experiences.reduce((a, e) => a + e.bullets.length + 6, 0);
       case "projects":   return 10 + projects.reduce((a, p) => a + p.tech.length + 4, 0);
       case "skills":     return 2 + skillGroups.reduce((a, g) => a + g.items.length + 2, 0);
+      case "tests":      return 14 + 8;
       case "contact":    return 18;
       default:           return 20;
     }
@@ -434,6 +573,7 @@ export default function CodebasePage({ mode }: Props) {
             {active === "experience" && <ExperienceFile {...handlers} />}
             {active === "projects"   && <ProjectsFile {...handlers} />}
             {active === "skills"     && <SkillsFile {...handlers} />}
+            {active === "tests"      && <TestsFile motion={motion} />}
             {active === "contact"    && <ContactFile />}
           </div>
         </div>
@@ -444,7 +584,10 @@ export default function CodebasePage({ mode }: Props) {
         <div className="ide-status__left">
           <span className="ide-status__item ide-status__item--branch">⎇ main</span>
           <span className="ide-status__item">⚠ 0</span>
-          <span className="ide-status__item">✓ 0</span>
+          <span className="ide-status__item">✓ {CAREER_TESTS.filter((t) => !t.todo).length}</span>
+          <button className="ide-status__item ide-status__item--btn" onClick={() => setQuickOpen(true)}>
+            ⌘P go to file
+          </button>
         </div>
         <div className="ide-status__center">
           <span className="ide-status__quip">{quip}</span>
@@ -457,6 +600,9 @@ export default function CodebasePage({ mode }: Props) {
           <span className="ide-status__item">Ln 1, Col 1</span>
         </div>
       </div>
+
+      {/* ── Quick open ──────────────────────────────────────────── */}
+      {quickOpen ? <QuickOpen onPick={openFile} onClose={() => setQuickOpen(false)} /> : null}
 
       {/* ── Tooltip ─────────────────────────────────────────────── */}
       {tooltip && <HoverTooltip tip={tooltip} />}

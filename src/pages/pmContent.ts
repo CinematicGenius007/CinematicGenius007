@@ -129,3 +129,61 @@ export const programLenses: {
     ],
   },
 ];
+
+// ── decision log: drag through four eras of judgment calls ──────────
+
+export type Era = {
+  id: string;
+  year: string;
+  title: string;
+  status: string;
+  decisions: string[];
+  active: string[];
+};
+
+export const eraLog: Era[] = [
+  {
+    id: "era-2022",
+    year: "2022",
+    title: "The first paid proof",
+    status: "JetBrains Hyperskill · freelance project tester · university in parallel",
+    decisions: [
+      "Take testing work seriously instead of waiting for a 'real' job — correctness instincts compound.",
+      "Review Java and Go projects until the feedback ships into released content.",
+    ],
+    active: ["project testing", "B.E. CS (CGPA 9.95 track)"],
+  },
+  {
+    id: "era-2023",
+    year: "2023",
+    title: "Into production",
+    status: "Optmyzr · intern · first ad-tech production exposure",
+    decisions: [
+      "Join a domain where wrong software assumptions touch real ad spend.",
+      "Volunteer for bug duty — the fastest tour of every product surface.",
+    ],
+    active: ["Campaign Automator", "Google Ads Scripts", "bug duty"],
+  },
+  {
+    id: "era-2024",
+    year: "2024",
+    title: "Ownership, twice",
+    status: "Optmyzr · promoted to SDE-1 · Zariya AI architecture seat opens",
+    decisions: [
+      "Convert the internship through ownership, not tenure.",
+      "Take the Zariya architectural role in parallel — smaller scale, bigger decision radius.",
+    ],
+    active: ["portfolio alerts", "dashboards + audits", "Zariya foundations"],
+  },
+  {
+    id: "era-2026",
+    year: "2025–26",
+    title: "Zero-to-one, both jobs",
+    status: "Optmyzr · AI campaign creation owner · Zariya · production reliability owner",
+    decisions: [
+      "Build AI campaign creation from scratch; ship the boring V1 first and let production earn the rest.",
+      "Reset the Zariya architecture instead of paying compounding patch-debt.",
+    ],
+    active: ["AI campaign creation", "server infrastructure", "product resets"],
+  },
+];

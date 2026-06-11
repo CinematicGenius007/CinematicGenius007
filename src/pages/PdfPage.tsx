@@ -1,6 +1,17 @@
 import { contacts } from "../content/contacts";
 import { experiences, projects, skillGroups, education, outside } from "../content/profile";
 
+// content fingerprint — the 'compiled artifact' fiction made literal
+const BUILD_HASH = (() => {
+  const src = JSON.stringify({ experiences, projects, skillGroups, education });
+  let h = 0x811c9dc5;
+  for (let i = 0; i < src.length; i++) {
+    h ^= src.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return (h >>> 0).toString(16).padStart(8, "0");
+})();
+
 type Props = {
   dark: boolean;
   onToggleTheme: () => void;
@@ -126,6 +137,17 @@ export default function PdfPage({ dark, onToggleTheme }: Props) {
           </p>
         </div>
       </section>
+
+      <footer className="pdf-provenance">
+        <span>
+          Compiled from the same content spine as the interactive portfolio — ten other renders at{" "}
+          <a href="https://cinematicgenius007.com" target="_blank" rel="noreferrer">
+            cinematicgenius007.com
+          </a>{" "}
+          (?as=engineer · anime · signal · …)
+        </span>
+        <span className="pdf-provenance__hash">build {BUILD_HASH}</span>
+      </footer>
     </main>
   );
 }

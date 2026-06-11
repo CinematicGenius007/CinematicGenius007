@@ -57,12 +57,32 @@ const specimenDetails: Record<string, Record<DesignLens, string>> = {
   },
 };
 
+function Anno({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
+  return (
+    <span className="designer-anno" style={style} aria-hidden="true">
+      {children}
+    </span>
+  );
+}
+
 export default function DesignerPage({ mode }: Props) {
   const [activeLens, setActiveLens] = useState<DesignLens>("structure");
+  const [annotate, setAnnotate] = useState(false);
+  const [grid, setGrid] = useState(false);
   const lens = designLenses.find((item) => item.id === activeLens) ?? designLenses[0];
 
   return (
-    <main className="designer-page">
+    <main className={`designer-page${annotate ? " designer-page--annotated" : ""}`}>
+      {grid ? <div className="designer-gridxray" aria-hidden="true" /> : null}
+
+      <div className="designer-tools" role="group" aria-label="Design inspection tools">
+        <button onClick={() => setAnnotate((v) => !v)} aria-pressed={annotate} className={annotate ? "is-on" : undefined}>
+          ✎ annotate
+        </button>
+        <button onClick={() => setGrid((v) => !v)} aria-pressed={grid} className={grid ? "is-on" : undefined}>
+          ▦ grid
+        </button>
+      </div>
       <section className="designer-hero">
         <div className="designer-hero__marker">
           <span>01 / INTRODUCTION</span>
@@ -77,7 +97,18 @@ export default function DesignerPage({ mode }: Props) {
             Ayush
             <br />
             S<i>a</i>ini.
+            {annotate ? (
+              <svg className="designer-anno__circle" viewBox="0 0 200 90" aria-hidden="true">
+                <ellipse cx="100" cy="45" rx="94" ry="40" />
+              </svg>
+            ) : null}
           </h1>
+          {annotate ? (
+            <>
+              <Anno style={{ top: "8%", right: "4%" }}>Fraunces — optical sizing earns its keep at display scale</Anno>
+              <Anno style={{ bottom: "18%", left: "2%" }}>plates: bauhaus primaries, stacked with intent, not decoration</Anno>
+            </>
+          ) : null}
           <p className="designer-hero__manifesto">{resolve(hero.statement, mode)}</p>
         </div>
       </section>
@@ -133,6 +164,9 @@ export default function DesignerPage({ mode }: Props) {
               <span className="designer-specimen__open">Open specimen ↗</span>
             </a>
           ))}
+          {annotate ? (
+            <Anno style={{ top: "-1.6rem", right: "0" }}>this layer is the portfolio critiquing itself →</Anno>
+          ) : null}
           <div className="designer-board__annotation designer-board__annotation--one">
             hierarchy before ornament
           </div>
@@ -143,6 +177,7 @@ export default function DesignerPage({ mode }: Props) {
       </section>
 
       <section className="designer-about">
+        {annotate ? <Anno style={{ top: "0.4rem", right: "4%" }}>em-italic = the one allowed flourish per heading</Anno> : null}
         <h2>
           Work as <em>composition</em>, not construction.
         </h2>

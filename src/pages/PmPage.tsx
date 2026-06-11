@@ -1,4 +1,4 @@
-import { caseStudies, profileScope, programLenses, projects, type ProgramLens } from "./pmContent";
+import { caseStudies, eraLog, profileScope, programLenses, projects, type ProgramLens } from "./pmContent";
 import { contacts } from "../content/contacts";
 import { useState } from "react";
 import { contact } from "../content/profile";
@@ -8,6 +8,8 @@ type Props = { mode: ModeId };
 
 export default function PmPage({ mode }: Props) {
   const [activeLens, setActiveLens] = useState<ProgramLens>("launch");
+  const [eraIdx, setEraIdx] = useState(eraLog.length - 1);
+  const era = eraLog[eraIdx];
   const program = programLenses.find((item) => item.id === activeLens) ?? programLenses[0];
 
   return (
@@ -98,6 +100,61 @@ export default function PmPage({ mode }: Props) {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="pm-log" aria-label="Decision log">
+        <div className="pm-log__top">
+          <div>
+            <span className="pm-mono pm-eyebrow">02b</span>
+            <h2>Decision log</h2>
+          </div>
+          <p className="pm-log__hint">drag the scrubber — replay four years of judgment calls</p>
+        </div>
+
+        <div className="pm-log__scrubber">
+          <input
+            type="range"
+            min={0}
+            max={eraLog.length - 1}
+            step={1}
+            value={eraIdx}
+            onChange={(e) => setEraIdx(Number(e.target.value))}
+            aria-label="Career era"
+            list="pm-era-ticks"
+          />
+          <div className="pm-log__years">
+            {eraLog.map((item, i) => (
+              <button
+                key={item.id}
+                className={i === eraIdx ? "pm-log__year pm-log__year--active" : "pm-log__year"}
+                onClick={() => setEraIdx(i)}
+                type="button"
+              >
+                {item.year}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="pm-log__card" key={era.id}>
+          <div className="pm-log__meta">
+            <h3>{era.title}</h3>
+            <p>{era.status}</p>
+            <div className="pm-log__active">
+              {era.active.map((a) => (
+                <span key={a}>{a}</span>
+              ))}
+            </div>
+          </div>
+          <ul className="pm-log__decisions">
+            {era.decisions.map((d, i) => (
+              <li key={i}>
+                <span>CALL {String(i + 1).padStart(2, "0")}</span>
+                {d}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
