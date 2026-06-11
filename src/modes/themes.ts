@@ -18,7 +18,7 @@ export const themes: Record<string, ModeTheme> = {
       mono: "'JetBrains Mono', monospace",
     },
     radius: 0,
-    motion: "calm",
+    motion: "kinetic",
   },
   pm: {
     colors: {
