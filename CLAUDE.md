@@ -23,21 +23,43 @@ pnpm preview    # Preview production build
 
 ```
 src/
-  App.tsx         # All page content and component logic (single file)
-  main.tsx        # React entry point
-  styles.css      # All styles
-  vite-env.d.ts   # Vite type declarations
-public/           # Static assets
-dist/             # Build output (gitignored)
+  App.tsx                  # Shell: resolves current mode, mounts persona page + Switchboard + TransitionLayer
+  main.tsx                 # React entry point
+  styles.css               # ALL styles, append-only (see conventions)
+  engine/
+    useMode.ts             # URL-driven mode state (?as= query param, popstate sync)
+    registry.ts            # Persona registry: lazy-loaded pages, labels, themes, preload
+    animation.ts           # GSAP animation kernel
+    transitions.ts         # Persona-to-persona transition definitions, view ordering
+    useMotionPreference.tsx # Motion tier governor (respects reduced motion)
+  modes/
+    types.ts               # ModeId, Persona, ModeTheme types
+    personas.ts            # Persona definitions (theme + emphasis per mode)
+    themes.ts              # Theme tokens per persona
+    icons.tsx              # Persona icons
+  pages/                   # One page component per persona (EngineerPage, PmPage, DesignerPage,
+                           # DataPage, EverydayPage, AnimePage, RetroPage, PdfPage, SignalPage,
+                           # DirectorPage, CodebasePage) + sibling *Content.ts content modules
+  sections/
+    Switchboard.tsx        # Fullscreen channel-grid navigation between personas
+  components/
+    ThemeProvider.tsx      # Applies theme tokens
+    TransitionLayer.tsx    # Renders persona transition cuts
+    engineer/              # Persona-specific subcomponents (ServiceMap, AttachTicker)
+  content/                 # Shared content: profile, contacts, types, engineer graph
+public/                    # Static assets
+dist/                      # Build output (gitignored)
 ```
 
 ## Key Conventions
 
-- All page content (experiences, skills, notes) lives as typed arrays/constants at the top of `App.tsx`. Adding or updating content means editing those arrays.
-- No routing — this is a single page.
-- CSS class names follow a BEM-like semantic naming convention (e.g. `nameplate`, `lead-story`, `timeline-item`, `ledger-card`).
-- No external UI libraries or component frameworks — keep it that way unless there is a strong reason.
-- The commented-out `life-signal` SVG block in `App.tsx` is intentionally left in — do not remove it without checking with the owner.
+- **Personas/modes**: the site is 11 "personas" (engineer, pm, designer, data, everyday, anime, retro, pdf, signal, director, codebase), each a full-page experience. Navigation is via the `?as=` URL query param (no router) — `src/engine/useMode.ts` reads it, `setMode()` pushes history. `engineer` is the default and omits the param.
+- **Adding/changing a persona**: page component in `src/pages/`, content in a sibling `*Content.ts` (or `src/content/` if shared), theme in `src/modes/themes.ts`, persona entry in `src/modes/personas.ts`, registry entry in `src/engine/registry.ts` (pages are lazy-loaded with preload hooks), transition wiring in `src/engine/transitions.ts`.
+- **Content lives in data modules, not JSX**: typed arrays/constants in `src/pages/*Content.ts` and `src/content/`. Updating copy means editing those, not page markup.
+- **CSS is one append-only file** (`src/styles.css`, ~11k lines). Each persona rework appends a new commented "v2" section with a fresh short class prefix (e.g. `dbg-` engineer, `inv-` signal, `pmb-` PM, `swb-` switchboard). Don't restyle old sections in place — append a new section with a new prefix.
+- **Motion is gated**: animations key off the `[data-motion]` attribute set by `useMotionPreference` (theme declares a motion tier; reduced-motion preference downgrades it). GSAP work goes through `src/engine/animation.ts`, not ad-hoc imports.
+- **PdfPage is the odd one out**: it takes `{ dark, onToggleTheme }` instead of `{ mode }`, and `App.tsx` owns that special case.
+- No external UI libraries or component frameworks (GSAP for animation is the exception) — keep it that way unless there is a strong reason.
 
 ## Deployment
 

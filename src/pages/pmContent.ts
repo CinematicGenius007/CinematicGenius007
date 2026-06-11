@@ -3,6 +3,45 @@
 
 export type ProgramLens = "launch" | "scale" | "stabilize";
 
+// ── briefing chrome: ticker, KPI strip, parallel-track gantt, rail ──
+
+export const tickerItems = [
+  "PROGRAM STATUS: GREEN",
+  "SCOPE: AI CAMPAIGN CREATION · LOCKED",
+  "RISK REGISTER: REVIEWED",
+  "DEPENDENCIES: MAPPED",
+  "TWO ROLES RUNNING IN PARALLEL SINCE 2024",
+  "DECISION LOG: 8 CALLS ON RECORD",
+  "NEXT MILESTONE: YOUR TEAM",
+];
+
+export const pmStats: { value: number; decimals?: number; suffix: string; label: string }[] = [
+  { value: 4, suffix: " yrs", label: "shipping in production" },
+  { value: 2, suffix: "", label: "roles run in parallel" },
+  { value: 6, suffix: "+", label: "product surfaces owned" },
+  { value: 9.95, decimals: 2, suffix: "", label: "CGPA · CS, class of 2024" },
+];
+
+// Timeline range for the parallel-track chart; values are decimal years.
+export const ganttRange = { start: 2020.4, end: 2026.8, today: 2026.45 };
+
+export const ganttTracks: { label: string; detail: string; start: number; end: number }[] = [
+  { label: "B.E. Computer Science", detail: "Chitkara · CGPA 9.95", start: 2020.6, end: 2024.5 },
+  { label: "JetBrains Hyperskill", detail: "freelance project tester", start: 2022.0, end: 2023.3 },
+  { label: "Optmyzr", detail: "intern → SDE I", start: 2023.3, end: 2026.45 },
+  { label: "Zariya AI", detail: "architecture + infrastructure", start: 2024.8, end: 2026.45 },
+];
+
+export const pmSections: { id: string; num: string; label: string }[] = [
+  { id: "brief", num: "01", label: "Brief" },
+  { id: "control", num: "02", label: "Control room" },
+  { id: "log", num: "03", label: "Decision log" },
+  { id: "cases", num: "04", label: "Case studies" },
+  { id: "shipped", num: "05", label: "Shipped" },
+  { id: "profile", num: "06", label: "Operator" },
+  { id: "contact", num: "07", label: "Handoff" },
+];
+
 export const caseStudies = [
   {
     company: "Optmyzr",

@@ -6,7 +6,7 @@ import { viewIndex } from "./engine/transitions";
 import { MotionPreferenceProvider } from "./engine/useMotionPreference";
 import ThemeProvider from "./components/ThemeProvider";
 import TransitionLayer from "./components/TransitionLayer";
-import ModeSwitcher from "./sections/ModeSwitcher";
+import Dial from "./sections/Dial";
 import type { ModeId } from "./modes/types";
 
 function Marker({ mode }: { mode: ModeId }) {
@@ -50,7 +50,7 @@ function App() {
             )}
           </Suspense>
           {displayed !== "pdf" ? <Marker mode={displayed} /> : null}
-          <ModeSwitcher currentMode={displayed} />
+          <Dial currentMode={displayed} />
         </div>
         <TransitionLayer
           from={tx?.from ?? displayed}
