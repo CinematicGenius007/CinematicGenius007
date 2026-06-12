@@ -38,6 +38,16 @@ export default function ChatWidget({ mode }: Props) {
     sendMessage({ text });
   }
 
+  function splitSuggestions(text: string): { body: string; suggestions: string[] } {
+    const match = text.match(/\n?SUGGESTIONS:\s*(.+)\s*$/i);
+    if (!match) return { body: text, suggestions: [] };
+    const suggestions = match[1]
+      .split("|")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    return { body: text.slice(0, match.index).trim(), suggestions };
+  }
+
   return (
     <div className={`chat chat--${mode}${open ? " chat--open" : ""}`}>
       {open ? (
@@ -66,13 +76,36 @@ export default function ChatWidget({ mode }: Props) {
                 </div>
               </>
             ) : null}
-            {messages.map((m) => (
-              <div key={m.id} className={`chat__msg chat__msg--${m.role}`}>
-                {m.parts.map((part, i) =>
-                  part.type === "text" ? <span key={i}>{part.text}</span> : null,
-                )}
-              </div>
-            ))}
+            {messages.map((m, mi) => {
+              const isLast = mi === messages.length - 1;
+              return (
+                <div key={m.id} className={`chat__msg chat__msg--${m.role}`}>
+                  {m.parts.map((part, i) => {
+                    if (part.type !== "text") return null;
+                    const { body, suggestions } = splitSuggestions(part.text);
+                    return (
+                      <div key={i}>
+                        {body}
+                        {m.role === "assistant" && isLast && !busy && suggestions.length > 0 ? (
+                          <div className="chat__suggestions chat__suggestions--inline">
+                            {suggestions.map((s) => (
+                              <button
+                                key={s}
+                                type="button"
+                                className="chat__suggestion"
+                                onClick={() => ask(s)}
+                              >
+                                {s}
+                              </button>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
             {busy ? <div className="chat__msg chat__msg--assistant chat__msg--pending">…</div> : null}
             {error ? (
               <p className="chat__error">

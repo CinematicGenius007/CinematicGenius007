@@ -12356,6 +12356,10 @@ a:hover { color: var(--mode-accent); }
   margin-top: 0.6rem;
 }
 
+.chat__suggestions--inline {
+  margin-top: 0.7rem;
+}
+
 .chat__suggestion {
   appearance: none;
   text-align: left;
