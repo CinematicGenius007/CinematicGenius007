@@ -6,6 +6,7 @@ import { viewIndex } from "./engine/transitions";
 import { MotionPreferenceProvider } from "./engine/useMotionPreference";
 import ThemeProvider from "./components/ThemeProvider";
 import TransitionLayer from "./components/TransitionLayer";
+import ChatWidget from "./components/ChatWidget";
 import Dial from "./sections/Dial";
 import type { ModeId } from "./modes/types";
 
@@ -50,6 +51,7 @@ function App() {
             )}
           </Suspense>
           {displayed !== "pdf" ? <Marker mode={displayed} /> : null}
+          {displayed !== "pdf" ? <ChatWidget mode={displayed} /> : null}
           <Dial currentMode={displayed} />
         </div>
         <TransitionLayer
