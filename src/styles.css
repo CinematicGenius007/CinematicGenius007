@@ -26,6 +26,649 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* =====================================================================
+   RESUME / PDF — EDITORIAL TECHNICAL SHEET
+   ===================================================================== */
+.page-shell--pdf {
+  min-height: 100vh;
+  background: #f36b36;
+}
+
+.pdf-page {
+  --resume-canvas: #f36b36;
+  --resume-paper: #f4f0e6;
+  --resume-ink: #11110f;
+  --resume-muted: #5f5c54;
+  --resume-rule: #292824;
+  --resume-faint-rule: rgba(17, 17, 15, 0.34);
+  --resume-blue: #3158dc;
+  --resume-orange: #f5652d;
+  position: relative;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
+  padding: clamp(1rem, 3.5vw, 3.75rem);
+  color: var(--resume-ink);
+  background: var(--resume-canvas);
+  font-family: "DM Sans", sans-serif;
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.pdf-page--dark {
+  --resume-canvas: #0f0f0e;
+  --resume-paper: #1a1916;
+  --resume-ink: #f2ede2;
+  --resume-muted: #aaa399;
+  --resume-rule: #d0c9bc;
+  --resume-faint-rule: rgba(242, 237, 226, 0.34);
+  --resume-blue: #7192ff;
+  --resume-orange: #f5652d;
+}
+
+.resume-sheet {
+  width: min(1160px, 100%);
+  margin: 0 auto;
+  border: 1.5px solid var(--resume-rule);
+  background: var(--resume-paper);
+  box-shadow: 0 22px 44px rgba(76, 31, 10, 0.24);
+  transition: background 180ms ease, box-shadow 180ms ease;
+}
+
+.pdf-page--dark .resume-sheet {
+  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.42);
+}
+
+.resume-sheet a {
+  color: inherit;
+}
+
+.resume-utility {
+  min-height: 68px;
+  padding: 0 clamp(1.25rem, 3.3vw, 3.4rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-bottom: 1px solid var(--resume-rule);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.resume-utility__id,
+.resume-utility__actions,
+.resume-utility__actions button {
+  display: flex;
+  align-items: center;
+}
+
+.resume-utility__id { gap: 0.85rem; }
+.resume-utility__id i { color: var(--resume-blue); font-style: normal; }
+.resume-utility__actions { gap: 1rem; }
+
+.resume-utility__actions button {
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  border: 0;
+  border-bottom: 1px dashed var(--resume-faint-rule);
+  color: var(--resume-ink);
+  background: transparent;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.resume-utility__actions button:hover,
+.resume-utility__actions button:focus-visible {
+  color: var(--resume-blue);
+  border-bottom-color: currentColor;
+  outline: none;
+}
+
+.resume-utility__actions svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.resume-utility__divider { width: 1px; height: 18px; background: var(--resume-rule); }
+
+.resume-hero {
+  position: relative;
+  min-height: 470px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.68fr) minmax(210px, 0.32fr);
+  align-items: center;
+  gap: 2rem;
+  padding: clamp(3rem, 6vw, 5.75rem) clamp(1.25rem, 4vw, 4.75rem) 3.2rem;
+}
+
+.resume-hero__identity h1 {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  max-width: 100%;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(5.2rem, 11vw, 9rem);
+  font-weight: 700;
+  letter-spacing: -0.075em;
+  line-height: 0.73;
+  text-transform: uppercase;
+}
+
+.resume-hero__identity h1 span:last-child { margin-left: 0.02em; }
+
+.resume-hero__role {
+  margin-top: 2.1rem;
+  color: var(--resume-blue);
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(0.8rem, 1.25vw, 1.05rem);
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.resume-hero__summary {
+  max-width: 62ch;
+  margin-top: 1.35rem;
+  color: var(--resume-muted);
+  font-size: clamp(0.9rem, 1.25vw, 1.02rem);
+  line-height: 1.65;
+}
+
+.resume-hero__note {
+  align-self: center;
+  justify-self: center;
+  width: 190px;
+  transform: rotate(-4deg);
+  color: var(--resume-ink);
+  font-family: "Comic Sans MS", "Bradley Hand", cursive;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.resume-hero__note svg {
+  display: block;
+  width: 110px;
+  margin: 0.35rem auto 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.resume-hero__note .resume-hero__note-accent { stroke: var(--resume-blue); stroke-width: 2; }
+
+.resume-contacts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0 clamp(1.25rem, 3.3vw, 3.4rem);
+  border-bottom: 1px solid var(--resume-rule);
+}
+
+.resume-contact {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 0.65rem;
+  padding: 1rem 1rem 1.2rem;
+  border-right: 1px solid var(--resume-rule);
+}
+
+.resume-contact:first-child { padding-left: 0; }
+.resume-contact:last-child { padding-right: 0; border-right: 0; }
+
+.resume-contact:hover small,
+.resume-contact:focus-visible small {
+  color: var(--resume-blue);
+  text-decoration-color: var(--resume-blue);
+}
+
+.resume-contact:focus-visible { outline: 2px solid var(--resume-blue); outline-offset: 3px; }
+
+.resume-contact__icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.resume-contact strong,
+.resume-contact small { display: block; min-width: 0; }
+
+.resume-contact strong { font-size: 0.7rem; font-weight: 600; }
+
+.resume-contact small {
+  margin-top: 0.3rem;
+  overflow: hidden;
+  color: var(--resume-muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.56rem;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resume-body {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.29fr) minmax(0, 0.71fr);
+  margin: 0 clamp(1.25rem, 3.3vw, 3.4rem);
+}
+
+.resume-meta {
+  padding-right: clamp(1.25rem, 2.5vw, 2.6rem);
+  border-right: 1px solid var(--resume-rule);
+}
+
+.resume-section-label {
+  min-height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--resume-rule);
+}
+
+.resume-section-label h2 {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.resume-section-label span {
+  color: var(--resume-blue);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+}
+
+.resume-meta-section { padding-bottom: 1.4rem; }
+.resume-meta-section + .resume-meta-section { border-top: 1px solid var(--resume-rule); }
+.resume-meta-section + .resume-meta-section .resume-section-label { border-bottom: 0; }
+
+.resume-meta-section > p,
+.resume-education-list p,
+.resume-skill-list p {
+  color: var(--resume-muted);
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.resume-meta-section > p { padding-top: 1rem; }
+
+.resume-stamp {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.45rem 0.72rem;
+  border: 1px dashed var(--resume-faint-rule);
+  border-radius: 999px;
+  color: var(--resume-blue);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.resume-education-list,
+.resume-skill-list { display: grid; gap: 1rem; }
+.resume-education-list { padding-top: 0.9rem; }
+.resume-skill-list { padding-top: 0.2rem; }
+
+.resume-education-list article { display: grid; gap: 0.18rem; }
+.resume-education-list h3,
+.resume-skill-list h3 {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.resume-education-list time,
+.resume-education-list span {
+  color: var(--resume-muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.55rem;
+}
+
+.resume-education-list span { color: var(--resume-blue); }
+
+.resume-experience-list { min-width: 0; padding-left: clamp(1.25rem, 2.8vw, 2.8rem); }
+
+.resume-experience {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 0.8rem;
+  padding: 1.5rem 0 1.7rem;
+  border-bottom: 1px dashed var(--resume-faint-rule);
+}
+
+.resume-experience:last-child { border-bottom: 0; }
+
+.resume-experience__index {
+  padding-top: 0.2rem;
+  color: var(--resume-blue);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.58rem;
+}
+
+.resume-experience__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.resume-experience__header h3 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1rem, 1.7vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.resume-experience__header p {
+  margin-top: 0.3rem;
+  color: var(--resume-muted);
+  font-size: 0.72rem;
+}
+
+.resume-experience__header time {
+  flex-shrink: 0;
+  color: var(--resume-muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.59rem;
+  letter-spacing: 0.045em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.resume-experience__mode {
+  margin-top: 0.35rem;
+  color: var(--resume-blue);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.55rem;
+}
+
+.resume-experience ul {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.resume-experience li {
+  position: relative;
+  padding-left: 1.15rem;
+  color: var(--resume-muted);
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.resume-experience li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--resume-ink);
+}
+
+.resume-projects {
+  margin: 0 clamp(1.25rem, 3.3vw, 3.4rem) 0;
+  border: 1px solid var(--resume-rule);
+  background: var(--resume-orange);
+  color: #15120f;
+}
+
+.resume-projects .resume-section-label { padding: 0 1.5rem; }
+.resume-projects .resume-section-label span { color: #15120f; }
+
+.resume-project-row {
+  display: grid;
+  grid-template-columns: 48px 76px minmax(0, 1fr) 150px 90px;
+  min-height: 132px;
+  border-bottom: 1px solid var(--resume-rule);
+}
+
+.resume-project-row > * {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-right: 1px solid var(--resume-rule);
+}
+
+.resume-project-row > *:last-child { border-right: 0; }
+
+.resume-project-row__number {
+  justify-content: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82rem;
+}
+
+.resume-project-mark {
+  justify-content: center;
+  color: rgba(21, 18, 15, 0.75);
+  font-family: "JetBrains Mono", monospace;
+  text-align: center;
+}
+
+.resume-project-mark--nodes svg {
+  width: 46px;
+  height: 38px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.resume-project-mark--grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 46px;
+  height: 46px;
+  border: 1px solid currentColor;
+  font-size: 0.42rem;
+  line-height: 1;
+}
+
+.resume-project-mark--grid i {
+  display: grid;
+  place-items: center;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  font-style: normal;
+}
+
+.resume-project-mark--grid i:nth-child(3n) { border-right: 0; }
+.resume-project-mark--grid i:nth-child(n + 7) { border-bottom: 0; }
+
+.resume-project-mark--ttt {
+  font-size: 0.72rem;
+  line-height: 1.1;
+  letter-spacing: 0.15em;
+}
+
+.resume-project-row__copy {
+  display: block;
+  align-content: center;
+}
+
+.resume-project-row__copy h3 {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.resume-project-row__copy p {
+  margin-top: 0.45rem;
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.64rem;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.resume-project-row__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.16rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.55rem;
+  line-height: 1.35;
+}
+
+.resume-project-row__link {
+  justify-content: center;
+  gap: 0.55rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+  text-transform: uppercase;
+}
+
+.resume-project-row__link span { font-size: 1.2rem; transition: transform 150ms ease; }
+.resume-project-row__link:hover span { transform: translateX(4px); }
+.resume-project-row__link:focus-visible { outline: 2px solid #15120f; outline-offset: -5px; }
+
+.resume-projects__footer {
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.55rem;
+}
+
+.resume-projects__footer > * { padding: 0 1rem; }
+.resume-projects__footer > span { align-self: stretch; display: grid; place-items: center; border-right: 1px solid var(--resume-rule); font-size: 1.25rem; }
+.resume-projects__footer a { text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; }
+.resume-projects__footer strong { letter-spacing: 0.07em; text-transform: uppercase; }
+
+.pdf-provenance {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1.8rem clamp(1.25rem, 3.3vw, 3.4rem) 0;
+  padding: 1.1rem 1rem 1.35rem;
+  border-top: 1px solid var(--resume-rule);
+  color: var(--resume-muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.035em;
+}
+
+.pdf-provenance a { text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 4px; }
+.pdf-provenance span:last-child { text-align: right; }
+
+@media (max-width: 900px) {
+  .pdf-page { padding: 1rem; }
+  .resume-hero { min-height: 410px; grid-template-columns: minmax(0, 1fr) 170px; }
+  .resume-hero__identity h1 { font-size: clamp(4.6rem, 13vw, 7.5rem); }
+  .resume-contacts { grid-template-columns: repeat(2, 1fr); }
+  .resume-contact:nth-child(2) { border-right: 0; }
+  .resume-contact:nth-child(-n + 2) { border-bottom: 1px solid var(--resume-rule); }
+  .resume-contact:nth-child(3) { padding-left: 0; }
+  .resume-project-row { grid-template-columns: 44px 64px minmax(0, 1fr) 112px 74px; }
+  .resume-project-row > * { padding: 0.75rem; }
+}
+
+@media (max-width: 680px) {
+  .pdf-page { padding: 0; }
+  .resume-sheet { border: 0; box-shadow: none; }
+  .resume-utility { min-height: 58px; padding-inline: 1rem; }
+  .resume-utility__id { gap: 0.45rem; }
+  .resume-utility__id span:nth-of-type(2) { display: none; }
+  .resume-utility__actions { gap: 0.65rem; }
+  .resume-utility__actions button span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .resume-utility__divider { display: none; }
+  .resume-hero { min-height: 0; display: block; padding: 3.5rem 1.2rem 2.3rem; }
+  .resume-hero__identity h1 { font-size: clamp(4rem, 22vw, 6.4rem); line-height: 0.76; }
+  .resume-hero__role { max-width: 27ch; margin-top: 1.8rem; }
+  .resume-hero__summary { font-size: 0.84rem; }
+  .resume-hero__note { display: none; }
+  .resume-contacts { margin-inline: 1.2rem; }
+  .resume-contact { grid-template-columns: 22px minmax(0, 1fr); padding: 0.85rem 0.6rem; }
+  .resume-contact:first-child,
+  .resume-contact:nth-child(3) { padding-left: 0; }
+  .resume-contact__icon svg { width: 18px; height: 18px; }
+  .resume-body { display: flex; flex-direction: column; margin-inline: 1.2rem; }
+  .resume-meta { padding-right: 0; border-right: 0; }
+  .resume-meta-section + .resume-meta-section .resume-section-label { border-bottom: 1px solid var(--resume-rule); }
+  .resume-experience-list { padding-left: 0; border-top: 1px solid var(--resume-rule); }
+  .resume-experience { grid-template-columns: 36px minmax(0, 1fr); }
+  .resume-experience__header { flex-direction: column; gap: 0.55rem; }
+  .resume-experience__header time { text-align: left; }
+  .resume-projects { margin-inline: 1.2rem; }
+  .resume-project-row {
+    grid-template-columns: 42px 58px minmax(0, 1fr);
+    min-height: 0;
+  }
+  .resume-project-row > * { border-right: 1px solid var(--resume-rule); }
+  .resume-project-row__copy { border-right: 0; }
+  .resume-project-row__stack {
+    grid-column: 2 / 4;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--resume-rule);
+  }
+  .resume-project-row__stack li + li::before { content: "/"; margin-right: 0.35rem; }
+  .resume-project-row__link {
+    grid-column: 1 / 4;
+    min-height: 44px;
+    border-top: 1px solid var(--resume-rule);
+    border-right: 0;
+  }
+  .resume-projects__footer { grid-template-columns: 42px 1fr; }
+  .resume-projects__footer strong { display: none; }
+  .pdf-provenance { grid-template-columns: 1fr; gap: 0.65rem; margin-inline: 1.2rem; padding-inline: 0; }
+  .pdf-provenance span:last-child { text-align: left; }
+}
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  html, body, #root, .page-shell--pdf { background: #f4f0e6 !important; }
+  .pdf-page {
+    --resume-paper: #f4f0e6;
+    --resume-ink: #11110f;
+    --resume-muted: #5f5c54;
+    --resume-rule: #292824;
+    --resume-faint-rule: rgba(17, 17, 15, 0.34);
+    --resume-blue: #3158dc;
+    --resume-orange: #f5652d;
+    padding: 0;
+    background: #f4f0e6 !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .resume-sheet { width: 100%; border: 0; box-shadow: none; }
+  .resume-utility__actions, .page-shell--pdf .dial { display: none !important; }
+  .resume-hero { min-height: 390px; }
+  .resume-project-row, .resume-experience, .resume-meta-section { break-inside: avoid; }
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
@@ -12459,4 +13102,47 @@ a:hover { color: var(--mode-accent); }
 @media (max-width: 640px) {
   .chat { left: 1rem; bottom: 1rem; }
   .chat__panel { width: calc(100vw - 2rem); }
+}
+
+/* Cascade lock: the resume redesign lives above legacy persona rules in this
+   long-lived stylesheet, so these shared selectors are restated last. */
+.pdf-page {
+  position: relative;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
+  padding: clamp(1rem, 3.5vw, 3.75rem);
+  color: var(--resume-ink);
+  background: var(--resume-canvas);
+  font-family: "DM Sans", sans-serif;
+}
+
+.pdf-provenance {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1.8rem clamp(1.25rem, 3.3vw, 3.4rem) 0;
+  padding: 1.1rem 1rem 1.35rem;
+  border-top: 1px solid var(--resume-rule);
+  color: var(--resume-muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.035em;
+}
+
+@media (max-width: 680px) {
+  .pdf-page { padding: 0; }
+  .pdf-provenance { grid-template-columns: 1fr; gap: 0.65rem; margin-inline: 1.2rem; padding-inline: 0; }
+}
+
+@media print {
+  html, body, #root, .page-shell--pdf { background: #f4f0e6 !important; }
+  .pdf-page {
+    max-width: none;
+    padding: 0;
+    color: #11110f;
+    background: #f4f0e6 !important;
+  }
+  .pdf-provenance { display: grid; }
 }
