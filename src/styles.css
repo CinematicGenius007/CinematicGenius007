@@ -428,20 +428,28 @@
 }
 
 .resume-projects {
+  --resume-project-bg: var(--resume-orange);
+  --resume-project-ink: #15120f;
+  --resume-project-muted: rgba(21, 18, 15, 0.78);
+  --resume-project-rule: var(--resume-rule);
+  --resume-project-accent: #15120f;
   margin: 0 clamp(1.25rem, 3.3vw, 3.4rem) 0;
-  border: 1px solid var(--resume-rule);
-  background: var(--resume-orange);
-  color: #15120f;
+  border: 1px solid var(--resume-project-rule);
+  background: var(--resume-project-bg);
+  color: var(--resume-project-ink);
 }
 
-.resume-projects .resume-section-label { padding: 0 1.5rem; }
-.resume-projects .resume-section-label span { color: #15120f; }
+.resume-projects .resume-section-label {
+  padding: 0 1.5rem;
+  border-color: var(--resume-project-rule);
+}
+.resume-projects .resume-section-label span { color: var(--resume-project-accent); }
 
 .resume-project-row {
   display: grid;
   grid-template-columns: 48px 76px minmax(0, 1fr) 150px 90px;
   min-height: 132px;
-  border-bottom: 1px solid var(--resume-rule);
+  border-bottom: 1px solid var(--resume-project-rule);
 }
 
 .resume-project-row > * {
@@ -449,7 +457,7 @@
   display: flex;
   align-items: center;
   padding: 1rem;
-  border-right: 1px solid var(--resume-rule);
+  border-right: 1px solid var(--resume-project-rule);
 }
 
 .resume-project-row > *:last-child { border-right: 0; }
@@ -461,47 +469,29 @@
 }
 
 .resume-project-mark {
-  justify-content: center;
-  color: rgba(21, 18, 15, 0.75);
-  font-family: "JetBrains Mono", monospace;
-  text-align: center;
-}
-
-.resume-project-mark--nodes svg {
-  width: 46px;
-  height: 38px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.resume-project-mark--grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  width: 46px;
-  height: 46px;
-  border: 1px solid currentColor;
-  font-size: 0.42rem;
-  line-height: 1;
-}
-
-.resume-project-mark--grid i {
   display: grid;
   place-items: center;
-  border-right: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
-  font-style: normal;
+  color: var(--resume-project-accent);
 }
 
-.resume-project-mark--grid i:nth-child(3n) { border-right: 0; }
-.resume-project-mark--grid i:nth-child(n + 7) { border-bottom: 0; }
+.resume-project-mark__art {
+  width: 46px;
+  height: 46px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
 
-.resume-project-mark--ttt {
-  font-size: 0.72rem;
-  line-height: 1.1;
-  letter-spacing: 0.15em;
+.resume-project-mark__art text {
+  fill: currentColor;
+  stroke: none;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 6px;
+  text-anchor: middle;
+  dominant-baseline: middle;
 }
 
 .resume-project-row__copy {
@@ -523,6 +513,7 @@
   line-height: 1.45;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  color: var(--resume-project-muted);
 }
 
 .resume-project-row__stack {
@@ -534,6 +525,7 @@
   font-family: "JetBrains Mono", monospace;
   font-size: 0.55rem;
   line-height: 1.35;
+  color: var(--resume-project-muted);
 }
 
 .resume-project-row__link {
@@ -550,7 +542,7 @@
 
 .resume-project-row__link span { font-size: 1.2rem; transition: transform 150ms ease; }
 .resume-project-row__link:hover span { transform: translateX(4px); }
-.resume-project-row__link:focus-visible { outline: 2px solid #15120f; outline-offset: -5px; }
+.resume-project-row__link:focus-visible { outline: 2px solid var(--resume-project-accent); outline-offset: -5px; }
 
 .resume-projects__footer {
   min-height: 48px;
@@ -562,9 +554,32 @@
 }
 
 .resume-projects__footer > * { padding: 0 1rem; }
-.resume-projects__footer > span { align-self: stretch; display: grid; place-items: center; border-right: 1px solid var(--resume-rule); font-size: 1.25rem; }
+.resume-projects__footer > span { align-self: stretch; display: grid; place-items: center; border-right: 1px solid var(--resume-project-rule); color: var(--resume-project-accent); font-size: 1.25rem; }
 .resume-projects__footer a { text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; }
 .resume-projects__footer strong { letter-spacing: 0.07em; text-transform: uppercase; }
+
+.pdf-page--dark .resume-projects {
+  --resume-project-bg: #241e1a;
+  --resume-project-ink: #f2e8dc;
+  --resume-project-muted: #bdb0a4;
+  --resume-project-rule: #65584e;
+  --resume-project-accent: #ff7040;
+  border-color: var(--resume-project-accent);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.24);
+}
+
+.pdf-page--dark .resume-projects .resume-section-label {
+  border-color: #241e1a;
+  color: #15120f;
+  background: var(--resume-project-accent);
+}
+
+.pdf-page--dark .resume-projects .resume-section-label span { color: #15120f; }
+.pdf-page--dark .resume-project-row:nth-child(even) { background: rgba(255, 255, 255, 0.018); }
+.pdf-page--dark .resume-project-row__link { color: var(--resume-project-accent); }
+.pdf-page--dark .resume-projects__footer { background: #1b1714; }
+.pdf-page--dark .resume-projects__footer a { color: var(--resume-project-ink); }
+.pdf-page--dark .resume-projects__footer strong { color: var(--resume-project-muted); }
 
 .pdf-provenance {
   display: grid;
@@ -626,19 +641,19 @@
     grid-template-columns: 42px 58px minmax(0, 1fr);
     min-height: 0;
   }
-  .resume-project-row > * { border-right: 1px solid var(--resume-rule); }
+  .resume-project-row > * { border-right: 1px solid var(--resume-project-rule); }
   .resume-project-row__copy { border-right: 0; }
   .resume-project-row__stack {
     grid-column: 2 / 4;
     flex-direction: row;
     flex-wrap: wrap;
-    border-top: 1px solid var(--resume-rule);
+    border-top: 1px solid var(--resume-project-rule);
   }
   .resume-project-row__stack li + li::before { content: "/"; margin-right: 0.35rem; }
   .resume-project-row__link {
     grid-column: 1 / 4;
     min-height: 44px;
-    border-top: 1px solid var(--resume-rule);
+    border-top: 1px solid var(--resume-project-rule);
     border-right: 0;
   }
   .resume-projects__footer { grid-template-columns: 42px 1fr; }

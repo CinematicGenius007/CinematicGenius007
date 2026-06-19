@@ -135,20 +135,32 @@ function ExperienceEntry({ experience, index }: { experience: Experience; index:
 function ProjectMark({ id }: { id: Project["id"] }) {
   if (id === "sudoku") {
     return (
-      <span className="resume-project-mark resume-project-mark--grid" aria-hidden="true">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((cell) => <i key={cell}>{cell}</i>)}
+      <span className="resume-project-mark" aria-hidden="true">
+        <svg className="resume-project-mark__art" viewBox="0 0 48 48">
+          <rect x="3" y="3" width="42" height="42" />
+          <path d="M17 3v42M31 3v42M3 17h42M3 31h42" />
+          <text x="10" y="10">1</text><text x="24" y="10">2</text><text x="38" y="10">3</text>
+          <text x="10" y="24">4</text><text x="24" y="24">5</text><text x="38" y="24">6</text>
+          <text x="10" y="38">7</text><text x="24" y="38">8</text><text x="38" y="38">9</text>
+        </svg>
       </span>
     );
   }
   if (id === "ttt") {
-    return <span className="resume-project-mark resume-project-mark--ttt">×│○<br />─┼─<br />○│×</span>;
+    return (
+      <span className="resume-project-mark" aria-hidden="true">
+        <svg className="resume-project-mark__art" viewBox="0 0 48 48">
+          <path d="M18 4v40M30 4v40M4 18h40M4 30h40M7 7l8 8M15 7l-8 8M33 33l8 8M41 33l-8 8" />
+          <circle cx="36" cy="12" r="5" /><circle cx="12" cy="36" r="5" />
+        </svg>
+      </span>
+    );
   }
   return (
-    <span className="resume-project-mark resume-project-mark--nodes" aria-hidden="true">
-      <svg viewBox="0 0 52 42">
-        <path d="M8 31V18l12-7 12 7v13l-12 7Z" />
-        <path d="M20 11V4M16 7h8M32 18l12-7M32 31l12 7M44 11v27" />
-        <circle cx="44" cy="11" r="3" /><circle cx="44" cy="38" r="3" />
+    <span className="resume-project-mark" aria-hidden="true">
+      <svg className="resume-project-mark__art" viewBox="0 0 48 48">
+        <path d="M4 31V17l12-7 12 7v14l-12 7ZM28 17l12-7M28 31l12 7M40 10v28M16 10V4M12 7h8" />
+        <circle cx="40" cy="10" r="3" /><circle cx="40" cy="38" r="3" />
       </svg>
     </span>
   );
