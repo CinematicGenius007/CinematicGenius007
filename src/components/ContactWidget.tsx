@@ -1,36 +1,27 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { ModeId } from "../modes/types";
+import { contactSurface } from "../content/contactCopy";
 
 type Status = "idle" | "submitting" | "success" | "validation" | "rate-limit" | "failure";
 type Fields = { name: string; email: string; subject: string; message: string; website: string };
 
 const EMPTY: Fields = { name: "", email: "", subject: "", message: "", website: "" };
 
-const surface: Record<ModeId, { trigger: string; kicker: string; title: string; note: string; presentation: string }> = {
-  engineer: { trigger: "contact", kicker: "$ contact --open", title: "Open a diagnostic line", note: "A structured message, delivered server-side.", presentation: "console" },
-  pm: { trigger: "New request", kicker: "INTAKE / 01", title: "Start a conversation", note: "Scope, context, and a useful next step.", presentation: "brief" },
-  designer: { trigger: "Contact sheet", kicker: "EDITORIAL / CONTACT", title: "Send the considered version", note: "A clean surface for a thoughtful note.", presentation: "sheet" },
-  data: { trigger: "message()", kicker: "In [contact]", title: "Submit a message cell", note: "Validated input. Observable delivery state.", presentation: "notebook" },
-  everyday: { trigger: "Write to me", kicker: "A SMALL LETTER", title: "Hello, Ayush", note: "No special format. Just tell me what’s on your mind.", presentation: "letter" },
-  anime: { trigger: "Transmit", kicker: "通信 / TRANSMISSION", title: "Send the next chapter", note: "Your message enters the queue.", presentation: "transmission" },
-  retro: { trigger: "MAIL", kicker: "New Message - MAIL", title: "Compose", note: "Plain text still works beautifully.", presentation: "popup" },
-  signal: { trigger: "Open line", kicker: "SECURE COMMS / READY", title: "Establish contact", note: "Metadata minimized. Message encrypted in transit.", presentation: "secure" },
-  director: { trigger: "Production note", kicker: "CALL SHEET / MESSAGE", title: "Send a production note", note: "Scene, context, desired next take.", presentation: "callsheet" },
-  codebase: { trigger: "commit message", kicker: "contact/message.md", title: "Create message", note: "Validated, rate-limited, server-delivered.", presentation: "commit" },
-  pdf: { trigger: "Reply slip", kicker: "TECHNICAL REPLY / FORM 01", title: "Contact Ayush", note: "A concise reply attached to the résumé.", presentation: "reply" },
-};
-
 function localErrors(fields: Fields) {
   const errors: Record<string, string> = {};
-  if (fields.name.trim().length < 2) errors.name = "Enter at least 2 characters.";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.trim())) errors.email = "Enter a valid email address.";
-  if (fields.subject.trim().length < 3) errors.subject = "Enter at least 3 characters.";
-  if (fields.message.trim().length < 20) errors.message = "Enter at least 20 characters.";
+  const name = fields.name.trim();
+  const email = fields.email.trim();
+  const subject = fields.subject.trim();
+  const message = fields.message.trim();
+  if (name.length < 2 || name.length > 100) errors.name = "Use 2–100 characters.";
+  if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = "Enter a valid email address.";
+  if (subject.length < 3 || subject.length > 120) errors.subject = "Use 3–120 characters.";
+  if (message.length < 20 || message.length > 4_000) errors.message = "Use 20–4,000 characters.";
   return errors;
 }
 
 export default function ContactWidget({ mode }: { mode: ModeId }) {
-  const copy = surface[mode];
+  const copy = contactSurface[mode];
   const titleId = useId();
   const statusId = useId();
   const [open, setOpen] = useState(false);

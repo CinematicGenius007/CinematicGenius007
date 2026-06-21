@@ -93,13 +93,17 @@ async function durableRateLimit(config: Env, hash: string): Promise<{ limited: b
       ["INCR", `contact:ip:${hash}:${hour}`],
       ["EXPIRE", `contact:ip:${hash}:${hour}`, String(PER_IP_WINDOW_SECONDS + 5), "NX"],
     ]),
+    signal: AbortSignal.timeout(5_000),
   });
   if (!response.ok) throw new Error("durable-rate-limit-unavailable");
   const results = await response.json() as Array<{ result?: number; error?: string }>;
   if (results.some((result) => result.error)) throw new Error("durable-rate-limit-failed");
+  const global = results[0]?.result;
+  const perIp = results[2]?.result;
+  if (typeof global !== "number" || typeof perIp !== "number") throw new Error("durable-rate-limit-malformed");
   return {
-    limited: Number(results[0]?.result) > GLOBAL_LIMIT || Number(results[2]?.result) > PER_IP_LIMIT,
-    retryAfter: Number(results[2]?.result) > PER_IP_LIMIT ? PER_IP_WINDOW_SECONDS : GLOBAL_WINDOW_SECONDS,
+    limited: global > GLOBAL_LIMIT || perIp > PER_IP_LIMIT,
+    retryAfter: perIp > PER_IP_LIMIT ? PER_IP_WINDOW_SECONDS : GLOBAL_WINDOW_SECONDS,
   };
 }
 
@@ -118,6 +122,7 @@ async function deliver(config: Env, data: ContactPayload, requestId: string): Pr
       subject: `[Portfolio] ${safeSubject}`,
       text: `Name: ${data.name}\nReply-to: ${data.email}\nRequest: ${requestId}\n\n${data.message}`,
     }),
+    signal: AbortSignal.timeout(8_000),
   });
   if (!response.ok) return false;
   const result = await response.json() as { id?: string };
@@ -142,7 +147,7 @@ export default async function handler(req: Request): Promise<Response> {
     const result = validate(raw);
     if (!result.data) return json(422, { error: "Check the highlighted fields.", fields: result.errors });
 
-    if (config.NODE_ENV !== "production" && config.CONTACT_TEST_OUTCOME) {
+    if (config.ENABLE_CONTACT_TEST_HOOKS === "1" && config.NODE_ENV !== "production" && config.CONTACT_TEST_OUTCOME) {
       if (config.CONTACT_TEST_OUTCOME === "rate-limit") return json(429, { error: "Too many messages. Try again later." }, { "Retry-After": "60" });
       if (config.CONTACT_TEST_OUTCOME === "failure") return json(502, { error: "The message could not be delivered. Please try again." });
       if (config.CONTACT_TEST_OUTCOME === "success") return json(200, { ok: true, requestId });
