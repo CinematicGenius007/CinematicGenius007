@@ -42,7 +42,11 @@ function App() {
   return (
     <MotionPreferenceProvider tier={theme.motion}>
       <ThemeProvider theme={theme}>
-        <div className={`page-shell page-shell--${displayed}`}>
+        <div
+          className={`page-shell page-shell--${displayed}${
+            displayed === "pdf" && pdfDark ? " page-shell--pdf-dark" : ""
+          }`}
+        >
           <Suspense fallback={null}>
             {displayed === "pdf" ? (
               <Page dark={pdfDark} onToggleTheme={() => setPdfDark((v) => !v)} />
@@ -51,7 +55,7 @@ function App() {
             )}
           </Suspense>
           {displayed !== "pdf" ? <Marker mode={displayed} /> : null}
-          {displayed !== "pdf" ? <ChatWidget mode={displayed} /> : null}
+          <ChatWidget mode={displayed} />
           <Dial currentMode={displayed} />
         </div>
         <TransitionLayer

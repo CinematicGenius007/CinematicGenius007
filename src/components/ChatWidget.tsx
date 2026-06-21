@@ -53,7 +53,7 @@ export default function ChatWidget({ mode }: Props) {
       {open ? (
         <div className="chat__panel" role="dialog" aria-label="Chat with Ayush's portfolio assistant">
           <div className="chat__head">
-            <span className="chat__title">Ask the portfolio</span>
+            <span className="chat__title">{mode === "pdf" ? "Resume query / AI" : "Ask the portfolio"}</span>
             <button type="button" className="chat__close" onClick={() => setOpen(false)} aria-label="Close chat">
               ×
             </button>
@@ -137,7 +137,13 @@ export default function ChatWidget({ mode }: Props) {
         aria-expanded={open}
         aria-label={open ? "Close chat" : "Open chat"}
       >
-        {open ? "×" : "Ask"}
+        {open ? (
+          "×"
+        ) : mode === "pdf" ? (
+          <><span className="chat__toggle-index">AI /</span> Ask résumé</>
+        ) : (
+          "Ask"
+        )}
       </button>
     </div>
   );
