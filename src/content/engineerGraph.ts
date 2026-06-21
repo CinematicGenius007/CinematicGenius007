@@ -35,15 +35,15 @@ export type NodeDetail = {
 
 export const graphNodes: GraphNode[] = [
   // career route (bottom-left → top-right)
-  { id: "chitkara", label: "chitkara.edu", sub: "B.E. CS — CGPA 9.95", kind: "edu", x: 0.16, y: 0.84, size: 5 },
+  { id: "chitkara", label: "chitkara.edu", sub: "B.Tech CSE — CGPA 9.98", kind: "edu", x: 0.16, y: 0.84, size: 5 },
   { id: "jetbrains", label: "jetbrains.hyperskill", sub: "project tester · 2022–23", kind: "org", x: 0.34, y: 0.64, size: 6 },
-  { id: "optmyzr", label: "optmyzr.prod", sub: "SDE-1 · 2023–now", kind: "org", x: 0.52, y: 0.38, size: 8 },
-  { id: "zariya", label: "zariya.ai", sub: "architectural engineer", kind: "org", x: 0.76, y: 0.52, size: 7 },
+  { id: "optmyzr", label: "optmyzr.prod", sub: "SDE · 2022–now", kind: "org", x: 0.52, y: 0.38, size: 8 },
+  { id: "zariya", label: "zariya.ai", sub: "technical co-founder · CTO", kind: "org", x: 0.76, y: 0.52, size: 7 },
   // shared libraries (north cluster)
   { id: "typescript", label: "typescript.so", sub: "shared lib", kind: "lib", x: 0.30, y: 0.20, size: 4 },
   { id: "csharp", label: "csharp.so", sub: "shared lib", kind: "lib", x: 0.46, y: 0.12, size: 4 },
   { id: "react", label: "react.so", sub: "shared lib", kind: "lib", x: 0.62, y: 0.16, size: 4 },
-  { id: "go", label: "go.so", sub: "shared lib", kind: "lib", x: 0.16, y: 0.42, size: 4 },
+  { id: "go", label: "go.so", sub: "shared lib · worker", kind: "lib", x: 0.16, y: 0.42, size: 4 },
   { id: "infra", label: "infra.so", sub: "servers · deploys", kind: "lib", x: 0.90, y: 0.26, size: 4 },
   // shipped artifacts (east cluster)
   { id: "interviews", label: "interviews.zariya.ai", sub: "AI interviewer · live", kind: "project", x: 0.92, y: 0.66, size: 5 },
@@ -60,7 +60,7 @@ export const graphEdges: GraphEdge[] = [
   { from: "optmyzr", to: "csharp", kind: "dep", label: "ad-tech backends", bend: 0.03 },
   { from: "optmyzr", to: "typescript", kind: "dep", label: "product surfaces", bend: -0.04 },
   { from: "optmyzr", to: "react", kind: "dep", label: "dashboards", bend: 0.03 },
-  { from: "zariya", to: "infra", kind: "dep", label: "owns the servers", bend: 0.05 },
+  { from: "zariya", to: "infra", kind: "dep", label: "80% AWS operations", bend: 0.05 },
   { from: "zariya", to: "typescript", kind: "dep", label: "0→1 features", bend: -0.10 },
   { from: "jetbrains", to: "go", kind: "dep", label: "java / go review", bend: 0.04 },
   // shipped artifacts
@@ -75,8 +75,8 @@ export const careerTrace = ["chitkara", "jetbrains", "optmyzr", "zariya"];
 export const nodeDetails: Record<string, NodeDetail> = {
   chitkara: {
     title: "Chitkara University",
-    meta: "B.E. Computer Science · 2020–2024",
-    lines: ["CGPA 9.95 / 10.", "Where the fundamentals loaded. Theatre and debate ran in parallel threads — both still in use."],
+    meta: "B.Tech Computer Science & Engineering · 2018–2022",
+    lines: ["CGPA 9.98 / 10.", "Where the fundamentals loaded. Theatre and debate ran in parallel threads — both still in use."],
   },
   jetbrains: {
     title: "JetBrains Hyperskill",
@@ -88,33 +88,32 @@ export const nodeDetails: Record<string, NodeDetail> = {
   },
   optmyzr: {
     title: "Optmyzr",
-    meta: "SDE-1 · Aug 2024–present · intern Apr 2023–Aug 2024",
+    meta: "Software Development Engineer · 2022–present · intern 2021–2022",
     lines: [
       "Built AI campaign creation from scratch; owns it end-to-end.",
-      "Portfolio-level alerts; portfolio support across dashboards, audits, alerts.",
-      "Campaign Automator features and long-running bugfix ownership.",
-      "Google Ads Scripts: features, fixes, customer queries, production support.",
-      "Strong bug-duty record — trusted with messy, cross-cutting issues.",
+      "Created portfolio-level alerts and expanded portfolio support across dashboards, audits, and alerts.",
+      "Campaign Automator and Google Ads Scripts: features, fixes, customer queries, and production support.",
+      "React reporting plus C#/.NET optimization, budget, and data-pipeline services.",
     ],
   },
   zariya: {
     title: "Oddmind Innovations (Zariya AI)",
-    meta: "Architectural Engineer · part-time · late 2024–present",
+    meta: "Technical Co-Founder & CTO · Aug 2024–present",
     lines: [
-      "Software design, technical direction, product foundations across 0→1 features.",
-      "Implemented and maintains the full server infrastructure.",
-      "Reset the architecture when the product drifted — drawing board, not patches.",
+      "Leads technical architecture and engineering decisions across the product suite.",
+      "Built a 70-concurrent-session real-time voice interview platform.",
+      "Owns 80% of AWS operations and has reset architecture when patching was no longer enough.",
     ],
   },
   typescript: { title: "typescript.so", meta: "shared library", lines: ["Loaded by every surface he ships. Also: JavaScript, the runtime underneath."] },
   csharp: { title: "csharp.so", meta: "shared library", lines: ["The Optmyzr backend dialect. Where the ad-tech correctness work lives."] },
   react: { title: "react.so", meta: "shared library", lines: ["Dashboards, flows, this site. Plus Next.js and Vite in the same linker path."] },
-  go: { title: "go.so", meta: "shared library", lines: ["Loaded at JetBrains for project review. Java linked alongside."] },
-  infra: { title: "infra.so", meta: "servers · deploys · reliability", lines: ["Primary owner of Zariya's production infrastructure and deployment shape."] },
+  go: { title: "go.so", meta: "shared library · evaluation worker", lines: ["Java and Go project review at JetBrains; Go now also powers Zariya's async evaluation worker."] },
+  infra: { title: "infra.so", meta: "AWS · scaling · reliability", lines: ["Owns and manages 80% of Zariya's AWS infrastructure and technical operations."] },
   interviews: {
     title: "Interviews by Zariya",
-    meta: "AI interviewer · live product",
-    lines: ["Mid-answer follow-ups, specific scoring, mentorship-ready reports.", "Identified the gap, picked the stack, built the V1."],
+    meta: "AI interviewer · 70 concurrent voice sessions",
+    lines: ["Mid-answer follow-ups and specific scoring on the surface.", "Whisper, Claude, Sarvam, WebRTC, SQS, Go, and Gemini underneath."],
     link: { label: "interviews.zariya.ai ↗", href: "https://interviews.zariya.ai/" },
   },
   sudoku: {
@@ -183,7 +182,7 @@ export const breakpoints: Breakpoint[] = [
       {
         label: "state: after",
         state:
-          "Stabilized product surface. Primary owner of production reliability and deployment shape. Architecture became the point of contact, not the point of failure.",
+          "Stabilized product surface. Technical co-founder and owner of 80% of AWS operations. Architecture became the point of contact, not the point of failure.",
       },
     ],
     verdict: "resolved · reshaped, not patched",

@@ -271,7 +271,7 @@ export default function AnimePage({ mode: _mode }: Props) {
           <div>
             <div className="anime-line" />
             <p className="anime-monologue">
-              Two years ago he joined an ad-tech company as an intern. He stayed. He built AI campaign creation,
+              He joined an ad-tech company as an intern. He stayed. He built AI campaign creation,
               portfolio alerts, scripts support, dashboards, and enough bugfixes to recognize trouble by silhouette.
             </p>
           </div>

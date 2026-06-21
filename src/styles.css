@@ -13372,3 +13372,186 @@ a:hover { color: var(--mode-accent); }
   }
   .pdf-provenance { display: grid; }
 }
+
+/* ── contact delivery v1: shared semantics, persona-native surfaces ── */
+.contact {
+  position: fixed;
+  left: 1.5rem;
+  bottom: 5.25rem;
+  z-index: 145;
+  font-family: var(--mode-font-body);
+}
+
+.page-shell--pdf .contact { left: clamp(1rem, 2.5vw, 2rem); bottom: calc(clamp(1rem, 2.5vw, 2rem) + 4rem); }
+
+.contact__trigger,
+.contact__actions button,
+.contact__success button {
+  border: 1.5px solid var(--mode-rule);
+  border-radius: var(--mode-radius);
+  background: var(--mode-surface);
+  color: var(--mode-ink);
+  font: 700 0.75rem/1 var(--mode-font-display);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.76rem 1rem;
+  cursor: pointer;
+}
+
+.contact__trigger:hover,
+.contact__trigger:focus-visible { border-color: var(--mode-accent); color: var(--mode-accent); transform: translateY(-2px); }
+
+.contact__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 180;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--mode-bg) 76%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.contact__surface {
+  width: min(680px, 100%);
+  max-height: min(760px, calc(100dvh - 2rem));
+  overflow: auto;
+  border: 1.5px solid var(--mode-rule);
+  border-radius: var(--mode-radius);
+  background: var(--mode-surface);
+  color: var(--mode-ink);
+  box-shadow: 0 24px 70px color-mix(in srgb, var(--mode-ink) 24%, transparent);
+  animation: contact-arrive 180ms ease-out both;
+}
+
+@keyframes contact-arrive { from { opacity: 0; transform: translateY(18px) scale(.985); } }
+
+.contact__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+  border-bottom: 1px solid var(--mode-rule);
+}
+
+.contact__head p { margin: 0 0 .5rem; color: var(--mode-accent); font: 700 .68rem/1 var(--mode-font-mono); letter-spacing: .14em; text-transform: uppercase; }
+.contact__head h2 { margin: 0; font: 700 clamp(1.45rem, 4vw, 2.35rem)/1.05 var(--mode-font-display); }
+.contact__head span { display: block; margin-top: .65rem; color: var(--mode-mute); font-size: .85rem; }
+.contact__close { flex: 0 0 auto; width: 2.25rem; height: 2.25rem; border: 1px solid var(--mode-rule); border-radius: 50%; background: transparent; color: inherit; font-size: 1.5rem; cursor: pointer; }
+.contact__close:hover, .contact__close:focus-visible { border-color: var(--mode-accent); color: var(--mode-accent); }
+
+.contact__form { display: grid; gap: 1rem; padding: clamp(1.25rem, 4vw, 2.25rem); }
+.contact__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.contact__form label { position: relative; display: grid; gap: .45rem; color: var(--mode-mute); font: 700 .7rem/1.2 var(--mode-font-mono); letter-spacing: .05em; text-transform: uppercase; }
+.contact__form input,
+.contact__form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--mode-rule);
+  border-radius: max(0px, calc(var(--mode-radius) - 2px));
+  background: color-mix(in srgb, var(--mode-bg) 68%, var(--mode-surface));
+  color: var(--mode-ink);
+  font: 500 .95rem/1.5 var(--mode-font-body);
+  padding: .78rem .85rem;
+  resize: vertical;
+}
+.contact__form input:focus, .contact__form textarea:focus { outline: 2px solid var(--mode-accent); outline-offset: 2px; }
+.contact__form [aria-invalid="true"] { border-color: #c84232; }
+.contact__form small { color: #c84232; font-size: .67rem; letter-spacing: 0; text-transform: none; }
+.contact__count { justify-self: end; color: var(--mode-mute); font-size: .65rem; }
+.contact__hp { position: absolute !important; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.contact__actions { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: .35rem; }
+.contact__actions button { border-color: var(--mode-accent); background: var(--mode-accent); color: var(--mode-bg); }
+.contact__actions button:disabled { cursor: wait; opacity: .6; }
+.contact__status { min-height: 1.2em; margin: 0; color: var(--mode-mute); font-size: .78rem; }
+.contact__status--failure, .contact__status--rate-limit, .contact__status--validation { color: #c84232; }
+.contact__success { display: grid; place-items: start; gap: 1rem; min-height: 260px; padding: clamp(1.5rem, 5vw, 3rem); }
+.contact__success strong { font: 700 clamp(2rem, 6vw, 4rem)/1 var(--mode-font-display); color: var(--mode-accent); }
+.contact__success p { max-width: 48ch; margin: 0; color: var(--mode-mute); }
+
+/* engineer: diagnostic console */
+.contact--console .contact__surface { border-radius: 0; background: #0c1110; color: #d7f2df; box-shadow: 10px 10px 0 #1d5130; }
+.contact--console .contact__head, .contact--console .contact__form { font-family: "JetBrains Mono", monospace; }
+.contact--console .contact__head h2::before { content: "> "; color: #59d27b; }
+
+/* PM: a right-hand intake drawer */
+.contact--brief .contact__backdrop { place-items: stretch end; padding: 0; }
+.contact--brief .contact__surface { width: min(590px, 100%); max-height: 100dvh; height: 100dvh; border-radius: 0; border-block: 0; border-right: 0; }
+.contact--brief .contact__head { border-top: 8px solid var(--mode-accent); }
+
+/* designer: editorial sheet */
+.contact--sheet .contact__surface { border-radius: 0; transform: rotate(-.25deg); box-shadow: 18px 18px 0 color-mix(in srgb, var(--mode-accent) 40%, transparent); }
+.contact--sheet .contact__head { align-items: end; }
+.contact--sheet .contact__head h2 { font-style: italic; }
+
+/* data: executable notebook cell */
+.contact--notebook .contact__surface { border-radius: 4px; box-shadow: none; }
+.contact--notebook .contact__head { border-left: 5rem solid color-mix(in srgb, var(--mode-rule) 40%, transparent); }
+.contact--notebook .contact__actions button::before { content: "▶ "; }
+
+/* everyday: a warm personal letter */
+.contact--letter .contact__surface { max-width: 640px; border-radius: 2px; background: #fbf6e9; color: #30271f; box-shadow: 0 18px 55px rgba(67, 48, 29, .2); }
+.contact--letter .contact__head h2 { font-family: "Fraunces", serif; font-weight: 400; }
+.contact--letter .contact__form input, .contact--letter .contact__form textarea { background: transparent; border-width: 0 0 1px; }
+
+/* anime: hard-edged transmission panel */
+.contact--transmission .contact__surface { border: 3px solid var(--mode-ink); border-radius: 0; clip-path: polygon(0 0, 96% 0, 100% 5%, 100% 100%, 4% 100%, 0 95%); box-shadow: 12px 12px 0 var(--mode-accent); }
+.contact--transmission .contact__head { background: var(--mode-accent); color: var(--mode-bg); }
+.contact--transmission .contact__head p { color: inherit; }
+
+/* retro: old-web mail window */
+.contact--popup .contact__surface { width: min(620px, 100%); border: 3px solid #111; border-radius: 0; box-shadow: 8px 8px 0 #111; }
+.contact--popup .contact__head { padding: .65rem .8rem; background: var(--mode-accent); color: #111; border-bottom: 3px solid #111; }
+.contact--popup .contact__head span { display: none; }
+.contact--popup .contact__head h2 { font-size: 1rem; }
+.contact--popup .contact__form input, .contact--popup .contact__form textarea { border: 2px inset #aaa; border-radius: 0; }
+
+/* signal: secure communication line */
+.contact--secure .contact__surface { border-radius: 0; background: #08100d; color: #c5f2d1; box-shadow: 0 0 44px rgba(55, 220, 122, .13); }
+.contact--secure .contact__head { border-color: #245e39; }
+.contact--secure .contact__head h2::before { content: "[ "; color: #45db78; }
+.contact--secure .contact__head h2::after { content: " ]"; color: #45db78; }
+
+/* director: production call sheet */
+.contact--callsheet .contact__surface { border-radius: 0; background: #eee4cf; color: #17130d; box-shadow: 0 24px 70px rgba(0,0,0,.55); }
+.contact--callsheet .contact__head { border-top: 12px solid #17130d; border-bottom: 2px solid #17130d; }
+.contact--callsheet .contact__form input, .contact--callsheet .contact__form textarea { background: rgba(255,255,255,.35); border-color: #6b604d; }
+
+/* codebase: commit/message pane */
+.contact--commit .contact__surface { border-radius: 0; background: #11161d; color: #d6deeb; box-shadow: 0 0 0 1px #293343, 14px 14px 0 #080b0f; }
+.contact--commit .contact__head h2::before { content: "git: "; color: #82aaff; font-family: "JetBrains Mono", monospace; }
+.contact--commit .contact__form input, .contact--commit .contact__form textarea { background: #0b0f14; border-color: #344052; }
+
+/* PDF: technical reply slip */
+.contact--reply .contact__surface { border-radius: 0; background: #f4f0e6; color: #15120f; box-shadow: 0 18px 50px rgba(40,32,23,.23); }
+.contact--reply .contact__head { border-top: 6px solid #d94d37; }
+.contact--reply .contact__head h2 { font-family: "Space Grotesk", sans-serif; text-transform: uppercase; letter-spacing: -.04em; }
+.contact--reply .contact__form input,
+.contact--reply .contact__form textarea { background: #fffdf8; color: #15120f; border-color: #d8d0bf; }
+
+.page-shell--pdf-dark .contact--reply .contact__surface { background: #1a1916; color: #f2e8dc; box-shadow: 0 18px 50px rgba(0,0,0,.45); }
+.page-shell--pdf-dark .contact--reply .contact__form input,
+.page-shell--pdf-dark .contact--reply .contact__form textarea { background: #241e1a; color: #f2e8dc; border-color: #65584e; }
+.page-shell--pdf-dark .contact--reply .contact__close { color: #f2e8dc; border-color: #65584e; }
+
+[data-motion="off"] .contact__surface { animation: none; }
+
+@media (max-width: 680px) {
+  .contact { left: 1rem; bottom: 4.75rem; }
+  .contact__trigger { max-width: 46vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .contact__backdrop { padding: 0; place-items: stretch; }
+  .contact__surface { width: 100%; max-height: 100dvh; height: 100dvh; border: 0; border-radius: 0; box-shadow: none; }
+  .contact__grid { grid-template-columns: 1fr; }
+  .contact__head { padding: 1.15rem; }
+  .contact__form { padding: 1.15rem; }
+  .contact__actions { align-items: stretch; flex-direction: column; }
+  .contact__actions button { width: 100%; }
+  .contact--sheet .contact__surface { transform: none; }
+  .contact--transmission .contact__surface { clip-path: none; }
+  .contact--notebook .contact__head { border-left-width: 1rem; }
+}
+
+@media print {
+  .contact { display: none !important; }
+}
+

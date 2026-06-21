@@ -23,7 +23,7 @@ type Props = { mode: ModeId };
 const pct = (v: number) =>
   ((v - ganttRange.start) / (ganttRange.end - ganttRange.start)) * 100;
 
-const GANTT_YEARS = [2021, 2022, 2023, 2024, 2025];
+const GANTT_YEARS = [2018, 2020, 2022, 2024, 2026];
 
 function Stat({
   value,
@@ -179,9 +179,9 @@ export default function PmPage({ mode }: Props) {
               </span>
             </h1>
             <p className="pmb-hero__lede">
-              SDE at Optmyzr (ad-tech). Architectural engineer at Zariya AI (early-stage). Two years
-              of turning ambiguous work into shippable scope, dependency maps, risk calls, and
-              production follow-through.
+              Software engineer at Optmyzr. Technical Co-Founder & CTO at Zariya AI. Production
+              work spanning award-winning ad-tech software, real-time AI interviews, hiring systems,
+              and cloud operations.
             </p>
           </div>
 
@@ -191,7 +191,7 @@ export default function PmPage({ mode }: Props) {
               <dt>Scope</dt>
               <dd>AI campaign creation, portfolios, alerts, audits, scripts.</dd>
               <dt>Decision radius</dt>
-              <dd>Architecture, infrastructure, product resets at Zariya AI.</dd>
+              <dd>Architecture, infrastructure, product resets, and 70-session voice systems.</dd>
               <dt>Strength</dt>
               <dd>Bug duty across a wide product suite.</dd>
               <dt>Based in</dt>
@@ -202,9 +202,9 @@ export default function PmPage({ mode }: Props) {
           </aside>
 
           {/* parallel-track timeline — the PM artifact as hero furniture */}
-          <div className="pmb-gantt pmb-reveal" role="img" aria-label="Career timeline, 2020 to 2026, four parallel tracks">
+          <div className="pmb-gantt pmb-reveal" role="img" aria-label="Career timeline, 2018 to 2026, four parallel tracks">
             <div className="pmb-gantt__head">
-              <span className="pmb-mono-tag">PARALLEL TRACKS · 2020 → NOW</span>
+              <span className="pmb-mono-tag">PARALLEL TRACKS · 2018 → NOW</span>
               <span className="pmb-mono-tag pmb-gantt__legend">
                 <i /> active workstream
               </span>
@@ -452,7 +452,7 @@ export default function PmPage({ mode }: Props) {
               </p>
               <h3 className="pmb-profile__spaced">Outside of code</h3>
               <p>
-                Debate society and theatre through college. Useful at Optmyzr — half my job is
+                Debate society and theatre through college. Useful in engineering — half my job is
                 explaining a code-shaped problem to a non-code-shaped person.
               </p>
             </div>

@@ -88,7 +88,7 @@ function ReadmeFile({ onHover, onLeave }: Handlers) {
       <div className="ide-line ide-line--blank" />
       <div className="ide-line"><Token cls="md-h2">## Quick facts</Token></div>
       <div className="ide-line ide-line--blank" />
-      <div className="ide-line"><Token cls="cmt">{"- "}</Token>Two years in ad-tech. Long enough to have strong opinions.</div>
+      <div className="ide-line"><Token cls="cmt">{"- "}</Token>Production engineering since 2021.</div>
       <div className="ide-line"><Token cls="cmt">{"- "}</Token>Shipped the boring version first every single time.</div>
       <div className="ide-line"><Token cls="cmt">{"- "}</Token>Comfortable across frontend, backend, systems thinking.</div>
       <div className="ide-line"><Token cls="cmt">{"- "}</Token>Theatre + debate background. Useful in code review.</div>

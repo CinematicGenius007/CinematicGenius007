@@ -53,8 +53,8 @@ export const SIGNAL_LENSES: {
     command: "map --system=zariya-ai",
     headline: "Architecture and infrastructure at Zariya AI.",
     lines: [
-      "Software design for multiple 0-to-1 features",
-      "Server infrastructure implemented and maintained",
+      "Technical Co-Founder & CTO since Aug 2024",
+      "80% of AWS infrastructure and operations owned",
       "Product resets when patching was no longer enough",
     ],
   },
@@ -101,7 +101,7 @@ export const SIGNAL_CHAPTERS: {
     label: "Architect",
     headline: "At Zariya AI, the work becomes shape, servers, and direction.",
     body:
-      "The role is architectural: software design, technical direction, infrastructure, product resets, and multiple 0-to-1 features where patching was not enough.",
+      "As Technical Co-Founder & CTO, the work spans software design, technical direction, infrastructure, product resets, and multiple 0-to-1 features.",
     nodes: ["zariya", "architecture", "infrastructure"],
   },
   {
@@ -140,7 +140,7 @@ export const SIGNAL_NODES: {
     x: 31,
     y: 31,
     chapter: "origin",
-    summary: "Primary role since 2023 across Google Ads tooling, dashboards, alerts, audits, scripts, and automation.",
+    summary: "Software engineering at Optmyzr since 2022, after an internship in 2021–2022.",
   },
   {
     id: "ai-campaign",
@@ -149,7 +149,7 @@ export const SIGNAL_NODES: {
     x: 20,
     y: 57,
     chapter: "build",
-    summary: "Newest major project: built from scratch and owned end-to-end.",
+    summary: "Newest major Optmyzr project: built from scratch and owned end-to-end.",
   },
   {
     id: "portfolio-alerts",
@@ -185,7 +185,7 @@ export const SIGNAL_NODES: {
     x: 63,
     y: 72,
     chapter: "debug",
-    summary: "A reliable strength: messy cross-surface bugs, customer-facing issues, and production weirdness.",
+    summary: "Messy cross-surface bugs, customer-facing issues, and production weirdness.",
   },
   {
     id: "zariya",
@@ -194,7 +194,7 @@ export const SIGNAL_NODES: {
     x: 83,
     y: 67,
     chapter: "architect",
-    summary: "Architectural role across product foundations, technical direction, and software design.",
+    summary: "Technical Co-Founder & CTO across product foundations, technical direction, and software design.",
   },
   {
     id: "architecture",
@@ -203,7 +203,7 @@ export const SIGNAL_NODES: {
     x: 76,
     y: 84,
     chapter: "architect",
-    summary: "Went back to the drawing board when needed: product resets, system design, and cleaner foundations.",
+    summary: "Product resets, system design, and cleaner foundations when local patches were no longer enough.",
   },
   {
     id: "infrastructure",
@@ -212,7 +212,7 @@ export const SIGNAL_NODES: {
     x: 91,
     y: 29,
     chapter: "architect",
-    summary: "Implemented and maintain the server infrastructure behind Zariya AI.",
+    summary: "Owns and manages 80% of Zariya's AWS infrastructure and technical operations.",
   },
   {
     id: "projects",
@@ -230,7 +230,7 @@ export const SIGNAL_NODES: {
     x: 50,
     y: 14,
     chapter: "evidence",
-    summary: "C#, TypeScript, React, Next.js, Express, backend architecture, infrastructure, and debugging.",
+    summary: "C#, TypeScript, React, Next.js, Express, Python, Go, backend architecture, infrastructure, and debugging.",
   },
 ];
 

@@ -81,7 +81,7 @@ export default function EverydayPage({ mode }: Props) {
                 healthy.
               </p>
               <p>
-                Evenings and weekends, at Zariya, I look after the{" "}
+                At Zariya, I lead the technical side and look after the{" "}
                 <Term
                   jargon="server infrastructure"
                   plain="the always-on computers that keep an app awake through the night"

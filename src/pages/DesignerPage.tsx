@@ -43,7 +43,7 @@ const specimenDetails: Record<string, Record<DesignLens, string>> = {
   interviews: {
     structure: "Conversation, scoring, and reporting are separated so feedback feels specific instead of generic.",
     interaction: "The product moment is the follow-up: it should feel like the interviewer heard the previous answer.",
-    systems: "A Zariya AI product surface shaped by architecture, prompt behavior, and production reliability.",
+    systems: "A Zariya AI product surface shaped by architecture, prompt behavior, a 70-session voice pipeline, and production reliability.",
   },
   sudoku: {
     structure: "Two algorithms share one board so the comparison is immediate, not explained after the fact.",

@@ -99,7 +99,7 @@ function useActiveAct() {
   return active;
 }
 
-function useInView(threshold = 0.15) {
+function useInView(threshold = 0.15, mountKey: unknown = true) {
   const ref = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
@@ -111,7 +111,7 @@ function useInView(threshold = 0.15) {
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  }, [threshold, mountKey]);
   return { ref, inView };
 }
 
@@ -273,8 +273,8 @@ function FilmCard({
 
 const COMMENTARY: Record<string, string> = {
   "act-1": "We open on a wide shot. The subject claims \u2018full stack\u2019 \u2014 the footage backs it up.",
-  "act-2": "No stunt doubles were used on bug duty. That\u2019s all him. The Zariya reset was shot in one take \u2014 a long one.",
-  "act-3": "The weekend trilogy. Low budget, real props, no test screenings \u2014 they shipped anyway.",
+  "act-2": "No stunt doubles were used on bug duty. That’s all him. The Zariya reset was shot in one take — a long one.",
+  "act-3": "The weekend trilogy. Low budget, real props, no test screenings — they shipped anyway.",
   credits: "Every technology in this cast worked on a real production. No extras were hired.",
 };
 
@@ -290,7 +290,7 @@ const CREW: [string, string][] = [
   ["DIRECTED & WRITTEN BY", "Ayush Saini"],
   ["CONTINUITY (TESTS)", "also Ayush"],
   ["PRODUCED BY", "Optmyzr \u00d7 Zariya AI"],
-  ["TRAINED AT", "Chitkara University \u00b7 CGPA 9.95"],
+  ["TRAINED AT", "Chitkara University \u00b7 CGPA 9.98"],
   ["FIRST GIG", "JetBrains Hyperskill"],
   ["SPECIAL THANKS", "the cousin who won four times in a row"],
 ];
@@ -306,7 +306,10 @@ export default function DirectorPage({ mode }: Props) {
   const ringRef = useFollowCursor(motion !== "none");
   const [commentary, setCommentary] = useState(false);
   const active = useActiveAct();
-  const { ref: projSectionRef, inView: projInView } = useInView(0.08);
+  // The section does not exist while the countdown is mounted. Re-run the
+  // observer setup when the intro yields to content or the film cards remain
+  // permanently transparent, presenting as a large blank theatre screen.
+  const { ref: projSectionRef, inView: projInView } = useInView(0.08, phase);
 
   if (phase !== "content") {
     return <CountdownScreen count={count} phase={phase} onSkip={skip} />;

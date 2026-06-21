@@ -2,8 +2,8 @@
 // src/content/profile.ts; semantic de-forking is a later slice.
 
 export const experienceRows = [
-  ["0", "Optmyzr", "SDE I", "Aug 2024", "current", "AI campaign creation · portfolios · alerts · scripts · automation"],
-  ["1", "Optmyzr", "Intern", "Apr 2023", "Aug 2024", "(promoted)"],
-  ["2", "Zariya AI", "Arch. Eng.", "Late 2024", "current", "Architecture · infrastructure · 0→1 products · interviews.zariya.ai"],
+  ["0", "Optmyzr", "Software Development Engineer", "2022", "current", "AI campaigns · portfolios · alerts · scripts · reporting · .NET"],
+  ["1", "Optmyzr", "SDE Intern", "2021", "2022", "React · TypeScript · C# · promoted"],
+  ["2", "Zariya AI", "Technical Co-Founder & CTO", "Aug 2024", "current", "Architecture · infrastructure · 70 voice sessions · Zariya Recruit"],
   ["3", "JetBrains HS", "Tester", "2022", "2023", "Java + Go curriculum QA"],
 ];
