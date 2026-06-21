@@ -60,7 +60,7 @@ export default async function handler(req: Request): Promise<Response> {
   })) as UIMessage[];
 
   const result = streamText({
-    model: "anthropic/claude-haiku-4.5",
+    model: "google/gemini-2.5-flash-lite",
     system: systemPromptFor(persona),
     messages: await convertToModelMessages(trimmed),
     maxOutputTokens: MAX_OUTPUT_TOKENS,
