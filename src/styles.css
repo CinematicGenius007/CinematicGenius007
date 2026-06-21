@@ -687,11 +687,13 @@
 /* ── contact delivery v1: shared semantics, persona-native surfaces ── */
 .contact {
   position: fixed;
-  left: 7rem;
-  bottom: 1.5rem;
+  left: 1.5rem;
+  bottom: 5.25rem;
   z-index: 145;
   font-family: var(--mode-font-body);
 }
+
+.page-shell--pdf .contact { left: clamp(1rem, 2.5vw, 2rem); bottom: calc(clamp(1rem, 2.5vw, 2rem) + 4rem); }
 
 .contact__trigger,
 .contact__actions button,
@@ -835,6 +837,13 @@
 .contact--reply .contact__surface { border-radius: 0; background: #f4f0e6; color: #15120f; box-shadow: 0 18px 50px rgba(40,32,23,.23); }
 .contact--reply .contact__head { border-top: 6px solid #d94d37; }
 .contact--reply .contact__head h2 { font-family: "Space Grotesk", sans-serif; text-transform: uppercase; letter-spacing: -.04em; }
+.contact--reply .contact__form input,
+.contact--reply .contact__form textarea { background: #fffdf8; color: #15120f; border-color: #d8d0bf; }
+
+.page-shell--pdf-dark .contact--reply .contact__surface { background: #1a1916; color: #f2e8dc; box-shadow: 0 18px 50px rgba(0,0,0,.45); }
+.page-shell--pdf-dark .contact--reply .contact__form input,
+.page-shell--pdf-dark .contact--reply .contact__form textarea { background: #241e1a; color: #f2e8dc; border-color: #65584e; }
+.page-shell--pdf-dark .contact--reply .contact__close { color: #f2e8dc; border-color: #65584e; }
 
 [data-motion="off"] .contact__surface { animation: none; }
 

@@ -127,7 +127,7 @@ export default function ContactWidget({ mode }: { mode: ModeId }) {
     idle: "",
     submitting: "Delivering your message…",
     success: "Message delivered. Ayush will be able to reply to the address you provided.",
-    validation: "Please check the highlighted fields.",
+    validation: errors.form || "Please check the highlighted fields.",
     "rate-limit": "This line has received several messages. Please try again later.",
     failure: "Delivery failed. Your message was not reported as sent; please retry later.",
   }[status];
