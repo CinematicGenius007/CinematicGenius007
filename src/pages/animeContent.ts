@@ -5,18 +5,18 @@
 export const animeArcs = [
   {
     id: "origin",
-    yr: "2020 – 2024",
+    yr: "2018 – 2022",
     num: "壱",
     title: "Origin arc.",
-    body: "Chitkara University, B.E. in Computer Science. Graduated with a CGPA of 9.95. Debate, theatre, a sleep schedule that was sometimes a suggestion.",
+    body: "Chitkara University, Punjab. B.Tech in Computer Science & Engineering, graduated with a CGPA of 9.98.",
     current: false,
   },
   {
     id: "training",
-    yr: "2023 →",
+    yr: "2021 →",
     num: "弐",
     title: "Training arc.",
-    body: "Optmyzr. Intern to SDE I. Moves through Campaign Automator, Scripts, portfolios, audits, alerts, dashboards, and bug duty. Sharpens debugging on live ad-tech systems.",
+    body: "Optmyzr. Intern to Software Development Engineer. Moves through Campaign Automator, Scripts, portfolios, audits, alerts, dashboards, AI campaign creation, and bug duty.",
     current: false,
   },
   {
@@ -24,7 +24,7 @@ export const animeArcs = [
     yr: "2024 →",
     num: "参",
     title: "Current arc.",
-    body: "Zariya AI. Architectural engineer. Designs the software, maintains the servers, helps rebuild the product when the shape goes wrong. Still at Optmyzr by day.",
+    body: "Zariya AI. Technical Co-Founder & CTO. Designs the software, maintains the servers, resets the architecture when needed, and leads real-time interview and recruiting systems.",
     current: true,
   },
 ];
@@ -34,7 +34,7 @@ export const animeBattles = [
     id: "interviews",
     num: "零",
     title: ["Interviews", "by Zariya."],
-    body: "An AI interviewer that actually pushes back. Follow-up questions. Specific scoring. A report you could hand to a mentor. Built because every other practice tool felt like a wall.",
+    body: "An AI interviewer that pushes back: follow-up questions, specific scoring, and a report you could hand to a mentor — now running on a voice pipeline built for 70 concurrent sessions.",
     link: "live · interviews.zariya.ai ↗",
     url: "https://interviews.zariya.ai/",
     featured: true,
@@ -72,7 +72,7 @@ export const battleRounds: Record<string, BattleRound[]> = {
   interviews: [
     { label: "ROUND 1 — the enemy appears", text: "Every interview-practice tool gives the same vague feedback. Candidates can't improve on vague. The wall wins again.", hp: 100 },
     { label: "ROUND 2 — counterattack", text: "An AI interviewer that pushes back: follow-up questions mid-answer, scoring that names the exact weakness.", hp: 40 },
-    { label: "FINISHING MOVE", text: "End-of-session report you could hand to a mentor. Live product, active users.", hp: 0 },
+    { label: "FINISHING MOVE", text: "Specific reports on a Whisper, Claude, Sarvam, WebRTC, and Go pipeline supporting 70 concurrent sessions.", hp: 0 },
   ],
   sudoku: [
     { label: "ROUND 1 — the enemy appears", text: "Algorithms are invisible. Slide decks explain them to nobody.", hp: 100 },

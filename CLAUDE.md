@@ -63,5 +63,6 @@ dist/                      # Build output (gitignored)
 
 ## Deployment
 
-- Hosted via GitHub Pages with a custom domain (`cinematicgenius007.com`), configured via the `CNAME` file in the repo root.
-- Pushing to `main` does not auto-deploy — build and deploy manually if needed.
+- The live custom domain is served by Vercel behind Cloudflare (`x-vercel-id` is present on production responses).
+- Serverless request handlers live in `api/`; keep provider credentials server-only and never expose them through `VITE_` variables.
+- Confirm the linked Vercel project's Git/deploy settings before assuming that a push will deploy. Do not deploy from an audit or implementation pass unless explicitly requested.

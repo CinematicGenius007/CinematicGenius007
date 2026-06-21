@@ -16,7 +16,7 @@ const QUERY_SCOPE: Record<string, unknown> = {
     name: "Ayush Saini",
     role: "Software Engineer — Full Stack",
     based_in: "India",
-    years_professional: 3.2,
+    years_professional: 5,
     strengths,
   },
   experience: experienceRows.map(([, company, role, start, end, scope]) => ({
@@ -58,10 +58,10 @@ const QUERY_SUGGESTIONS = ["profile.strengths", "experience[0]", "projects[1].ur
 const CELL_COUNT = 5;
 
 const metricStrip = [
-  { value: "3.2", label: "years professional", note: "Optmyzr + early-stage architecture" },
-  { value: "2", label: "active workstreams", note: "SDE I and architectural engineer" },
+  { value: "5", label: "years professional", note: "production engineering since 2021" },
+  { value: "2", label: "active workstreams", note: "Optmyzr + Zariya AI" },
   { value: "3", label: "live project proofs", note: "interviews, sudoku, ultimate ttt" },
-  { value: "9.95", label: "cgpa", note: "Chitkara University CSE" },
+  { value: "9.98", label: "cgpa", note: "Chitkara University CSE" },
 ];
 
 const lenses: Record<LensId, { label: string; question: string; signal: string; interpretation: string }> = {
@@ -74,7 +74,7 @@ const lenses: Record<LensId, { label: string; question: string; signal: string; 
   systems: {
     label: "Systems",
     question: "Can the same person work below the surface?",
-    signal: "Server infrastructure, architecture resets, 0-to-1 product foundations, and debugging across product boundaries.",
+    signal: "Architecture resets, 70-session real-time voice, Zariya Recruit, and 80% ownership of AWS operations.",
     interpretation: "Backend-first, but comfortable translating system shape into product behavior.",
   },
   proof: {
@@ -100,15 +100,15 @@ const stackRows = [
   ["C#", 82, "~33h", "production backend"],
   ["TypeScript", 62, "~25h", "app logic"],
   ["Next.js / React", 42, "~17h", "product surfaces"],
-  ["MS SQL", 22, "~9h", "data + debugging"],
-  ["Go / Java", 8, "~3h", "testing context"],
+  ["SQL / Python", 22, "~9h", "data + AI systems"],
+  ["Go / Java", 8, "~3h", "workers + testing context"],
 ] as const;
 
 const timelineRows = [
-  { label: "Chitkara B.E.", detail: "CSE · 9.95 CGPA", start: 0, width: 72, tone: "study" },
-  { label: "JetBrains HS", detail: "Java + Go QA", start: 36, width: 20, tone: "test" },
-  { label: "Optmyzr", detail: "intern → SDE I", start: 58, width: 42, tone: "work" },
-  { label: "Zariya AI", detail: "architecture + infra", start: 82, width: 18, tone: "arch" },
+  { label: "Chitkara B.Tech", detail: "CSE · 9.98 CGPA", start: 0, width: 55, tone: "study" },
+  { label: "JetBrains HS", detail: "Java + Go QA", start: 45, width: 14, tone: "test" },
+  { label: "Optmyzr", detail: "intern → software engineer", start: 35, width: 65, tone: "work" },
+  { label: "Zariya AI", detail: "technical co-founder + CTO", start: 75, width: 25, tone: "arch" },
 ];
 
 function NotebookCell({
@@ -282,7 +282,7 @@ export default function DataPage({ mode }: Props) {
     <main className="data-page" ref={pageRef}>
       <div className="data-topbar">
         <span>
-          <b>career.ipynb</b> · kernel: ayush3.2 · {busy ? "busy ●" : "idle ○"}
+          <b>career.ipynb</b> · kernel: ayush5 · {busy ? "busy ●" : "idle ○"}
         </span>
         {ranThrough < CELL_COUNT ? (
           <button className="data-runall" onClick={() => runTo(CELL_COUNT)} disabled={busy} type="button">
@@ -410,7 +410,7 @@ export default function DataPage({ mode }: Props) {
           {...cellProps(3)}
           label="Interpretation"
           title="Time axis"
-          input={<p>Overlap matters: Optmyzr is the production spine; Zariya AI adds architecture and infrastructure depth.</p>}
+          input={<p>Overlap matters: Optmyzr is the production spine; Zariya AI adds real-time AI, product architecture, and infrastructure ownership.</p>}
           output={
             <div className="data-timeline">
               {timelineRows.map((row) => (
@@ -428,8 +428,8 @@ export default function DataPage({ mode }: Props) {
                 </div>
               ))}
               <div className="data-tl-years" aria-hidden="true">
-                <span>2020</span>
-                <span>2022</span>
+                <span>2018</span>
+                <span>2021</span>
                 <span>2024</span>
                 <span>now</span>
               </div>

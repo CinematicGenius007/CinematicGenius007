@@ -1,9 +1,6 @@
-// Persona narrative content for the PM mode. Facts here still duplicate
-// src/content/profile.ts; semantic de-forking is a later slice.
+import { resumeFacts } from "../content/resumeFacts";
 
 export type ProgramLens = "launch" | "scale" | "stabilize";
-
-// ── briefing chrome: ticker, KPI strip, parallel-track gantt, rail ──
 
 export const tickerItems = [
   "PROGRAM STATUS: GREEN",
@@ -16,23 +13,22 @@ export const tickerItems = [
 ];
 
 export const pmStats: { value: number; decimals?: number; suffix: string; label: string }[] = [
-  { value: 4, suffix: " yrs", label: "shipping in production" },
+  { value: 5, suffix: " yrs", label: "shipping in production" },
   { value: 2, suffix: "", label: "roles run in parallel" },
   { value: 6, suffix: "+", label: "product surfaces owned" },
-  { value: 9.95, decimals: 2, suffix: "", label: "CGPA · CS, class of 2024" },
+  { value: 9.98, decimals: 2, suffix: "", label: "CGPA · CSE, class of 2022" },
 ];
 
-// Timeline range for the parallel-track chart; values are decimal years.
-export const ganttRange = { start: 2020.4, end: 2026.8, today: 2026.45 };
+export const ganttRange = { start: 2018.0, end: 2026.8, today: 2026.45 };
 
-export const ganttTracks: { label: string; detail: string; start: number; end: number }[] = [
-  { label: "B.E. Computer Science", detail: "Chitkara · CGPA 9.95", start: 2020.6, end: 2024.5 },
+export const ganttTracks = [
+  { label: "B.Tech CSE", detail: "Chitkara · CGPA 9.98", start: 2018.5, end: 2022.5 },
   { label: "JetBrains Hyperskill", detail: "freelance project tester", start: 2022.0, end: 2023.3 },
-  { label: "Optmyzr", detail: "intern → SDE I", start: 2023.3, end: 2026.45 },
-  { label: "Zariya AI", detail: "architecture + infrastructure", start: 2024.8, end: 2026.45 },
+  { label: "Optmyzr", detail: "intern → software engineer", start: 2021.0, end: 2026.45 },
+  { label: "Zariya AI", detail: "technical co-founder + CTO", start: 2024.6, end: 2026.45 },
 ];
 
-export const pmSections: { id: string; num: string; label: string }[] = [
+export const pmSections = [
   { id: "brief", num: "01", label: "Brief" },
   { id: "control", num: "02", label: "Control room" },
   { id: "log", num: "03", label: "Decision log" },
@@ -44,33 +40,27 @@ export const pmSections: { id: string; num: string; label: string }[] = [
 
 export const caseStudies = [
   {
-    company: "Optmyzr",
-    role: "SDE I",
-    period: "Aug 2024 →",
+    company: resumeFacts.experience.optmyzr.company,
+    role: resumeFacts.experience.optmyzr.role,
+    period: "2022 →",
     meta: "Full-time",
-    extra: "(Intern Apr 2023–Aug 2024)",
+    extra: "(Intern 2021–2022)",
     title: "Building across the product suite that supports real ad spend.",
-    subtitle: "AI Campaign Creation · Portfolios · Alerts · Audits · Scripts · Automation",
-    context:
-      "A mature ad-tech suite where dashboards, alerts, audits, scripts, automation, and campaign creation flows translate user intent into decisions that can affect real budgets.",
-    shipped:
-      "AI campaign creation from scratch, portfolio-level alerts, portfolio support across dashboards and tools, Campaign Automator features/fixes, and ongoing Google Ads Scripts maintenance.",
-    signal:
-      "Strong bug-duty record across many product surfaces; trusted with new feature ownership and messy production issues.",
+    subtitle: "AI Campaign Creation · Portfolios · Alerts · Scripts · Reporting · .NET",
+    context: "A mature ad-tech suite where dashboards, alerts, audits, scripts, automation, reporting, and campaign flows translate intent into decisions that can affect real budgets.",
+    shipped: "AI campaign creation, portfolio alerts and support, Campaign Automator fixes, Google Ads Scripts maintenance, React reporting, and .NET campaign services.",
+    signal: "Strong bug-duty record across many surfaces, alongside end-to-end feature and production ownership.",
   },
   {
-    company: "Zariya AI (Oddmind)",
-    role: "Architectural engineer",
-    period: "Late 2024 →",
-    meta: "Part-time",
+    company: resumeFacts.experience.zariya.company,
+    role: resumeFacts.experience.zariya.role,
+    period: "Aug 2024 →",
+    meta: "Founding team",
     title: "Designing the product architecture and keeping the servers alive.",
     subtitle: "Architecture · Infrastructure · AI-assisted products",
-    context:
-      "Early-stage AI SaaS with multiple products, a small team, and a codebase that has needed both 0-to-1 building and architectural correction.",
-    shipped:
-      "Software architecture, server infrastructure, product rebuilds, multiple features from scratch, and Interviews by Zariya.",
-    signal:
-      "Primary owner for infrastructure and production stability; architectural point of contact when the product needs reshaping.",
+    context: "Early-stage AI SaaS with multiple products, a small team, and a codebase that has needed both 0-to-1 building and architectural correction.",
+    shipped: "Architecture, infrastructure, product rebuilds, a 70-session voice interviewer, Zariya Recruit, and multiple features from scratch.",
+    signal: "Technical co-founder owning 80% of AWS operations and the product's architectural direction.",
   },
 ];
 
@@ -79,24 +69,21 @@ export const projects = [
     number: "01 / interviews.zariya.ai",
     href: "https://interviews.zariya.ai",
     title: "Interview practice that actually pushes back.",
-    body:
-      "Mid-answer follow-ups and specific scoring, not a scripted chatbot. Built because every other practice tool felt like talking to a wall.",
+    body: "Mid-answer follow-ups and specific scoring on a voice platform designed for 70 concurrent sessions.",
     outcome: "Scope: 0→1 product · Role: eng lead",
   },
   {
     number: "02 / sudoku-solver",
     href: "https://sudoku-solver.cinematicgenius007.com",
     title: "Two algorithms, same board, visible.",
-    body:
-      "Brute-force vs. constraint-propagation, racing step by step. Makes \"the smart one is faster\" legible to non-programmers.",
+    body: "Brute-force vs. constraint-propagation, racing step by step. Makes the smart one legible to non-programmers.",
     outcome: "Scope: solo build · Role: everything",
   },
   {
     number: "03 / ultimate-ttt",
     href: "https://ultimate-ttt.cinematicgenius007.com",
     title: "Tic-tac-toe, strategic.",
-    body:
-      "Your move dictates the opponent's next sub-board. Weekend build; better than slide-deck game-theory.",
+    body: "Your move dictates the opponent's next sub-board. Weekend build; better than slide-deck game theory.",
     outcome: "Scope: weekend · Role: solo",
   },
 ];
@@ -104,30 +91,18 @@ export const projects = [
 export const profileScope = [
   "AI campaign creation owned end-to-end at Optmyzr",
   "Portfolio-level alerts and portfolio support across Optmyzr",
-  "Google Ads Scripts maintenance, features, bugs, and customer queries",
-  "Architecture + infrastructure ownership at Zariya AI",
-  "CS, Chitkara · CGPA 9.95 · 2024",
+  "Google Ads Scripts, Campaign Automator, reporting, and .NET services",
+  "Technical co-founder with 80% AWS ownership at Zariya AI",
+  "70-session voice interviewer and Zariya Recruit architecture",
+  "B.Tech CSE, Chitkara · CGPA 9.98 · 2022",
 ];
 
-export const programLenses: {
-  id: ProgramLens;
-  label: string;
-  title: string;
-  summary: string;
-  decision: string;
-  risk: string;
-  metric: string;
-  workstreams: {
-    lane: string;
-    items: string[];
-  }[];
-}[] = [
+export const programLenses = [
   {
-    id: "launch",
+    id: "launch" as const,
     label: "Launch",
     title: "AI campaign creation from zero to usable product.",
-    summary:
-      "Turn an ambiguous AI-assisted workflow into a production surface: define the shape, build the path, keep correctness visible, and ship without hiding behind demo magic.",
+    summary: "Turn an ambiguous AI-assisted workflow into a production surface: define the shape, build the path, keep correctness visible, and ship without hiding behind demo magic.",
     decision: "Bias toward a boring, inspectable V1 before clever automation.",
     risk: "AI output can look confident while still being wrong for a real ad account.",
     metric: "0→1 owned build",
@@ -138,11 +113,10 @@ export const programLenses: {
     ],
   },
   {
-    id: "scale",
+    id: "scale" as const,
     label: "Scale",
     title: "Portfolio support across surfaces, not as a one-off patch.",
-    summary:
-      "Portfolio work touched dashboards, audits, alerts, and account-level views. The program problem was consistency: make the same idea behave across multiple product contexts.",
+    summary: "Portfolio work touched dashboards, audits, alerts, and account-level views. The program problem was consistency: make the same idea behave across multiple product contexts.",
     decision: "Treat portfolio as a system capability, not a screen-specific feature.",
     risk: "A partial rollout creates inconsistent customer expectations across tools.",
     metric: "Portfolio alerts created",
@@ -153,11 +127,10 @@ export const programLenses: {
     ],
   },
   {
-    id: "stabilize",
+    id: "stabilize" as const,
     label: "Stabilize",
     title: "Maintenance, bugs, and infrastructure as the real operating system.",
-    summary:
-      "Campaign Automator, Scripts, bug duty, and Zariya AI infrastructure all point to the same program skill: keep the system understandable when the easy version has stopped working.",
+    summary: "Campaign Automator, Scripts, bug duty, and Zariya AI infrastructure all point to the same program skill: keep the system understandable when the easy version has stopped working.",
     decision: "Fix the system shape when local patches are creating more drag.",
     risk: "Production issues multiply when ownership boundaries are fuzzy.",
     metric: "Infra + bug-duty owner",
@@ -169,60 +142,39 @@ export const programLenses: {
   },
 ];
 
-// ── decision log: drag through four eras of judgment calls ──────────
-
-export type Era = {
-  id: string;
-  year: string;
-  title: string;
-  status: string;
-  decisions: string[];
-  active: string[];
-};
+export type Era = { id: string; year: string; title: string; status: string; decisions: string[]; active: string[] };
 
 export const eraLog: Era[] = [
   {
-    id: "era-2022",
-    year: "2022",
+    id: "era-2018",
+    year: "2018–22",
     title: "The first paid proof",
-    status: "JetBrains Hyperskill · freelance project tester · university in parallel",
-    decisions: [
-      "Take testing work seriously instead of waiting for a 'real' job — correctness instincts compound.",
-      "Review Java and Go projects until the feedback ships into released content.",
-    ],
-    active: ["project testing", "B.E. CS (CGPA 9.95 track)"],
+    status: "Chitkara B.Tech CSE · JetBrains Hyperskill project testing in parallel",
+    decisions: ["Take testing work seriously instead of waiting for a 'real' job.", "Review Java and Go projects until feedback ships into released content."],
+    active: ["project testing", "B.Tech CSE · CGPA 9.98"],
   },
   {
-    id: "era-2023",
-    year: "2023",
+    id: "era-2021",
+    year: "2021–22",
     title: "Into production",
-    status: "Optmyzr · intern · first ad-tech production exposure",
-    decisions: [
-      "Join a domain where wrong software assumptions touch real ad spend.",
-      "Volunteer for bug duty — the fastest tour of every product surface.",
-    ],
+    status: "Optmyzr · SDE intern · React, TypeScript, C#",
+    decisions: ["Join a domain where wrong assumptions touch real ad spend.", "Volunteer for bug duty — the fastest tour of every product surface."],
     active: ["Campaign Automator", "Google Ads Scripts", "bug duty"],
   },
   {
-    id: "era-2024",
-    year: "2024",
-    title: "Ownership, twice",
-    status: "Optmyzr · promoted to SDE-1 · Zariya AI architecture seat opens",
-    decisions: [
-      "Convert the internship through ownership, not tenure.",
-      "Take the Zariya architectural role in parallel — smaller scale, bigger decision radius.",
-    ],
-    active: ["portfolio alerts", "dashboards + audits", "Zariya foundations"],
+    id: "era-2022",
+    year: "2022–24",
+    title: "Ownership expands",
+    status: "Optmyzr · Software Development Engineer",
+    decisions: ["Carry AI campaign creation from zero to production.", "Treat portfolio support as a system capability across tools."],
+    active: ["AI campaign creation", "portfolio alerts", "reporting + .NET"],
   },
   {
-    id: "era-2026",
-    year: "2025–26",
-    title: "Zero-to-one, both jobs",
-    status: "Optmyzr · AI campaign creation owner · Zariya · production reliability owner",
-    decisions: [
-      "Build AI campaign creation from scratch; ship the boring V1 first and let production earn the rest.",
-      "Reset the Zariya architecture instead of paying compounding patch-debt.",
-    ],
-    active: ["AI campaign creation", "server infrastructure", "product resets"],
+    id: "era-2024",
+    year: "2024–26",
+    title: "Ownership, twice",
+    status: "Zariya AI · Technical Co-Founder & CTO · Optmyzr in parallel",
+    decisions: ["Take the Zariya technical co-founder role in parallel.", "Architect the 70-session voice pipeline and reset product foundations when needed."],
+    active: ["AI interviews", "Zariya Recruit", "80% AWS operations"],
   },
 ];

@@ -5,7 +5,7 @@ export type FileId = "readme" | "experience" | "projects" | "skills" | "tests" |
 export const QUIPS = [
   "Debugging: 2 known unknowns",
   "Tests: passing (probably)",
-  "Runtime: 2 yrs in production",
+  "Runtime: production since 2021",
   "Coverage: ~94% of edge cases",
   "Build: shipping",
 ];
@@ -32,6 +32,6 @@ export const CAREER_TESTS: CareerTest[] = [
   { name: "converts internship to full-time via ownership", ms: 233 },
   { name: "resets architecture instead of compounding patch-debt", ms: 318 },
   { name: "explains code-shaped problems to non-code-shaped people", ms: 57 },
-  { name: "maintains 9.95 CGPA under load", ms: 71 },
+  { name: "maintains 9.98 CGPA under load", ms: 71 },
   { name: "works with your team", ms: 0, todo: true },
 ];

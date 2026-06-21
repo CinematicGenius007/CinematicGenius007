@@ -222,7 +222,7 @@ export default function PdfPage({ dark, onToggleTheme }: Props) {
         </header>
 
         <div className="resume-contacts">
-          <ContactItem icon={icons.mail} label="Email" value="ayush.trillionarie@gmail.com" href={contacts.emailHref} />
+          <ContactItem icon={icons.mail} label="Email" value={contacts.email} href={contacts.emailHref} />
           <ContactItem icon={icons.linkedin} label="LinkedIn" value="ayush-saini" href={contacts.linkedin} />
           <ContactItem icon={icons.github} label="GitHub" value="CinematicGenius007" href={contacts.github} />
           <ContactItem icon={icons.globe} label="Website" value="cinematicgenius007.com" href="https://cinematicgenius007.com" />

@@ -31,14 +31,14 @@ const frames = [
     id: "zariya",
     fn: "Zariya.architect(product)",
     file: "zariya/architecture.ts",
-    note: "part-time · early-stage",
+    note: "technical co-founder · CTO",
     exp: experiences.find((e) => e.id === "zariya")!,
   },
   {
     id: "optmyzr",
     fn: "Optmyzr.ship(features)",
     file: "optmyzr/production.cs",
-    note: "SDE-1 · promoted from intern",
+    note: "software engineer · promoted from intern",
     exp: experiences.find((e) => e.id === "optmyzr")!,
   },
   {

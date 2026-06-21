@@ -1,7 +1,8 @@
 /**
- * Canonical biographical facts from Ayush_Saini_Resume.pdf (22 June 2026).
- * Persona modules may change tone and hierarchy, but factual values should
- * originate here so dates, titles, education, and contact details cannot drift.
+ * Canonical facts explicitly stated in Ayush_Saini_Resume.pdf (22 June 2026).
+ * This source is authoritative for values it contains, but it is not an
+ * exhaustive biography: absence here does not invalidate portfolio-only facts.
+ * Personas may change tone and hierarchy while sharing these explicit values.
  */
 export const resumeFacts = {
   name: "Ayush Saini",

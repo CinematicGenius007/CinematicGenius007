@@ -21,17 +21,17 @@ export const hero = {
   statement: {
     _default:
       "Software engineer and technical co-founder working across ad-tech SaaS, full-stack product engineering, and AI systems — from Optmyzr's global PPC platform to Zariya's real-time hiring products.",
-    pm: "Software engineer at Optmyzr and Technical Co-Founder & CTO at Zariya AI. The work spans award-winning ad-tech software and AI hiring systems built for real-time production use.",
+    pm: "Software engineer at Optmyzr and Technical Co-Founder & CTO at Zariya AI. Recent scope spans AI campaign creation, portfolio alerts, a 70-session voice platform, and hiring-system architecture.",
     everyday:
       "I build software for advertisers and hiring teams. That means reporting tools and campaign systems at Optmyzr, plus AI interviews and recruiting workflows at Zariya AI.",
     designer:
       "I build software that has to work. The aesthetic layer and the correctness layer aren't in competition — one earns the right to the other.",
     anime:
-      "He entered production engineering through an Optmyzr internship, grew into a software engineer, then joined Zariya's founding team to build real-time AI hiring systems.",
+      "He joined ad-tech as an intern. He stayed. Then he moved through dashboards, automations, scripts, alerts, AI campaign creation, and a founding CTO arc.",
     signal:
-      "The signal is production breadth: React reporting surfaces, .NET services, AWS infrastructure, and a 70-session real-time voice pipeline.",
+      "The signal is breadth under pressure: new product surfaces, legacy maintenance, production debugging, AWS ownership, and a 70-session voice pipeline.",
     director:
-      "Systems engineer turned technical co-founder. I build the things behind the surface: product flows, voice pipelines, infrastructure, and the quiet decisions that keep software coherent.",
+      "Theatre kid turned systems engineer and technical co-founder. I build the things behind the surface: product flows, automation, voice pipelines, infrastructure, and the quiet decisions that keep software coherent.",
     retro:
       "I like old interfaces, loud borders, and systems that explain themselves. Most of my work is still modern software; I just don't think modern has to mean generic.",
   } as ModeText,
@@ -49,26 +49,26 @@ export const about = {
   } as ModeText,
   p1: {
     _default:
-      "I like systems where correctness is visible. At Optmyzr that means React reporting dashboards, .NET optimization services, budget management, and data pipelines used by thousands of advertisers.",
-    pm: "At Optmyzr I've built across a mature PPC platform used by thousands of advertisers. At Zariya I lead technical architecture across a younger product suite where the decisions range from WebRTC flows to cloud reliability.",
+      "I like the parts of a codebase nobody wants to open. At Optmyzr that has meant AI campaign creation, Scripts, Campaign Automator, portfolios, reporting dashboards, .NET services, and production bugs across the seams.",
+    pm: "At Optmyzr I've shipped features end-to-end across dashboards, portfolios, alerts, audits, automation, scripts, reporting, and campaign flows. At Zariya I lead architecture across real-time interviews and recruiting systems.",
     everyday:
-      "I build tools that help advertisers understand campaigns, and AI products that help hiring teams screen and interview candidates. Most days are a mix of product work, systems decisions, and reliability.",
+      "I help build the tools advertisers use to manage campaigns — including AI-assisted creation, dashboards, alerts, audits, scripts, and automation — and AI products for hiring teams.",
     data: "Roles: Software Development Engineer at Optmyzr (2022–present); Technical Co-Founder & CTO at Zariya AI (Aug 2024–present). Production scope spans ad-tech SaaS, AI hiring, real-time voice, and cloud infrastructure.",
     designer:
       "At Optmyzr I work on product surfaces that turn complex advertising intent into usable workflows. It's backend-heavy, correctness-heavy work, which is exactly why I care about form: if the internal logic is messy, the surface usually leaks it.",
     retro:
       "I gravitate toward systems with visible guts. Automation tools, production bugs, dashboards, scripts, side projects with strong constraints, anything where the structure shows if you're paying attention.",
     signal:
-      "Evidence across two systems: PPC tooling used by thousands of advertisers and an AI interviewer supporting 70 concurrent real-time voice sessions.",
+      "Evidence across the seams: AI campaign creation, Campaign Automator, Scripts, portfolio alerts, production bugs, and an AI interviewer supporting 70 concurrent voice sessions.",
     director:
-      "Most of my work is invisible until it fails. Reporting dashboards, optimization services, voice pipelines, queues, workers, and infrastructure. That's the role — deciding whether the spotlight behaves.",
+      "Most of my work is invisible until it fails. Dashboards, alerts, scripts, automation, voice pipelines, servers, infrastructure. That's the role — deciding whether the spotlight behaves.",
   } as ModeText,
   p2: {
     _default:
       "Backend is where I'm most useful, but I've spent enough time on the other side to know when a bug is really a UI assumption in a trench coat.",
     pm: "At Zariya AI, I lead technical architecture, system design, and engineering decisions across the product suite. The scope includes 80% of AWS infrastructure and technical operations.",
     everyday:
-      "At Zariya I've helped build an AI interviewer and a full-cycle recruiting platform. One handles live voice interviews; the other connects screening, resumes, scheduling, ATS, and hiring workflows.",
+      "Outside the main work, I've built an AI interview tool, a sudoku solver you can watch think, and a two-player strategy game that's harder than it sounds.",
     data: "Core competency: backend systems, large-scale debugging, feature ownership end-to-end, architecture, infrastructure. Secondary: frontend, mentorship, technical communication.",
     designer:
       "This portfolio isn't supposed to be one neat template with six paint jobs. It's the same person reframed six different ways, because audience changes hierarchy, rhythm, and what deserves the spotlight.",
@@ -99,10 +99,10 @@ export const about = {
 export const experiences: Experience[] = [
   {
     id: "optmyzr",
-    company: "Optmyzr",
-    role: "Software Development Engineer 1",
-    period: "Aug 2024 – Present",
-    mode: "Internship Apr 2023 – Aug 2024",
+    company: resumeFacts.experience.optmyzr.company,
+    role: resumeFacts.experience.optmyzr.role,
+    period: resumeFacts.experience.optmyzr.period,
+    mode: `Internship ${resumeFacts.experience.optmyzr.internshipPeriod}`,
     bullets: [
       {
         _default:
@@ -114,59 +114,56 @@ export const experiences: Experience[] = [
       },
       {
         _default:
-          "Helped maintain and improve Campaign Automator with feature work and long-running bugfix ownership; contributed occasional Rule Engine fixes without overstating ownership.",
+          "Maintained Campaign Automator and Google Ads Scripts through feature work, customer queries, production support, and long-running bugfix ownership.",
       },
       {
         _default:
-          "Continuously maintained Google Ads Scripts: new features, bug fixes, customer queries, and production support.",
+          "Developed React and TypeScript reporting surfaces plus C# (.NET) services for campaign optimization, budget management, and data pipelines.",
       },
       {
         _default:
-          "Strong bug-duty record across a wide variety of product surfaces; often trusted with messy, cross-cutting issues.",
+          "Contributed to an award-winning PPC platform used by thousands of advertisers while maintaining test coverage and service reliability.",
       },
     ],
     pmCase: {
       context:
-        "Ad-tech SaaS with mature and newer product surfaces: dashboards, portfolios, alerts, audits, automation, scripts, and AI-assisted campaign creation. The correctness bar is high because bad software assumptions can touch real ad spend.",
+        "Ad-tech SaaS with mature and newer product surfaces: dashboards, portfolios, alerts, audits, automation, scripts, reporting, and campaign workflows where bad assumptions can touch real ad spend.",
       shipped:
-        "AI campaign creation from scratch; portfolio-level alerts; portfolio support across dashboards, audits, and alerts; Campaign Automator features and fixes; ongoing Google Ads Scripts maintenance and production bug triage.",
+        "AI campaign creation; portfolio-level alerts; portfolio support across dashboards, audits, and alerts; Campaign Automator and Google Ads Scripts work; React reporting; and .NET campaign services.",
       signal:
-        "Trusted across a broad product suite and especially useful on bug duty: new feature ownership, legacy maintenance, customer-facing fixes, and cross-surface debugging.",
+        "Trusted across a broad product suite for new feature ownership, legacy maintenance, customer-facing fixes, and cross-surface debugging.",
     },
     arcName: "訓練編 — TRAINING ARC",
     arcChapter: "第1章",
   },
   {
     id: "zariya",
-    company: "Oddmind Innovations (Zariya AI)",
-    role: "Architectural Engineer",
-    period: "Late 2024 – Present",
-    mode: "Part-time, early-stage",
+    company: resumeFacts.experience.zariya.company,
+    role: resumeFacts.experience.zariya.role,
+    period: resumeFacts.experience.zariya.period,
+    mode: "Founding team · Remote, India",
     bullets: [
       {
         _default:
-          "Architectural engineer for Zariya AI: software design, technical direction, and product foundations across multiple 0-to-1 features.",
+          "Leads technical architecture, system design, and engineering decisions across multiple 0-to-1 products and features.",
       },
       {
         _default:
-          "Implemented and maintain the full server infrastructure; primary owner for production reliability and deployment shape.",
+          "Architected an AI interview platform supporting 70 concurrent real-time voice sessions with STT, LLM, TTS, WebRTC, and a Go-based async evaluation worker.",
       },
       {
         _default:
-          "Helped reset the software when it was drifting: went back to the drawing board, fixed architectural issues, and stabilized the product surface.",
+          "Co-architects Zariya Recruit across call screening, resume parsing, ATS, scheduling, and the end-to-end hiring pipeline.",
       },
       {
         _default:
-          "Built multiple products and features from scratch, including Interviews by Zariya, while spending more time on architecture than pure coding.",
+          "Owns 80% of AWS infrastructure and technical operations, and has reset architectural foundations when patching was no longer enough.",
       },
     ],
     pmCase: {
-      context:
-        "Early-stage AI SaaS. Small team, large decision radius, and a codebase that needed both new product development and architectural correction.",
-      shipped:
-        "System architecture, software design, server infrastructure, multiple 0-to-1 products and features, and the AI interview product at interviews.zariya.ai.",
-      signal:
-        "Primary technical owner for infrastructure and production stability; architectural point of contact when the product needs to be reshaped instead of patched.",
+      context: "Early-stage AI SaaS with a small team, a wide technical decision radius, and both new-product and architectural-correction work.",
+      shipped: "System architecture, AWS infrastructure, product rebuilds, Interviews by Zariya, and the foundation for Zariya Recruit.",
+      signal: "Technical co-founder responsible for architecture, production stability, and 80% of AWS operations.",
     },
     arcName: "創設編 — FOUNDING ARC",
     arcChapter: "第3章",
@@ -203,17 +200,17 @@ export const projects: Project[] = [
     number: "p.01",
     name: "Interviews by Zariya",
     url: "https://interviews.zariya.ai/",
-    tech: ["Next.js", "TypeScript", "LLM"],
+    tech: ["Next.js", "Python", "Go", "WebRTC", "AWS"],
     description: {
       _default:
-        "An AI interviewer that actually pushes back. Mid-answer follow-ups, scoring that's specific instead of vague, and an end-of-session report you could hand to a mentor. Built because every other interview-practice tool I tried felt like talking to a wall.",
-      pm: "Interview practice with feedback that's specific instead of vague. Zero-to-one product — I identified the gap, picked the tech, and built the V1.",
-      everyday: "A tool that practices job interviews with you — and actually gives you useful feedback afterward.",
+        "An AI interviewer that pushes back, now backed by a real-time voice system supporting 70 concurrent sessions across Whisper, Claude, Sarvam TTS, WebRTC, and an async Go evaluation worker.",
+      pm: "A 70-concurrent-session voice interview system with specific feedback, mid-answer follow-ups, and an async post-session scoring workflow.",
+      everyday: "A tool that practices job interviews with you, follows up on your answers, and can run 70 voice sessions at once.",
       designer:
-        "Conversational interface built around the rhythm of a real interview. The feedback loop is the product.",
+        "Conversational rhythm on the surface; a coordinated real-time voice and evaluation pipeline underneath.",
     },
-    pmProblem: "Most interview-practice tools give generic feedback. Candidates can't improve on vague.",
-    pmOutcome: "Live product with active users. Specific mid-answer follow-ups and end-of-session report.",
+    pmProblem: "Interview tools often give generic feedback, while real-time voice adds media and evaluation complexity.",
+    pmOutcome: "Specific feedback and follow-ups on a platform supporting 70 concurrent sessions.",
   },
   {
     id: "sudoku",
@@ -225,8 +222,7 @@ export const projects: Project[] = [
       _default:
         "Two solvers — brute-force and constraint-propagation — racing on the same board, step by step. Watching the naïve one guess-and-backtrack next to the one that thinks is a better intro to algorithms than a slide deck would be.",
       pm: "Visual algorithm comparison tool. Two approaches to the same problem, animated side by side so the difference is obvious.",
-      everyday:
-        "Two ways to solve a sudoku, drawn out step by step. One guesses randomly; the other actually thinks.",
+      everyday: "Two ways to solve a sudoku, drawn out step by step. One guesses randomly; the other actually thinks.",
       designer: "Side-by-side animated visualization. The design serves the cognitive comparison.",
     },
     pmProblem: "Algorithm explanations are abstract. Hard to internalize without seeing the difference.",
@@ -239,11 +235,9 @@ export const projects: Project[] = [
     url: "https://ultimate-ttt.cinematicgenius007.com/",
     tech: ["React", "Vite", "TypeScript"],
     description: {
-      _default:
-        "Tic-tac-toe, except your move tells the opponent which sub-board they have to play in. Deceptively strategic. Built over a weekend after I lost to my cousin four times in a row.",
+      _default: "Tic-tac-toe, except your move tells the opponent which sub-board they have to play in. Deceptively strategic. Built over a weekend after I lost to my cousin four times in a row.",
       pm: "Two-player strategy game with emergent depth from a single rule change. Built for fun; shipped as a clean product.",
-      everyday:
-        "Tic-tac-toe inside tic-tac-toe. Your move tells the other player where they have to play next. Surprisingly hard.",
+      everyday: "Tic-tac-toe inside tic-tac-toe. Your move tells the other player where they have to play next. Surprisingly hard.",
       designer: "Simple rule, complex strategy. The UI gets out of the way and lets the game work.",
     },
     pmProblem: "Wanted to understand how a single constraint changes game dynamics.",
@@ -254,21 +248,15 @@ export const projects: Project[] = [
 export const skillGroups = [
   {
     label: "Languages",
-    items: ["JavaScript", "TypeScript", "C#", "Go", "Java", "C / C++"],
+    items: [...resumeFacts.skills.languages, "Java", "C / C++"],
   },
   {
     label: "Frameworks",
-    items: ["React", "Next.js", "Vite", "Express.js"],
+    items: ["React", "Next.js 14", "Vite", "Tailwind CSS", "Node.js", ".NET (C#)", "Express.js"],
   },
   {
     label: "Working Style",
-    items: [
-      "End-to-end ownership",
-      "Architecture + infrastructure",
-      "Large-scale debugging",
-      "Maintainable systems",
-      "Calm production response",
-    ],
+    items: ["End-to-end ownership", "Architecture + infrastructure", "Large-scale debugging", "Maintainable systems", "Calm production response"],
   },
 ];
 
@@ -282,23 +270,13 @@ export const strengths = [
 ];
 
 export const education = [
-  {
-    school: "Chitkara University",
-    degree: "B.E. in Computer Science",
-    period: "2020 – 2024",
-    result: "CGPA 9.95 / 10",
-  },
-  {
-    school: "CBSE Class XII",
-    degree: "",
-    period: "2020",
-    result: "96.4%",
-  },
+  resumeFacts.education.university,
+  resumeFacts.education.school,
 ];
 
 export const outside = {
   _default:
-    "Debate and theatre through college. Two of the more useful things I've done — half my job at Optmyzr is explaining code-shaped problems to non-code-shaped people.",
+    "Debate and theatre through college. Two of the more useful things I've done — half my job is explaining code-shaped problems to non-code-shaped people.",
   everyday:
     "I did debate and theatre in college. Turns out both are useful — a lot of software engineering is explaining things to people who don't write code.",
 } as ModeText;
