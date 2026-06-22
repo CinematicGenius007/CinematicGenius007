@@ -1,3 +1,5 @@
+export const config = { runtime: "edge" };
+
 const MAX_BODY_BYTES = 8_192;
 const PER_IP_LIMIT = 5;
 const PER_IP_WINDOW_SECONDS = 60 * 60;
