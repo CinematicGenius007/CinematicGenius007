@@ -13384,7 +13384,6 @@ a:hover { color: var(--mode-accent); }
 
 .page-shell--pdf .contact { left: clamp(1rem, 2.5vw, 2rem); bottom: calc(clamp(1rem, 2.5vw, 2rem) + 4rem); }
 
-.contact__trigger,
 .contact__actions button,
 .contact__success button {
   border: 1.5px solid var(--mode-rule);
@@ -13396,6 +13395,21 @@ a:hover { color: var(--mode-accent); }
   text-transform: uppercase;
   padding: 0.76rem 1rem;
   cursor: pointer;
+}
+
+.contact__trigger {
+  appearance: none;
+  border: 1.5px solid var(--mode-rule);
+  border-radius: calc(var(--mode-radius) + 999px);
+  background: var(--mode-surface);
+  color: var(--mode-ink);
+  font: 700 0.75rem/1 var(--mode-font-display);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.76rem 1.15rem;
+  cursor: pointer;
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--mode-rule) 70%, transparent);
+  transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .contact__trigger:hover,
