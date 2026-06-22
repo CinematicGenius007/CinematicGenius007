@@ -3,6 +3,8 @@ const PER_IP_LIMIT = 5;
 const PER_IP_WINDOW_SECONDS = 60 * 60;
 const GLOBAL_LIMIT = 60;
 const GLOBAL_WINDOW_SECONDS = 60;
+const DAILY_LIMIT = 200;
+const DAILY_WINDOW_SECONDS = 60 * 60 * 24;
 
 type ContactPayload = {
   name: string;
@@ -26,11 +28,11 @@ function json(status: number, body: Record<string, unknown>, headers: HeadersIni
   });
 }
 
-function normalize(value: unknown): string {
+export function normalize(value: unknown): string {
   return typeof value === "string" ? value.normalize("NFKC").replace(/\r\n?/g, "\n").trim() : "";
 }
 
-function validate(raw: unknown): { data?: ContactPayload; errors?: Record<string, string> } {
+export function validate(raw: unknown): { data?: ContactPayload; errors?: Record<string, string> } {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) return { errors: { form: "Check the form and try again." } };
   const value = raw as Record<string, unknown>;
   const data: ContactPayload = {
@@ -51,9 +53,9 @@ function validate(raw: unknown): { data?: ContactPayload; errors?: Record<string
   return Object.keys(errors).length ? { errors } : { data };
 }
 
-function sameOrigin(req: Request): boolean {
+export function sameOrigin(req: Request): boolean {
   const origin = req.headers.get("origin");
-  if (!origin) return true;
+  if (!origin) return false;
   const forwardedHost = req.headers.get("x-forwarded-host") ?? req.headers.get("host");
   if (!forwardedHost) return false;
   try {
@@ -63,10 +65,15 @@ function sameOrigin(req: Request): boolean {
   }
 }
 
-async function ipHash(req: Request, secret: string): Promise<string> {
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+function clientIp(req: Request): string {
+  return req.headers.get("cf-connecting-ip")
+    ?? req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
     ?? req.headers.get("x-real-ip")
     ?? "unknown";
+}
+
+async function ipHash(req: Request, secret: string): Promise<string> {
+  const ip = clientIp(req);
   const key = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(secret),
@@ -84,6 +91,7 @@ async function durableRateLimit(config: Env, hash: string): Promise<{ limited: b
   if (!url || !token) throw new Error("durable-rate-limit-unconfigured");
   const minute = Math.floor(Date.now() / (GLOBAL_WINDOW_SECONDS * 1000));
   const hour = Math.floor(Date.now() / (PER_IP_WINDOW_SECONDS * 1000));
+  const day = Math.floor(Date.now() / (DAILY_WINDOW_SECONDS * 1000));
   const response = await fetch(`${url}/pipeline`, {
     method: "POST",
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
@@ -92,6 +100,8 @@ async function durableRateLimit(config: Env, hash: string): Promise<{ limited: b
       ["EXPIRE", `contact:global:${minute}`, String(GLOBAL_WINDOW_SECONDS + 5), "NX"],
       ["INCR", `contact:ip:${hash}:${hour}`],
       ["EXPIRE", `contact:ip:${hash}:${hour}`, String(PER_IP_WINDOW_SECONDS + 5), "NX"],
+      ["INCR", `contact:daily:${day}`],
+      ["EXPIRE", `contact:daily:${day}`, String(DAILY_WINDOW_SECONDS + 5), "NX"],
     ]),
     signal: AbortSignal.timeout(5_000),
   });
@@ -100,10 +110,13 @@ async function durableRateLimit(config: Env, hash: string): Promise<{ limited: b
   if (results.some((result) => result.error)) throw new Error("durable-rate-limit-failed");
   const global = results[0]?.result;
   const perIp = results[2]?.result;
-  if (typeof global !== "number" || typeof perIp !== "number") throw new Error("durable-rate-limit-malformed");
+  const daily = results[4]?.result;
+  if (typeof global !== "number" || typeof perIp !== "number" || typeof daily !== "number") {
+    throw new Error("durable-rate-limit-malformed");
+  }
   return {
-    limited: global > GLOBAL_LIMIT || perIp > PER_IP_LIMIT,
-    retryAfter: perIp > PER_IP_LIMIT ? PER_IP_WINDOW_SECONDS : GLOBAL_WINDOW_SECONDS,
+    limited: global > GLOBAL_LIMIT || perIp > PER_IP_LIMIT || daily > DAILY_LIMIT,
+    retryAfter: perIp > PER_IP_LIMIT ? PER_IP_WINDOW_SECONDS : daily > DAILY_LIMIT ? DAILY_WINDOW_SECONDS : GLOBAL_WINDOW_SECONDS,
   };
 }
 

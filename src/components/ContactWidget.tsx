@@ -7,7 +7,7 @@ type Fields = { name: string; email: string; subject: string; message: string; w
 
 const EMPTY: Fields = { name: "", email: "", subject: "", message: "", website: "" };
 
-function localErrors(fields: Fields) {
+export function localErrors(fields: Fields) {
   const errors: Record<string, string> = {};
   const name = fields.name.trim();
   const email = fields.email.trim();
