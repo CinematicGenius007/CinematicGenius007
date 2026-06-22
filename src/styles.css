@@ -13384,6 +13384,11 @@ a:hover { color: var(--mode-accent); }
 
 .page-shell--pdf .contact { left: clamp(1rem, 2.5vw, 2rem); bottom: calc(clamp(1rem, 2.5vw, 2rem) + 4rem); }
 
+/* chat panel floats taller than its own trigger and shares the contact
+   trigger's corner — hide the contact trigger while chat is open so it
+   doesn't sit on top of the open panel (worst on narrow viewports). */
+.chat--open ~ .contact { display: none; }
+
 .contact__actions button,
 .contact__success button {
   border: 1.5px solid var(--mode-rule);
@@ -13536,17 +13541,61 @@ a:hover { color: var(--mode-accent); }
 .contact--commit .contact__head h2::before { content: "git: "; color: #82aaff; font-family: "JetBrains Mono", monospace; }
 .contact--commit .contact__form input, .contact--commit .contact__form textarea { background: #0b0f14; border-color: #344052; }
 
-/* PDF: technical reply slip */
-.contact--reply .contact__surface { border-radius: 0; background: #f4f0e6; color: #15120f; box-shadow: 0 18px 50px rgba(40,32,23,.23); }
-.contact--reply .contact__head { border-top: 6px solid #d94d37; }
-.contact--reply .contact__head h2 { font-family: "Space Grotesk", sans-serif; text-transform: uppercase; letter-spacing: -.04em; }
-.contact--reply .contact__form input,
-.contact--reply .contact__form textarea { background: #fffdf8; color: #15120f; border-color: #d8d0bf; }
+/* PDF: technical reply slip — mirrors the resume chat widget's ledger-form look */
+.page-shell--pdf .contact__trigger {
+  min-width: 148px;
+  border-radius: 0;
+  background: var(--resume-chat-paper);
+  color: var(--resume-chat-ink);
+  border-color: var(--resume-chat-rule);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  box-shadow: 5px 5px 0 color-mix(in srgb, var(--resume-chat-rule) 62%, transparent);
+}
+.page-shell--pdf .contact__trigger:hover,
+.page-shell--pdf .contact__trigger:focus-visible {
+  border-color: var(--resume-chat-accent);
+  color: var(--resume-chat-accent);
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--resume-chat-rule) 62%, transparent);
+}
 
-.page-shell--pdf-dark .contact--reply .contact__surface { background: #1a1916; color: #f2e8dc; box-shadow: 0 18px 50px rgba(0,0,0,.45); }
-.page-shell--pdf-dark .contact--reply .contact__form input,
-.page-shell--pdf-dark .contact--reply .contact__form textarea { background: #241e1a; color: #f2e8dc; border-color: #65584e; }
-.page-shell--pdf-dark .contact--reply .contact__close { color: #f2e8dc; border-color: #65584e; }
+.contact--reply .contact__surface {
+  border: 1.5px solid var(--resume-chat-rule);
+  border-radius: 0;
+  background: var(--resume-chat-paper);
+  color: var(--resume-chat-ink);
+  box-shadow: 9px 9px 0 color-mix(in srgb, var(--resume-chat-rule) 48%, transparent);
+}
+.contact--reply .contact__head {
+  border-top: 0;
+  border-bottom: 1.5px solid var(--resume-chat-rule);
+  background: var(--resume-chat-accent);
+  color: #15120f;
+}
+.contact--reply .contact__head p { color: inherit; opacity: .75; }
+.contact--reply .contact__head h2 { font-family: "JetBrains Mono", monospace; font-size: clamp(1.1rem, 3vw, 1.5rem); text-transform: uppercase; letter-spacing: .06em; }
+.contact--reply .contact__head span { color: rgba(21, 18, 15, .72); }
+.contact--reply .contact__close { color: #15120f; border-color: rgba(21, 18, 15, .35); border-radius: 0; }
+.contact--reply .contact__close:hover { color: #fff3e9; border-color: #15120f; }
+.contact--reply .contact__form { font-family: "JetBrains Mono", monospace; }
+.contact--reply .contact__form label { color: var(--resume-chat-muted); }
+.contact--reply .contact__form input,
+.contact--reply .contact__form textarea {
+  border: 1px solid var(--resume-chat-rule);
+  border-radius: 0;
+  background: var(--resume-chat-surface);
+  color: var(--resume-chat-ink);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.78rem;
+}
+.contact--reply .contact__form input:focus,
+.contact--reply .contact__form textarea:focus { outline: 2px solid var(--resume-chat-accent); outline-offset: -2px; border-color: transparent; }
+.contact--reply .contact__count { color: var(--resume-chat-muted); }
+.contact--reply .contact__actions button { border: 1.5px solid var(--resume-chat-rule); border-radius: 0; background: var(--resume-chat-accent); color: #15120f; font-family: "JetBrains Mono", monospace; }
+.contact--reply .contact__status { color: var(--resume-chat-muted); }
 
 [data-motion="off"] .contact__surface { animation: none; }
 
