@@ -1,5 +1,5 @@
+import { useState, type CSSProperties, type ReactNode } from "react";
 import { contacts } from "../content/contacts";
-import { useState } from "react";
 import { about, contact, experiences, hero, projects, resolve } from "../content/profile";
 import type { ModeId } from "../modes/types";
 
@@ -18,24 +18,24 @@ const designLenses: {
     label: "Structure",
     title: "Make the shape honest first.",
     body:
-      "The designer version of this portfolio is not about decoration. It is about exposing hierarchy: what was owned, what was maintained, what was architectural, and what was learned.",
-    notes: ["Clear hierarchy", "Visible constraints", "No vague ownership"],
+      "Expose the hierarchy before polishing the surface: ownership, constraints, product logic, and the seams where decisions become visible.",
+    notes: ["Hierarchy map", "Constraints visible", "No vague ownership"],
   },
   {
     id: "interaction",
     label: "Interaction",
     title: "A surface should answer when touched.",
     body:
-      "The best references are memorable because their UI reacts with intent. This mode treats projects as specimens: hover, scan, compare, and decide what each one proves.",
-    notes: ["Inspectable projects", "Motion with purpose", "Readable states"],
+      "Treat every project as an inspectable specimen. The page should react with intent, not just decorate the work around it.",
+    notes: ["Readable states", "Intentional motion", "Touchable evidence"],
   },
   {
     id: "systems",
     label: "Systems",
     title: "Taste survives contact with production.",
     body:
-      "Good craft is not just visual polish. It is the ability to keep a system coherent across AI campaign creation, scripts, alerts, infrastructure, and production bugs.",
-    notes: ["Product breadth", "Debugging signal", "Architecture + infra"],
+      "Good craft is keeping the system coherent across AI products, dashboards, infrastructure, long-running bugs, and release pressure.",
+    notes: ["Product breadth", "Debugging signal", "Architecture + UI"],
   },
 ];
 
@@ -57,7 +57,21 @@ const specimenDetails: Record<string, Record<DesignLens, string>> = {
   },
 };
 
-function Anno({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
+const heroSignals = [
+  ["Role", "Software engineer / product-minded builder"],
+  ["Method", "Research → architecture → interface → release"],
+  ["Evidence", "AI products, dashboards, visual algorithms, games"],
+] as const;
+
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+      <path d="M5 13 13 5M7 5h6v6" />
+    </svg>
+  );
+}
+
+function Anno({ children, style }: { children: ReactNode; style?: CSSProperties }) {
   return (
     <span className="designer-anno" style={style} aria-hidden="true">
       {children}
@@ -72,28 +86,34 @@ export default function DesignerPage({ mode }: Props) {
   const lens = designLenses.find((item) => item.id === activeLens) ?? designLenses[0];
 
   return (
-    <main className={`designer-page${annotate ? " designer-page--annotated" : ""}`}>
+    <main className={`designer-page designer-page--reclaimed${annotate ? " designer-page--annotated" : ""}${grid ? " designer-page--grid" : ""}`}>
       {grid ? <div className="designer-gridxray" aria-hidden="true" /> : null}
 
-      <div className="designer-tools" role="group" aria-label="Design inspection tools">
-        <button onClick={() => setAnnotate((v) => !v)} aria-pressed={annotate} className={annotate ? "is-on" : undefined}>
-          ✎ annotate
-        </button>
-        <button onClick={() => setGrid((v) => !v)} aria-pressed={grid} className={grid ? "is-on" : undefined}>
-          ▦ grid
-        </button>
-      </div>
-      <section className="designer-hero">
+      <header className="designer-shellbar">
+        <a className="designer-shellbar__brand" href="#designer-title" aria-label="Ayush Saini, back to top">
+          <span className="designer-shellbar__mark">AS</span>
+          <span className="designer-shellbar__name">Ayush Saini</span>
+        </a>
+        <nav aria-label="Designer portfolio navigation">
+          <a href="#designer-studio">Work</a>
+          <a href="#designer-practice">Practice</a>
+          <a href="#designer-experience">Experience</a>
+          <a href="#designer-composition">About</a>
+          <a href="#designer-contact">Contact</a>
+        </nav>
+      </header>
+
+      <section className="designer-hero" aria-labelledby="designer-title">
         <div className="designer-hero__marker">
-          <span>01 / INTRODUCTION</span>
-          <span>AYUSH SAINI · SINCE 2002</span>
+          <span>01 / Introduction</span>
+          <span>Design persona · inspection surface</span>
         </div>
 
         <div className="designer-hero__plate-wrap">
           <div className="designer-hero__plate designer-hero__plate--red" aria-hidden="true" />
           <div className="designer-hero__plate designer-hero__plate--navy" aria-hidden="true" />
           <div className="designer-hero__plate designer-hero__plate--yellow" aria-hidden="true" />
-          <h1 className="designer-hero__name">
+          <h1 className="designer-hero__name" id="designer-title">
             Ayush
             <br />
             S<i>a</i>ini.
@@ -103,34 +123,52 @@ export default function DesignerPage({ mode }: Props) {
               </svg>
             ) : null}
           </h1>
+          <p className="designer-hero__manifesto">{resolve(hero.statement, mode)}</p>
           {annotate ? (
             <>
-              <Anno style={{ top: "8%", right: "4%" }}>Fraunces — optical sizing earns its keep at display scale</Anno>
-              <Anno style={{ bottom: "18%", left: "2%" }}>plates: bauhaus primaries, stacked with intent, not decoration</Anno>
+              <Anno style={{ top: "7%", right: "5%" }}>display type is the lead instrument, not a decoration layer</Anno>
+              <Anno style={{ bottom: "17%", left: "1%" }}>geometric plates: retained from the fresh original direction, tightened into a system</Anno>
             </>
           ) : null}
-          <p className="designer-hero__manifesto">{resolve(hero.statement, mode)}</p>
         </div>
+
+        <dl className="designer-hero__signals" aria-label="Designer mode signals">
+          {heroSignals.map(([term, description]) => (
+            <div key={term}>
+              <dt>{term}</dt>
+              <dd>{description}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
-      <div className="designer-rule" />
-
-      <section className="designer-studio" aria-label="Designer studio board">
-        <div className="designer-studio__panel">
-          <div className="designer-studio__toolbar">
+      <section className="designer-studio" id="designer-studio" aria-label="Designer studio board">
+        <aside className="designer-studio__panel" id="designer-practice">
+          <div className="designer-studio__toolbar" role="tablist" aria-label="Design lens">
             {designLenses.map((item) => (
               <button
                 key={item.id}
                 className={`designer-studio__tab${activeLens === item.id ? " designer-studio__tab--active" : ""}`}
                 onClick={() => setActiveLens(item.id)}
                 type="button"
+                role="tab"
+                aria-selected={activeLens === item.id}
               >
                 {item.label}
               </button>
             ))}
           </div>
+          <div className="designer-tools" role="group" aria-label="Design inspection tools">
+            <span>Tools</span>
+            <button onClick={() => setAnnotate((value) => !value)} aria-pressed={annotate} className={annotate ? "is-on" : undefined}>
+              Annotate
+            </button>
+            <button onClick={() => setGrid((value) => !value)} aria-pressed={grid} className={grid ? "is-on" : undefined}>
+              Grid
+            </button>
+          </div>
           <div className="designer-studio__copy">
-            <span>02 / ACTIVE LENS</span>
+            <span>02 / Active lens</span>
             <h2>{lens.title}</h2>
             <p>{lens.body}</p>
           </div>
@@ -139,7 +177,7 @@ export default function DesignerPage({ mode }: Props) {
               <li key={note}>{note}</li>
             ))}
           </ul>
-        </div>
+        </aside>
 
         <div className={`designer-board designer-board--${activeLens}`}>
           <div className="designer-board__ruler designer-board__ruler--top" aria-hidden="true" />
@@ -149,6 +187,11 @@ export default function DesignerPage({ mode }: Props) {
             <span className="designer-board__swatch designer-board__swatch--red" />
             <span className="designer-board__swatch designer-board__swatch--gold" />
           </div>
+          <svg className="designer-board__paths" viewBox="0 0 900 620" aria-hidden="true">
+            <path d="M125 220 C250 40 525 40 650 240 S795 505 610 545" />
+            <path d="M225 520 C305 400 430 335 600 310" />
+          </svg>
+
           {projects.map((project, index) => (
             <a
               className={`designer-specimen designer-specimen--${project.id}`}
@@ -156,30 +199,29 @@ export default function DesignerPage({ mode }: Props) {
               key={project.id}
               target="_blank"
               rel="noreferrer"
-              style={{ "--specimen-index": index } as React.CSSProperties}
+              style={{ "--specimen-index": index } as CSSProperties}
             >
               <span className="designer-specimen__number">{project.number}</span>
               <h3>{project.name}</h3>
               <p>{specimenDetails[project.id]?.[activeLens] ?? resolve(project.description, mode)}</p>
-              <span className="designer-specimen__open">Open specimen ↗</span>
+              <span className="designer-specimen__open">
+                Open specimen <ArrowIcon />
+              </span>
             </a>
           ))}
+
           {annotate ? (
-            <Anno style={{ top: "-1.6rem", right: "0" }}>this layer is the portfolio critiquing itself →</Anno>
+            <Anno style={{ top: "-1.65rem", right: "0" }}>the page is allowed to critique itself →</Anno>
           ) : null}
-          <div className="designer-board__annotation designer-board__annotation--one">
-            hierarchy before ornament
-          </div>
-          <div className="designer-board__annotation designer-board__annotation--two">
-            interaction is evidence
-          </div>
+          <div className="designer-board__annotation designer-board__annotation--one">hierarchy before ornament</div>
+          <div className="designer-board__annotation designer-board__annotation--two">interaction is evidence</div>
         </div>
       </section>
 
-      <section className="designer-about">
-        {annotate ? <Anno style={{ top: "0.4rem", right: "4%" }}>em-italic = the one allowed flourish per heading</Anno> : null}
+      <section className="designer-about" id="designer-composition">
+        {annotate ? <Anno style={{ top: "0.4rem", right: "4%" }}>this section keeps the portfolio human, not just formal</Anno> : null}
         <h2>
-          Work as <em>composition</em>, not construction.
+          Work as <em>composition</em>, not decoration.
         </h2>
         <div>
           <p>{resolve(about.p1, mode)}</p>
@@ -187,54 +229,32 @@ export default function DesignerPage({ mode }: Props) {
         </div>
       </section>
 
-      <section className="designer-projects">
-        {projects.map((project) => (
-          <a className="designer-tile" key={project.id} href={project.url} target="_blank" rel="noreferrer">
-            <span className="designer-tile__number">{project.number}</span>
-            <h3 className="designer-tile__name">
-              {project.name.split(" ").map((part, index) => (
-                <span key={`${project.id}-${part}-${index}`}>
-                  {index === 1 ? <em>{part}</em> : part}
-                  {index < project.name.split(" ").length - 1 ? " " : ""}
-                </span>
-              ))}
-            </h3>
-            <p>{resolve(project.description, mode)}</p>
-            <span className="designer-tile__live">LIVE ↗</span>
-          </a>
-        ))}
-      </section>
-
-      <section className="designer-exp">
+      <section className="designer-exp" id="designer-experience">
         <div className="designer-hero__marker designer-hero__marker--section">
-          <span>03 / WHERE</span>
-          <span>TWO YEARS, TWO COMPANIES, ONE VERY SPECIFIC TASTE</span>
+          <span>03 / Where</span>
+          <span>Places the practice has been tested</span>
         </div>
         {experiences.map((experience) => (
-          <div className="designer-exp__row" key={experience.id}>
+          <article className="designer-exp__row" key={experience.id}>
             <span className="designer-exp__yr">{experience.period}</span>
-            <h4 className="designer-exp__title">
+            <h3 className="designer-exp__title">
               {experience.company} <em>{experience.role}</em>
-            </h4>
+            </h3>
             <span className="designer-exp__meta">{experience.mode}</span>
-          </div>
+          </article>
         ))}
       </section>
 
-      <section className="designer-contact">
+      <footer className="designer-contact" id="designer-contact">
         <h2>
           {resolve(contact.h2, mode)} if the <em>surface</em> matters to you.
         </h2>
         <div className="designer-contact__links">
-          <a href={contacts.emailHref}>EMAIL ↗</a>
-          <a href={contacts.linkedin} target="_blank" rel="noreferrer">
-            LINKEDIN ↗
-          </a>
-          <a href={contacts.github} target="_blank" rel="noreferrer">
-            GITHUB ↗
-          </a>
+          <a href={contacts.emailHref}>Email ↗</a>
+          <a href={contacts.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
+          <a href={contacts.github} target="_blank" rel="noreferrer">GitHub ↗</a>
         </div>
-      </section>
+      </footer>
     </main>
   );
 }
