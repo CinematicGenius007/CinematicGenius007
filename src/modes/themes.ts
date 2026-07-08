@@ -58,25 +58,6 @@ export const themes: Record<string, ModeTheme> = {
     radius: 0,
     motion: "calm",
   },
-  data: {
-    colors: {
-      bg: "#fafaf7",
-      surface: "#f4f4f0",
-      ink: "#141414",
-      mute: "#6a6a6a",
-      rule: "#e0ddd4",
-      accent: "#127a3c",
-      accentDim: "#b0382a",
-      gridColor: "rgba(0,0,0,0.04)",
-    },
-    fonts: {
-      display: "'IBM Plex Serif', serif",
-      body: "'DM Sans', sans-serif",
-      mono: "'IBM Plex Mono', monospace",
-    },
-    radius: 0,
-    motion: "calm",
-  },
   everyday: {
     colors: {
       bg: "#f6f2e9",
@@ -153,25 +134,6 @@ export const themes: Record<string, ModeTheme> = {
     radius: 0,
     motion: "off",
   },
-  codebase: {
-    colors: {
-      bg: "#1e1e1e",
-      surface: "#252526",
-      ink: "#d4d4d4",
-      mute: "#6a6a6a",
-      rule: "#3e3e42",
-      accent: "#569cd6",
-      accentDim: "#264f78",
-      gridColor: "transparent",
-    },
-    fonts: {
-      display: "'JetBrains Mono', monospace",
-      body: "'JetBrains Mono', monospace",
-      mono: "'JetBrains Mono', monospace",
-    },
-    radius: 0,
-    motion: "calm",
-  },
   director: {
     colors: {
       bg: "#111009",
@@ -186,25 +148,6 @@ export const themes: Record<string, ModeTheme> = {
     fonts: {
       display: "'Fraunces', serif",
       body: "'DM Sans', sans-serif",
-      mono: "'JetBrains Mono', monospace",
-    },
-    radius: 0,
-    motion: "kinetic",
-  },
-  signal: {
-    colors: {
-      bg: "#060a08",
-      surface: "#0c110e",
-      ink: "#d4ffe6",
-      mute: "#3a6049",
-      rule: "#132318",
-      accent: "#00e87a",
-      accentDim: "#005c30",
-      gridColor: "rgba(0,232,122,0.035)",
-    },
-    fonts: {
-      display: "'JetBrains Mono', monospace",
-      body: "'JetBrains Mono', monospace",
       mono: "'JetBrains Mono', monospace",
     },
     radius: 0,

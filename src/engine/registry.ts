@@ -47,12 +47,6 @@ export const registry: Record<ModeId, PersonaEntry> = {
     "Hierarchy, craft, and a portfolio that critiques itself.",
     () => import("../pages/DesignerPage"),
   ),
-  data: entry(
-    "data",
-    "Analysts",
-    "The same profile, served as a notebook of structured data.",
-    () => import("../pages/DataPage"),
-  ),
   everyday: entry(
     "everyday",
     "Common Folks",
@@ -71,23 +65,11 @@ export const registry: Record<ModeId, PersonaEntry> = {
     "Loud borders, old-web energy, UI with a point of view.",
     () => import("../pages/RetroPage"),
   ),
-  signal: entry(
-    "signal",
-    "The Signal",
-    "An investigation: trace the evidence, resolve the incident.",
-    () => import("../pages/SignalPage"),
-  ),
   director: entry(
     "director",
     "Director's Cut",
     "Cinematic sequencing; theatre kid turned systems engineer.",
     () => import("../pages/DirectorPage"),
-  ),
-  codebase: entry(
-    "codebase",
-    "Live Codebase",
-    "The portfolio as an IDE, files and all.",
-    () => import("../pages/CodebasePage"),
   ),
   pdf: entry(
     "pdf",

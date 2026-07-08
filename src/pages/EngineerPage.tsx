@@ -189,7 +189,7 @@ export default function EngineerPage({ mode }: Props) {
         />
 
         <div className="dbg-hero__intro">
-          <p className="dbg-kicker">SAME SOURCE · DIFFERENT RENDER — view 01/11: DEBUGGER</p>
+          <p className="dbg-kicker">SAME SOURCE · DIFFERENT RENDER — view 01/08: DEBUGGER</p>
           <p className="dbg-meta">
             process <strong>ayush.saini</strong> · pid 2002 · state{" "}
             <strong className="dbg-meta__live">RUNNING</strong>

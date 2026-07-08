@@ -1,13 +1,35 @@
 import { useSyncExternalStore } from "react";
 import type { ModeId } from "../modes/types";
 
-const VALID: ModeId[] = ["engineer", "pm", "designer", "data", "everyday", "anime", "retro", "pdf", "signal", "director", "codebase"];
+const VALID: ModeId[] = ["engineer", "pm", "designer", "everyday", "anime", "retro", "pdf", "director"];
 
 const DEFAULT_MODE: ModeId = "engineer";
 
+// Retired personas → nearest surviving render (old links keep working).
+const LEGACY: Record<string, ModeId> = {
+  signal: "engineer",
+  data: "engineer",
+  codebase: "retro",
+};
+
 function readMode(): ModeId {
   const as = new URLSearchParams(window.location.search).get("as");
+  if (as && LEGACY[as]) return LEGACY[as];
   return VALID.includes(as as ModeId) ? (as as ModeId) : DEFAULT_MODE;
+}
+
+// Normalize legacy ?as= values in the address bar once on load.
+{
+  const as = new URLSearchParams(window.location.search).get("as");
+  if (as && LEGACY[as]) {
+    const url = new URL(window.location.href);
+    if (LEGACY[as] === DEFAULT_MODE) {
+      url.searchParams.delete("as");
+    } else {
+      url.searchParams.set("as", LEGACY[as]);
+    }
+    window.history.replaceState({}, "", url);
+  }
 }
 
 const listeners = new Set<() => void>();

@@ -36,14 +36,6 @@ const ICONS: Record<ModeId, ReactNode> = {
       <circle cx="12" cy="10" r="1.4" />
     </svg>
   ),
-  data: (
-    <svg viewBox="0 0 24 24" {...stroke} aria-hidden="true">
-      <polyline points="4 4 4 20 20 20" />
-      <line x1="9" y1="20" x2="9" y2="13" strokeWidth="2.4" />
-      <line x1="13.5" y1="20" x2="13.5" y2="8.5" strokeWidth="2.4" />
-      <line x1="18" y1="20" x2="18" y2="15.5" strokeWidth="2.4" />
-    </svg>
-  ),
   everyday: (
     <svg viewBox="0 0 24 24" {...stroke} aria-hidden="true">
       <rect x="3" y="6" width="18" height="12.5" rx="1" />
@@ -62,14 +54,6 @@ const ICONS: Record<ModeId, ReactNode> = {
       <rect x="7" y="13.5" width="10" height="6.5" />
     </svg>
   ),
-  signal: (
-    <svg viewBox="0 0 24 24" {...stroke} aria-hidden="true">
-      <circle cx="12" cy="12" r="9" />
-      <circle cx="12" cy="12" r="4.5" strokeDasharray="2.4 2.8" />
-      <line x1="12" y1="12" x2="18.2" y2="5.8" />
-      <circle cx="15" cy="14.5" r="1.2" fill="currentColor" stroke="none" />
-    </svg>
-  ),
   director: (
     <svg viewBox="0 0 24 24" {...stroke} aria-hidden="true">
       <path d="M3.5 10.5 H20.5 V19.5 H3.5 Z" />
@@ -77,13 +61,6 @@ const ICONS: Record<ModeId, ReactNode> = {
       <line x1="8.4" y1="6.2" x2="7.4" y2="10.3" />
       <line x1="12.8" y1="6.2" x2="11.8" y2="10.3" />
       <line x1="17.2" y1="6.2" x2="16.2" y2="10.3" />
-    </svg>
-  ),
-  codebase: (
-    <svg viewBox="0 0 24 24" {...stroke} aria-hidden="true">
-      <polyline points="8 7 3.5 12 8 17" />
-      <polyline points="16 7 20.5 12 16 17" />
-      <line x1="13.3" y1="5" x2="10.7" y2="19" />
     </svg>
   ),
   pdf: (

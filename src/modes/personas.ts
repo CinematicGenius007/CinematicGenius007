@@ -17,11 +17,6 @@ export const personas: Record<string, Persona> = {
     theme: themes.designer,
     emphasize: ["craft"],
   },
-  data: {
-    id: "data",
-    theme: themes.data,
-    emphasize: ["data"],
-  },
   everyday: {
     id: "everyday",
     theme: themes.everyday,
@@ -37,20 +32,10 @@ export const personas: Record<string, Persona> = {
     theme: themes.retro,
     emphasize: ["retro"],
   },
-  codebase: {
-    id: "codebase",
-    theme: themes.codebase,
-    emphasize: ["backend"],
-  },
   director: {
     id: "director",
     theme: themes.director,
     emphasize: ["craft"],
-  },
-  signal: {
-    id: "signal",
-    theme: themes.signal,
-    emphasize: ["systems"],
   },
   pdf: {
     id: "pdf",

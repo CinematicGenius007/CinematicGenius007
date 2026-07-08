@@ -1,4 +1,8 @@
-export type ModeId = "engineer" | "pm" | "designer" | "data" | "everyday" | "anime" | "retro" | "pdf" | "signal" | "director" | "codebase";
+export type ModeId = "engineer" | "pm" | "designer" | "everyday" | "anime" | "retro" | "pdf" | "director";
+
+// Retired personas (July 2026 consolidation): signal/data folded into engineer,
+// codebase folded into retro. Legacy ?as= values redirect in useMode.ts.
+export type RetiredModeId = "signal" | "data" | "codebase";
 
 export type ModeTheme = {
   colors: {

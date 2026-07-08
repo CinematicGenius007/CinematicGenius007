@@ -2,7 +2,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useMode } from "./engine/useMode";
 import { registry, preloadPersona } from "./engine/registry";
 import { themes } from "./modes/themes";
-import { viewIndex } from "./engine/transitions";
+import { viewIndex, VIEW_ORDER } from "./engine/transitions";
 import { MotionPreferenceProvider } from "./engine/useMotionPreference";
 import ThemeProvider from "./components/ThemeProvider";
 import TransitionLayer from "./components/TransitionLayer";
@@ -16,7 +16,7 @@ function Marker({ mode }: { mode: ModeId }) {
     <div className="marker" aria-hidden="true">
       <span className="marker__name">AYUSH SAINI</span>
       <span className="marker__view">
-        view {viewIndex(mode)}/11 · {registry[mode].label.toLowerCase()}
+        view {viewIndex(mode)}/{String(VIEW_ORDER.length).padStart(2, "0")} · {registry[mode].label.toLowerCase()}
       </span>
     </div>
   );
