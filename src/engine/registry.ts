@@ -53,23 +53,17 @@ export const registry: Record<ModeId, PersonaEntry> = {
     "Plain words, no jargon, a letter from Ayush.",
     () => import("../pages/EverydayPage"),
   ),
-  anime: entry(
-    "anime",
-    "Anime Fans",
-    "Career as story arcs, projects as battle cards.",
-    () => import("../pages/AnimePage"),
+  adaptation: entry(
+    "adaptation",
+    "The Adaptation",
+    "The career, dramatized — with a commentary track that tells the truth.",
+    () => import("../pages/AdaptationPage"),
   ),
   retro: entry(
     "retro",
     "Retro neobrutalist",
     "Loud borders, old-web energy, UI with a point of view.",
     () => import("../pages/RetroPage"),
-  ),
-  director: entry(
-    "director",
-    "Director's Cut",
-    "Cinematic sequencing; theatre kid turned systems engineer.",
-    () => import("../pages/DirectorPage"),
   ),
   pdf: entry(
     "pdf",

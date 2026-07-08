@@ -1,8 +1,10 @@
-export type ModeId = "engineer" | "pm" | "designer" | "everyday" | "anime" | "retro" | "pdf" | "director";
+export type ModeId = "engineer" | "pm" | "designer" | "everyday" | "adaptation" | "retro" | "pdf";
 
 // Retired personas (July 2026 consolidation): signal/data folded into engineer,
-// codebase folded into retro. Legacy ?as= values redirect in useMode.ts.
-export type RetiredModeId = "signal" | "data" | "codebase";
+// codebase folded into retro, anime/director merged into adaptation.
+// Legacy ?as= values redirect in useMode.ts. pdf survives as a utility
+// route (printable resume) but is out of the dial rotation.
+export type RetiredModeId = "signal" | "data" | "codebase" | "anime" | "director";
 
 export type ModeTheme = {
   colors: {

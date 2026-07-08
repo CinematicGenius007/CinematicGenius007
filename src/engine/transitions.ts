@@ -17,15 +17,14 @@ const ARRIVAL: Record<ModeId, string[]> = {
   pm: ["$ render --target=control-room", "loading program wall…"],
   designer: ["$ render --target=studio", "snapping to baseline grid…"],
   everyday: ["$ render --target=plain-words", "unfolding the letter…"],
-  anime: ["$ render --target=episode-01", "cold open in 3… 2…"],
+  adaptation: ["$ render --target=season-one", "cold open in 3… 2…"],
   retro: ["$ render --target=saini-os", "memory check: 9950KB OK"],
-  director: ["$ render --target=feature-film", "roll camera…"],
-  pdf: ["$ render --target=artifact", "compiling 8 views → 1 page…"],
+  pdf: ["$ render --target=artifact", "compiling 6 views → 1 page…"],
 };
 
 // Famous routes get their own cut.
 const PAIRS: Partial<Record<string, TransitionSpec>> = {
-  "anime→everyday": {
+  "adaptation→everyday": {
     flavor: "ink",
     lines: ["…the panel was a drawing on a letter.", "okay — here's what that actually means."],
   },
@@ -38,16 +37,16 @@ export function getTransition(from: ModeId, to: ModeId): TransitionSpec {
   return { flavor: "recompile", lines: ARRIVAL[to] };
 }
 
-// Display order for "view NN/08" numbering — mirrors registry order.
+// Display order for "view NN/06" numbering — mirrors registry order.
+// pdf is a utility route (printable resume), deliberately outside the
+// dial rotation; reach it via resume links or ?as=pdf directly.
 export const VIEW_ORDER: ModeId[] = [
   "engineer",
   "pm",
   "designer",
   "everyday",
-  "anime",
+  "adaptation",
   "retro",
-  "director",
-  "pdf",
 ];
 
 export function viewIndex(id: ModeId): string {

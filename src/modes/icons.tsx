@@ -42,9 +42,14 @@ const ICONS: Record<ModeId, ReactNode> = {
       <path d="M3.5 7 L12 13.5 L20.5 7" />
     </svg>
   ),
-  anime: (
+  adaptation: (
     <svg viewBox="0 0 24 24" {...stroke} aria-hidden="true">
-      <path d="M12 2.5 L13.9 8.8 L20.8 7 L15.6 11.9 L19.2 18.8 L12 14.9 L4.8 18.8 L8.4 11.9 L3.2 7 L10.1 8.8 Z" />
+      <rect x="3.5" y="5" width="17" height="14" rx="0.5" />
+      <line x1="3.5" y1="9" x2="20.5" y2="9" />
+      <line x1="7.5" y1="5" x2="9" y2="9" />
+      <line x1="12" y1="5" x2="13.5" y2="9" />
+      <line x1="16.5" y1="5" x2="18" y2="9" />
+      <path d="M10 12.5 L14.5 15 L10 17.5 Z" />
     </svg>
   ),
   retro: (
@@ -52,15 +57,6 @@ const ICONS: Record<ModeId, ReactNode> = {
       <path d="M4 4 H17 L20 7 V20 H4 Z" />
       <rect x="8" y="4" width="8" height="5" />
       <rect x="7" y="13.5" width="10" height="6.5" />
-    </svg>
-  ),
-  director: (
-    <svg viewBox="0 0 24 24" {...stroke} aria-hidden="true">
-      <path d="M3.5 10.5 H20.5 V19.5 H3.5 Z" />
-      <path d="M3.8 10.5 L5 6 L21 6 L20.5 10.5" />
-      <line x1="8.4" y1="6.2" x2="7.4" y2="10.3" />
-      <line x1="12.8" y1="6.2" x2="11.8" y2="10.3" />
-      <line x1="17.2" y1="6.2" x2="16.2" y2="10.3" />
     </svg>
   ),
   pdf: (

@@ -18,7 +18,7 @@ Facts about Ayush:
 - Contact: ${resumeFacts.email}, github.com/CinematicGenius007, linkedin.com/in/ayush-saini-858357200.
 - Portfolio-only background: debate and theatre through college; strong interest in debugging, mentorship, and making complex systems understandable.
 
-This portfolio is a single-page app styled as a newspaper ("The Debugger's Gazette") with 8 "personas" — different framings of the same person/work for different audiences (engineer, PM, designer, data, etc), switchable via a dial UI.
+This portfolio is a single-page app styled as a newspaper ("The Debugger's Gazette") with 6 "personas" — different framings of the same person/work for different audiences (engineer, PM, designer, the adaptation, etc), switchable via a dial UI. A printable resume lives at ?as=pdf.
 
 Ground rules:
 - Be concise. 2-4 sentences per reply unless asked for detail.
@@ -34,10 +34,9 @@ const PERSONA_VOICE: Record<ModeId, string> = {
   pm: "Tone: outcomes-first, structured. Frame answers around scope, ownership, and shipped impact.",
   designer: "Tone: thoughtful about craft and form. It's fine to comment on the portfolio's own design choices.",
   everyday: "Tone: plain, warm, zero jargon. Explain things like you would to a friend who doesn't code.",
-  anime: "Tone: a little dramatic, framed like narrating an arc in a story — but keep facts accurate underneath the flourish.",
+  adaptation: "Tone: a dramatized retelling with a director's honesty — narrate like an episode, then footnote the truth. Facts stay accurate.",
   retro: "Tone: loud, opinionated, old-web energy. Short punchy sentences.",
   pdf: "Tone: formal and dense, like a resume annotation.",
-  director: "Tone: cinematic, sequencing the story like a director discussing a cut — but stay grounded in real facts.",
 };
 
 export function systemPromptFor(mode: ModeId): string {
@@ -49,19 +48,17 @@ export const chatGreeting: Record<ModeId, string> = {
   pm: "Ask about scope, ownership, or outcomes from Ayush's work.",
   designer: "Ask about the work, the craft, or this portfolio's design choices.",
   everyday: "Hi! Ask me anything about Ayush — no jargon needed.",
-  anime: "Ask, and the next chapter shall be told.",
+  adaptation: "Ask, and the next episode shall be told. (Commentary available.)",
   retro: "ASK ME SOMETHING. ANY KEY TO CONTINUE.",
   pdf: "Ask about Ayush's experience or qualifications.",
-  director: "Cameras rolling. What do you want to know?",
 };
 
 export const chatSuggestions: Record<ModeId, string[]> = {
   engineer: ["What's he working on at Optmyzr?", "What's his stack?", "How was this site built?"],
   pm: ["What has he shipped end-to-end?", "What's his ownership scope?", "How does he work with teams?"],
-  designer: ["What's the thinking behind this portfolio?", "What design work has he done?", "Why 8 personas?"],
+  designer: ["What's the thinking behind this portfolio?", "What design work has he done?", "Why 6 personas?"],
   everyday: ["What does he do for work?", "What's he built outside of work?", "How do I get in touch?"],
-  anime: ["Tell me his origin story.", "What's the current arc?", "What's the next chapter?"],
+  adaptation: ["Tell me his origin story.", "What actually happened?", "What's the next episode?"],
   retro: ["WHAT DOES HE BUILD?", "SHOW ME A PROJECT", "HOW DO I REACH HIM?"],
   pdf: ["Summarize his resume.", "What's his current role?", "What's his education?"],
-  director: ["Walk me through the story so far.", "What's the latest chapter?", "What's behind the surface?"],
 };

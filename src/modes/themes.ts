@@ -77,11 +77,11 @@ export const themes: Record<string, ModeTheme> = {
     radius: 0,
     motion: "off",
   },
-  anime: {
+  adaptation: {
     colors: {
-      bg: "#fafaf7",
-      surface: "#f0f0ed",
-      ink: "#0a0a0a",
+      bg: "#f6f4ee",
+      surface: "#eeece4",
+      ink: "#141216",
       mute: "#5a5a5a",
       rule: "#1a1a1a",
       accent: "#d7263d",
@@ -133,25 +133,6 @@ export const themes: Record<string, ModeTheme> = {
     },
     radius: 0,
     motion: "off",
-  },
-  director: {
-    colors: {
-      bg: "#111009",
-      surface: "#1c1810",
-      ink: "#ede4cf",
-      mute: "#7a6a4a",
-      rule: "#2c2418",
-      accent: "#c8902a",
-      accentDim: "#5a3e10",
-      gridColor: "transparent",
-    },
-    fonts: {
-      display: "'Fraunces', serif",
-      body: "'DM Sans', sans-serif",
-      mono: "'JetBrains Mono', monospace",
-    },
-    radius: 0,
-    motion: "kinetic",
   },
   pdfDark: {
     colors: {

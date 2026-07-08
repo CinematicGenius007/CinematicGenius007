@@ -7,8 +7,7 @@ export const contactSurface: Record<ModeId, ContactSurfaceCopy> = {
   pm: { trigger: "New request", kicker: "INTAKE / 01", title: "Start a conversation", note: "Scope, context, and a useful next step.", presentation: "brief" },
   designer: { trigger: "Contact sheet", kicker: "EDITORIAL / CONTACT", title: "Send the considered version", note: "A clean surface for a thoughtful note.", presentation: "sheet" },
   everyday: { trigger: "Write to me", kicker: "A SMALL LETTER", title: "Hello, Ayush", note: "No special format. Just tell me what’s on your mind.", presentation: "letter" },
-  anime: { trigger: "Transmit", kicker: "通信 / TRANSMISSION", title: "Send the next chapter", note: "Your message enters the queue.", presentation: "transmission" },
+  adaptation: { trigger: "Transmit", kicker: "通信 / TRANSMISSION", title: "Send the next chapter", note: "Your message enters the queue.", presentation: "transmission" },
   retro: { trigger: "MAIL", kicker: "New Message - MAIL", title: "Compose", note: "Plain text still works beautifully.", presentation: "popup" },
-  director: { trigger: "Production note", kicker: "CALL SHEET / MESSAGE", title: "Send a production note", note: "Scene, context, desired next take.", presentation: "callsheet" },
   pdf: { trigger: "Reply slip", kicker: "TECHNICAL REPLY / FORM 01", title: "Contact Ayush", note: "A concise reply attached to the résumé.", presentation: "reply" },
 };

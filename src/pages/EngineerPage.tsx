@@ -294,6 +294,7 @@ function runCommand(cmd: string, mode: ModeId): string[] {
         "  cat <name>      read a project or job (try: cat zariya)",
         "  skills          /proc/skills, mounted",
         "  contact         open a line",
+        "  resume          printable render of the same source",
         "  uptime          how long you've been here",
         "  clear           wipe the buffer",
       ];
@@ -319,6 +320,8 @@ function runCommand(cmd: string, mode: ModeId): string[] {
       return skillGroups.map((g) => `${g.label.toLowerCase().padEnd(14, " ")} ${g.items.join(" · ")}`);
     case "contact":
       return [`email     ${contacts.email}`, `linkedin  ${contacts.linkedin}`, `github    ${contacts.github}`];
+    case "resume":
+      return ["same facts, print layout: /?as=pdf"];
     case "uptime":
       return [`${Math.round(performance.now() / 1000)}s this session — the process itself has been running since 2021.`];
     case "sudo":
@@ -433,7 +436,7 @@ export default function EngineerPage({ mode }: Props) {
 
       {/* ── 01 · attached ────────────────────────────────────────── */}
       <section className="prc-hero">
-        <p className="prc-kicker">SAME SOURCE · DIFFERENT RENDER — view 01/08: DEBUGGER</p>
+        <p className="prc-kicker">SAME SOURCE · DIFFERENT RENDER — view 01/06: DEBUGGER</p>
         <p className="prc-meta">
           process <strong>ayush.saini</strong> · pid 2002 · state{" "}
           <strong className="prc-meta__live">RUNNING</strong> · session uptime{" "}

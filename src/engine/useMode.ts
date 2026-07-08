@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 import type { ModeId } from "../modes/types";
 
-const VALID: ModeId[] = ["engineer", "pm", "designer", "everyday", "anime", "retro", "pdf", "director"];
+const VALID: ModeId[] = ["engineer", "pm", "designer", "everyday", "adaptation", "retro", "pdf"];
 
 const DEFAULT_MODE: ModeId = "engineer";
 
@@ -10,6 +10,8 @@ const LEGACY: Record<string, ModeId> = {
   signal: "engineer",
   data: "engineer",
   codebase: "retro",
+  anime: "adaptation",
+  director: "adaptation",
 };
 
 function readMode(): ModeId {

@@ -22,20 +22,15 @@ export const personas: Record<string, Persona> = {
     theme: themes.everyday,
     emphasize: ["human"],
   },
-  anime: {
-    id: "anime",
-    theme: themes.anime,
-    emphasize: ["arc"],
+  adaptation: {
+    id: "adaptation",
+    theme: themes.adaptation,
+    emphasize: ["arc", "craft"],
   },
   retro: {
     id: "retro",
     theme: themes.retro,
     emphasize: ["retro"],
-  },
-  director: {
-    id: "director",
-    theme: themes.director,
-    emphasize: ["craft"],
   },
   pdf: {
     id: "pdf",
