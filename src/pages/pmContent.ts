@@ -5,10 +5,12 @@ export type ProgramLens = "launch" | "scale" | "stabilize";
 export const tickerItems = [
   "PROGRAM STATUS: GREEN",
   "SCOPE: AI CAMPAIGN CREATION · LOCKED",
+  "ZARIYA RECRUIT: 100k+ INTERVIEW MINUTES CONDUCTED",
+  "HIRING OPS: AI VIDEO · PHONE SCREENING · ATS",
   "RISK REGISTER: REVIEWED",
   "DEPENDENCIES: MAPPED",
   "TWO ROLES RUNNING IN PARALLEL SINCE 2024",
-  "DECISION LOG: 8 CALLS ON RECORD",
+  "DECISION LOG: 10 CALLS ON RECORD",
   "NEXT MILESTONE: YOUR TEAM",
 ];
 
@@ -16,7 +18,7 @@ export const pmStats: { value: number; decimals?: number; suffix: string; label:
   { value: 5, suffix: " yrs", label: "shipping in production" },
   { value: 2, suffix: "", label: "roles run in parallel" },
   { value: 6, suffix: "+", label: "product surfaces owned" },
-  { value: 9.98, decimals: 2, suffix: "", label: "CGPA · CSE, class of 2022" },
+  { value: 100, suffix: "k+ min", label: "AI interviews conducted" },
 ];
 
 export const ganttRange = { start: 2018.0, end: 2026.8, today: 2026.45 };
@@ -57,10 +59,10 @@ export const caseStudies = [
     period: "Aug 2024 →",
     meta: "Founding team",
     title: "Designing the product architecture and keeping the servers alive.",
-    subtitle: "Architecture · Infrastructure · AI-assisted products",
-    context: "Early-stage AI SaaS with multiple products, a small team, and a codebase that has needed both 0-to-1 building and architectural correction.",
-    shipped: "Architecture, infrastructure, product rebuilds, a 70-session voice interviewer, Zariya Recruit, and multiple features from scratch.",
-    signal: "Technical co-founder owning 80% of AWS operations and the product's architectural direction.",
+    subtitle: "Zariya Recruit · AI interviews · ATS · AWS operations",
+    context: "Early-stage AI SaaS where Zariya Recruit at recruit.zariya.ai had to cover the hiring loop: AI video interviews with auto-scoring, overnight phone screening, batch resume parsing, ATS, and candidate email workflows.",
+    shipped: "Zariya Recruit hiring infrastructure, automated AI video interviews, phone screening as an overnight batch, batch resume parsing, built-in ATS, candidate emails, architecture, infrastructure, and product rebuilds.",
+    signal: "Technical co-founder owning 80% of AWS operations and the product's architectural direction; 100,000+ interview minutes conducted, ISB Demo Day recognition, and MeitY backing.",
   },
 ];
 
@@ -174,7 +176,12 @@ export const eraLog: Era[] = [
     year: "2024–26",
     title: "Ownership, twice",
     status: "Zariya AI · Technical Co-Founder & CTO · Optmyzr in parallel",
-    decisions: ["Take the Zariya technical co-founder role in parallel.", "Architect the 70-session voice pipeline and reset product foundations when needed."],
+    decisions: [
+      "Take the Zariya technical co-founder role in parallel.",
+      "Architect the 70-session voice pipeline and reset product foundations when needed.",
+      "Run phone screening as a parallel overnight batch so volume does not block on a live queue.",
+      "Own the ATS in-product so interviews, scores, resumes, and candidate emails share one source of truth.",
+    ],
     active: ["AI interviews", "Zariya Recruit", "80% AWS operations"],
   },
 ];
