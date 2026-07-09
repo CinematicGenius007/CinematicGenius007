@@ -18044,3 +18044,48 @@ a:hover { color: var(--mode-accent); }
     gap: 0.25rem;
   }
 }
+
+/* ── SAINI.OS additions: Resume.pdf app (os-) ── */
+
+.os-resume__panel {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.8rem 0;
+  padding: 0.65rem;
+  border: 2px solid var(--mode-rule);
+  background:
+    repeating-linear-gradient(45deg, transparent 0 6px, color-mix(in srgb, var(--mode-rule) 10%, transparent) 6px 8px),
+    var(--mode-bg);
+}
+
+.os-resume__panel div {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  gap: 0.65rem;
+  align-items: baseline;
+}
+
+.os-resume__panel span {
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mode-mute);
+}
+
+.os-resume__panel strong {
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.os-resume__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+@media (max-width: 420px) {
+  .os-resume__panel div {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+}

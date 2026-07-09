@@ -155,7 +155,7 @@ function TttExe() {
 
 /* ── terminal ─────────────────────────────────────────────────── */
 
-function Terminal({ openWindow }: { openWindow: (kind: string) => void }) {
+function Terminal({ mode, openWindow }: { mode: ModeId; openWindow: (kind: string) => void }) {
   const [history, setHistory] = useState<string[]>([
     "SAINI.OS terminal — type `help`",
   ]);
@@ -166,19 +166,61 @@ function Terminal({ openWindow }: { openWindow: (kind: string) => void }) {
     endRef.current?.scrollIntoView({ block: "nearest" });
   }, [history]);
 
+  const catFile = (name: string): string[] => {
+    if (name === "readme") {
+      return [
+        `${hero.name} — ${resolve(hero.role, mode)}`,
+        resolve(hero.statement, mode),
+        "same filesystem, different wallpaper. very official.",
+      ];
+    }
+
+    const exp = experiences.find((item) => item.id === name);
+    if (exp) {
+      return [
+        `${exp.company} — ${exp.role}`,
+        `${exp.period} · ${exp.mode}`,
+        resolve(exp.bullets[0], mode),
+      ];
+    }
+
+    const project = projects.find((item) => item.id === name);
+    if (project) {
+      return [
+        `${project.name} — ${project.tech.join(", ")}`,
+        resolve(project.description, mode),
+        "file type: shipped side quest, kept around for evidence.",
+      ];
+    }
+
+    return [`cat: ${name}: no such file`];
+  };
+
   const run = (raw: string) => {
     const cmd = raw.trim().toLowerCase();
     const echo = `> ${raw}`;
     let out: string[] = [];
     if (cmd === "help") {
-      out = ["help · whoami · ls · open <name> · hire · clear", "names: readme career projects skills trash mail"];
+      out = [
+        "help · whoami · ls · cat <name> · open <name> · resume · uname -a · hire · clear",
+        "names: readme career projects skills resume trash mail",
+        "cat: readme optmyzr zariya jetbrains ttt sudoku interviews",
+      ];
     } else if (cmd === "whoami") {
       out = ["ayush saini — full stack engineer. optmyzr by day, zariya by night."];
     } else if (cmd === "ls") {
-      out = ["ReadMe.txt  Career.dir  Projects.dir  Skills.cfg  Trash  Mail"];
+      out = ["ReadMe.txt  Career.dir  Projects.dir  Skills.cfg  Resume.pdf  Trash  Mail"];
+    } else if (cmd === "uname -a") {
+      out = ["SAINI.OS 2.0 (caffeine-cooled) — uptime since 2002, Roorkee build"];
+    } else if (cmd === "resume") {
+      openWindow("resume");
+      out = ["opening Resume.pdf…"];
+    } else if (cmd.startsWith("cat ")) {
+      const name = cmd.slice(4).trim();
+      out = catFile(name);
     } else if (cmd.startsWith("open ")) {
       const name = cmd.slice(5).trim();
-      const valid = ["readme", "career", "projects", "skills", "trash", "mail"];
+      const valid = ["readme", "career", "projects", "skills", "resume", "trash", "mail"];
       if (valid.includes(name)) {
         openWindow(name);
         out = [`opening ${name}…`];
@@ -243,6 +285,7 @@ const WINDOW_TITLES: Record<string, string> = {
   sudoku: "SUDOKU.EXE",
   interviews: "INTERVIEWS.URL",
   skills: "Skills.cfg",
+  resume: "Resume.pdf",
   terminal: "Terminal",
   trash: "Trash",
   mail: "Mail",
@@ -253,6 +296,7 @@ const DESKTOP_ICONS: { kind: string; label: string; glyph: string }[] = [
   { kind: "career", label: "Career.dir", glyph: "▦" },
   { kind: "projects", label: "Projects.dir", glyph: "▣" },
   { kind: "skills", label: "Skills.cfg", glyph: "⚙" },
+  { kind: "resume", label: "Resume.pdf", glyph: "⎙" },
   { kind: "terminal", label: "Terminal", glyph: "▮" },
   { kind: "mail", label: "Mail", glyph: "✉" },
   { kind: "trash", label: "Trash", glyph: "▼" },
@@ -455,8 +499,37 @@ export default function RetroPage({ mode }: Props) {
             <p className="os-cfg__note">all modules enabled by default. disabling has no effect; he&apos;ll use them anyway.</p>
           </div>
         );
+      case "resume":
+        return (
+          <div className="os-doc os-resume">
+            <h2>Resume.pdf</h2>
+            <p>The same career, compiled to one printable page.</p>
+            <div className="os-resume__panel" aria-label="Print dialog">
+              <div>
+                <span>Destination</span>
+                <strong>/?as=pdf</strong>
+              </div>
+              <div>
+                <span>Pages</span>
+                <strong>1, allegedly</strong>
+              </div>
+              <div>
+                <span>Format</span>
+                <strong>a portfolio pretending to be a printer</strong>
+              </div>
+            </div>
+            <div className="os-resume__actions">
+              <a className="os-btn" href="/?as=pdf">
+                Open print render
+              </a>
+              <button className="os-btn" onClick={() => window.print()}>
+                Print
+              </button>
+            </div>
+          </div>
+        );
       case "terminal":
-        return <Terminal openWindow={openWindow} />;
+        return <Terminal mode={mode} openWindow={openWindow} />;
       case "trash":
         return (
           <ul className="os-files os-files--trash">
