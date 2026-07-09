@@ -18089,3 +18089,58 @@ a:hover { color: var(--mode-accent); }
     gap: 0.15rem;
   }
 }
+
+/* ── everyday letter polish (evd-) ── */
+
+.everyday-letter,
+.everyday-section {
+  max-width: 62ch;
+}
+
+.everyday-letter p.everyday-letter__lede {
+  font-size: 1.22rem;
+  line-height: 1.72;
+}
+
+.everyday-section {
+  --evd-enter-delay: 0ms;
+}
+
+.everyday-section:nth-of-type(2) { --evd-enter-delay: 90ms; }
+.everyday-section:nth-of-type(3) { --evd-enter-delay: 180ms; }
+.everyday-section:nth-of-type(4) { --evd-enter-delay: 270ms; }
+.everyday-section:nth-of-type(5) { --evd-enter-delay: 360ms; }
+.everyday-section:nth-of-type(6) { --evd-enter-delay: 450ms; }
+.everyday-section:nth-of-type(7) { --evd-enter-delay: 540ms; }
+
+[data-motion="full"] .everyday-page:not(.everyday-page--returning) .everyday-letter,
+[data-motion="calm"] .everyday-page:not(.everyday-page--returning) .everyday-letter {
+  animation: evd-letter-enter 0.9s ease-out both;
+}
+
+[data-motion="full"] .everyday-page:not(.everyday-page--returning) .everyday-section,
+[data-motion="calm"] .everyday-page:not(.everyday-page--returning) .everyday-section {
+  animation: evd-letter-enter 0.9s ease-out both;
+  animation-delay: var(--evd-enter-delay);
+}
+
+.everyday-page--returning .everyday-letter,
+.everyday-page--returning .everyday-section,
+[data-motion="none"] .everyday-letter,
+[data-motion="none"] .everyday-section {
+  animation: none !important;
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes evd-letter-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

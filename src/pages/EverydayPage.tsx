@@ -39,11 +39,29 @@ function Days({ children }: { children: ReactNode }) {
 
 export default function EverydayPage({ mode }: Props) {
   const [allPlain, setAllPlain] = useState(false);
+  const [hasEntered] = useState(() => {
+    try {
+      return window.sessionStorage.getItem("evd-entered") === "true";
+    } catch {
+      return true;
+    }
+  });
+  const dateline = new Intl.DateTimeFormat("en", { month: "long", year: "numeric" }).format(new Date());
+
+  useEffect(() => {
+    if (hasEntered) return;
+
+    try {
+      window.sessionStorage.setItem("evd-entered", "true");
+    } catch {
+      // Session storage can be unavailable in some browser contexts; the page remains static-safe.
+    }
+  }, [hasEntered]);
 
   return (
-    <main className="everyday-page">
+    <main className={`everyday-page${hasEntered ? " everyday-page--returning" : ""}`}>
       <section className="everyday-letter">
-        <p className="everyday-letter__date">June 2026</p>
+        <p className="everyday-letter__date">{dateline}</p>
         <h1>Hi, I&apos;m Ayush.</h1>
         <p className="everyday-letter__lede">{resolve(about.p1, mode)}</p>
         <p>{resolve(about.p2, mode)}</p>
@@ -137,6 +155,12 @@ export default function EverydayPage({ mode }: Props) {
           <span>Outside code</span>
         </div>
         <p className="everyday-note">{resolve(outside, mode)}</p>
+      </section>
+
+      <section className="everyday-section">
+        <p className="everyday-note">
+          If you need the formal version, there&apos;s a <a href="/?as=pdf">printable resume</a>.
+        </p>
       </section>
 
       <section className="everyday-section everyday-section--contact">
