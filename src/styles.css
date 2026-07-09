@@ -18144,3 +18144,59 @@ a:hover { color: var(--mode-accent); }
     transform: translateY(0);
   }
 }
+
+/* ── designer self-inspection spec chips (designer-spec-) ── */
+
+.designer-spec-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+}
+
+.designer-spec-chip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.35rem;
+  align-items: start;
+  min-width: 7.2rem;
+  max-width: 11rem;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid var(--design-ink);
+  background: color-mix(in srgb, var(--design-paper) 94%, white);
+  color: var(--design-ink);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.25;
+  text-transform: none;
+  box-shadow: 4px 4px 0 rgba(16, 24, 48, 0.12);
+  pointer-events: none;
+}
+
+.designer-spec-chip__tick {
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-top: 1px solid var(--design-red);
+  border-left: 1px solid var(--design-red);
+}
+
+.designer-spec-chip__body {
+  display: grid;
+  gap: 0.12rem;
+}
+
+.designer-spec-chip__body span:last-child {
+  color: var(--design-red);
+}
+
+@media (max-width: 720px) {
+  .designer-spec-layer {
+    display: none;
+  }
+}

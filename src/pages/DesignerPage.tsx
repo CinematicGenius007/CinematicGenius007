@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { contacts } from "../content/contacts";
 import { about, contact, experiences, hero, projects, resolve } from "../content/profile";
 import type { ModeId } from "../modes/types";
@@ -63,6 +63,16 @@ const heroSignals = [
   ["Evidence", "AI products, dashboards, visual algorithms, games"],
 ] as const;
 
+const specSelectors = [
+  ".designer-hero__name",
+  ".designer-hero__manifesto",
+  ".designer-studio__tab",
+  ".designer-specimen h3",
+  ".designer-about p",
+  ".designer-exp__title",
+  ".designer-contact h2",
+] as const;
+
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
@@ -79,15 +89,182 @@ function Anno({ children, style }: { children: ReactNode; style?: CSSProperties 
   );
 }
 
+function clampChannel(value: number) {
+  return Math.max(0, Math.min(255, Math.round(value)));
+}
+
+function channelToHex(value: number) {
+  return clampChannel(value).toString(16).padStart(2, "0");
+}
+
+function colorToHex(color: string) {
+  const trimmed = color.trim();
+  const hex = /^#([0-9a-f]{3,8})$/i.exec(trimmed);
+
+  if (hex) {
+    const value = hex[1];
+
+    if (value.length === 3 || value.length === 4) {
+      return `#${value
+        .slice(0, 3)
+        .split("")
+        .map((char) => char + char)
+        .join("")}`.toUpperCase();
+    }
+
+    return `#${value.slice(0, 6)}`.toUpperCase();
+  }
+
+  const rgb = /rgba?\(\s*([+-]?\d*\.?\d+)(?:\s*,\s*|\s+)([+-]?\d*\.?\d+)(?:\s*,\s*|\s+)([+-]?\d*\.?\d+)/i.exec(trimmed);
+
+  if (rgb) {
+    return `#${channelToHex(Number(rgb[1]))}${channelToHex(Number(rgb[2]))}${channelToHex(Number(rgb[3]))}`.toUpperCase();
+  }
+
+  const srgb = /^color\(\s*srgb\s+([+-]?\d*\.?\d+)\s+([+-]?\d*\.?\d+)\s+([+-]?\d*\.?\d+)/i.exec(trimmed);
+
+  if (srgb) {
+    return `#${channelToHex(Number(srgb[1]) * 255)}${channelToHex(Number(srgb[2]) * 255)}${channelToHex(Number(srgb[3]) * 255)}`.toUpperCase();
+  }
+
+  return trimmed.toUpperCase();
+}
+
+function firstFontFamily(fontFamily: string) {
+  return fontFamily.split(",")[0]?.trim().replace(/^["']|["']$/g, "") || "Font";
+}
+
+function roundedPx(value: string, fallback: number) {
+  const parsed = Number.parseFloat(value);
+  return Number.isFinite(parsed) ? Math.round(parsed) : Math.round(fallback);
+}
+
+function measuredLineHeight(style: CSSStyleDeclaration, fontSize: number) {
+  if (style.lineHeight === "normal") {
+    return Math.round(fontSize * 1.2);
+  }
+
+  return roundedPx(style.lineHeight, fontSize * 1.2);
+}
+
+function SpecLayer({ refreshKey, rootRef }: { refreshKey: string; rootRef: RefObject<HTMLElement> }) {
+  const layerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    const layer = layerRef.current;
+
+    if (!root || !layer) {
+      return undefined;
+    }
+
+    let frame = 0;
+    let resizeFrame = 0;
+    let chips: { chip: HTMLDivElement; element: Element }[] = [];
+
+    const positionChips = () => {
+      chips.forEach(({ chip, element }) => {
+        const rect = element.getBoundingClientRect();
+        chip.style.transform = `translate(${Math.round(rect.right)}px, ${Math.round(rect.top)}px)`;
+      });
+    };
+
+    const schedulePosition = () => {
+      if (frame) {
+        return;
+      }
+
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        positionChips();
+      });
+    };
+
+    const rebuildChips = () => {
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+        frame = 0;
+      }
+
+      layer.replaceChildren();
+      chips = specSelectors.flatMap((selector) => {
+        const element = root.querySelector(selector);
+
+        if (!element) {
+          return [];
+        }
+
+        const style = window.getComputedStyle(element);
+        const fontSize = roundedPx(style.fontSize, 0);
+        const lineHeight = measuredLineHeight(style, fontSize);
+        const chip = document.createElement("div");
+        const tick = document.createElement("span");
+        const body = document.createElement("span");
+        const typeLine = document.createElement("span");
+        const colorLine = document.createElement("span");
+
+        chip.className = "designer-spec-chip";
+        tick.className = "designer-spec-chip__tick";
+        body.className = "designer-spec-chip__body";
+        typeLine.textContent = `${firstFontFamily(style.fontFamily)} ${fontSize}/${lineHeight}`;
+        colorLine.textContent = colorToHex(style.color);
+
+        body.append(typeLine, colorLine);
+        chip.append(tick, body);
+        layer.append(chip);
+
+        return [{ chip, element }];
+      });
+
+      positionChips();
+    };
+
+    const handleResize = () => {
+      if (resizeFrame) {
+        return;
+      }
+
+      resizeFrame = window.requestAnimationFrame(() => {
+        resizeFrame = 0;
+        rebuildChips();
+      });
+    };
+
+    rebuildChips();
+    window.addEventListener("scroll", schedulePosition, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", schedulePosition);
+      window.removeEventListener("resize", handleResize);
+
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
+
+      if (resizeFrame) {
+        window.cancelAnimationFrame(resizeFrame);
+      }
+
+      layer.replaceChildren();
+      chips = [];
+    };
+  }, [refreshKey, rootRef]);
+
+  return <div className="designer-spec-layer" ref={layerRef} aria-hidden="true" />;
+}
+
 export default function DesignerPage({ mode }: Props) {
   const [activeLens, setActiveLens] = useState<DesignLens>("structure");
   const [annotate, setAnnotate] = useState(false);
   const [grid, setGrid] = useState(false);
+  const pageRef = useRef<HTMLElement>(null);
   const lens = designLenses.find((item) => item.id === activeLens) ?? designLenses[0];
 
   return (
-    <main className={`designer-page designer-page--reclaimed${annotate ? " designer-page--annotated" : ""}${grid ? " designer-page--grid" : ""}`}>
+    <main ref={pageRef} className={`designer-page designer-page--reclaimed${annotate ? " designer-page--annotated" : ""}${grid ? " designer-page--grid" : ""}`}>
       {grid ? <div className="designer-gridxray" aria-hidden="true" /> : null}
+      {annotate ? <SpecLayer refreshKey={activeLens} rootRef={pageRef} /> : null}
 
       <header className="designer-shellbar">
         <a className="designer-shellbar__brand" href="#designer-title" aria-label="Ayush Saini, back to top">
