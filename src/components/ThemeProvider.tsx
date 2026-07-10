@@ -1,7 +1,45 @@
 import { useEffect, type ReactNode } from "react";
-import type { ModeTheme } from "../modes/types";
 
-type Props = { theme: ModeTheme; children: ReactNode };
+export type Theme = {
+  colors: {
+    bg: string;
+    surface: string;
+    ink: string;
+    mute: string;
+    rule: string;
+    accent: string;
+    accentDim: string;
+    gridColor: string;
+  };
+  fonts: {
+    display: string;
+    body: string;
+    mono: string;
+  };
+  radius: number;
+};
+
+// The one theme. Tungsten black, projector bone, premiere gold.
+export const filmTheme: Theme = {
+  colors: {
+    bg: "#0b0a08",
+    surface: "#16130e",
+    ink: "#f2ead8",
+    mute: "#8f877a",
+    rule: "#2a251c",
+    accent: "#e0a63c",
+    accentDim: "#6b4d16",
+    gridColor: "transparent",
+  },
+  fonts: {
+    display: "'Six Caps', 'Space Grotesk', sans-serif",
+    body: "'DM Sans', sans-serif",
+    mono: "'JetBrains Mono', monospace",
+  },
+  radius: 2,
+};
+
+type Props = { theme: Theme; children: ReactNode };
 
 export default function ThemeProvider({ theme, children }: Props) {
   useEffect(() => {

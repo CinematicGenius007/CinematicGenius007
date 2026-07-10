@@ -1,10 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import type { ModeTheme } from "../modes/types";
 
 export type MotionLevel = "none" | "calm" | "full";
 export type MotionOverride = "system" | "reduced" | "full";
 
-type MotionTier = ModeTheme["motion"];
+export type MotionTier = "off" | "calm" | "kinetic";
 
 const STORAGE_KEY = "motion-override";
 const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";

@@ -1,13 +1,7 @@
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
-import { systemPromptFor } from "../src/content/chatPrompts";
-import type { ModeId } from "../src/modes/types";
+import { systemPrompt } from "../src/content/chatPrompts";
 
 export const config = { runtime: "edge" };
-
-const VALID_MODES: ModeId[] = [
-  "engineer", "pm", "designer", "data", "everyday",
-  "anime", "retro", "pdf", "signal", "director", "codebase",
-];
 
 const MAX_MESSAGES = 12;
 const MAX_MESSAGE_CHARS = 600;
@@ -47,8 +41,7 @@ export default async function handler(req: Request): Promise<Response> {
     });
   }
 
-  const { messages, mode } = (await req.json()) as { messages: UIMessage[]; mode?: string };
-  const persona = VALID_MODES.includes(mode as ModeId) ? (mode as ModeId) : "engineer";
+  const { messages } = (await req.json()) as { messages: UIMessage[] };
 
   const trimmed = messages.slice(-MAX_MESSAGES).map((m) => ({
     ...m,
@@ -61,7 +54,7 @@ export default async function handler(req: Request): Promise<Response> {
 
   const result = streamText({
     model: "google/gemini-2.5-flash-lite",
-    system: systemPromptFor(persona),
+    system: systemPrompt,
     messages: await convertToModelMessages(trimmed),
     maxOutputTokens: MAX_OUTPUT_TOKENS,
   });

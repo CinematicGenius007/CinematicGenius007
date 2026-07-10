@@ -2,14 +2,14 @@
 
 ## Project Overview
 
-This is Ayush Saini's personal portfolio — a newspaper-styled single-page React application hosted at [cinematicgenius007.com](https://www.cinematicgenius007.com). The design follows a print/broadsheet aesthetic ("The Debugger's Gazette").
+This is Ayush Saini's personal portfolio — hosted at [cinematicgenius007.com](https://www.cinematicgenius007.com). The persona era (11 → 6 modes, dial navigation) is over: the site is now **one single-page experience, "CINEMATIC GENIUS 007"** — the career presented as a film (countdown leader, title card, opening credits, box-office numbers, three acts, deleted scenes, project posters, a LIGHTS OUT reaction mini-game, an end-credit roll, and a post-credits contact scene with a downloadable resume PDF).
 
 ## Tech Stack
 
 - **React 18** with **TypeScript**
 - **Vite** for build tooling
 - **pnpm** as package manager
-- Plain CSS (`src/styles.css`) — no CSS framework
+- Plain CSS (`src/styles.css`) — no CSS framework; GSAP (via `src/engine/animation.ts`) is the only animation dependency
 
 ## Commands
 
@@ -23,43 +23,43 @@ pnpm preview    # Preview production build
 
 ```
 src/
-  App.tsx                  # Shell: resolves current mode, mounts persona page + Dial + TransitionLayer
+  App.tsx                  # Shell: providers + FilmPage + chat/contact widgets;
+                           # strips legacy ?as= params (old persona links land here)
   main.tsx                 # React entry point
-  styles.css               # ALL styles, append-only (see conventions)
+  styles.css               # ALL styles, append-only; live section is the final
+                           # "CINEMATIC GENIUS 007 (cg-)" block — older prefixed
+                           # sections (prc-, pmb-, designer-, evd-, adp-, os-,
+                           # apx-, dial__…) are dead code kept per convention
   engine/
-    useMode.ts             # URL-driven mode state (?as= query param, popstate sync)
-    registry.ts            # Persona registry: lazy-loaded pages, labels, themes, preload
-    animation.ts           # GSAP animation kernel
-    transitions.ts         # Persona-to-persona transition definitions, view ordering
-    useMotionPreference.tsx # Motion tier governor (respects reduced motion)
-  modes/
-    types.ts               # ModeId, Persona, ModeTheme types
-    personas.ts            # Persona definitions (theme + emphasis per mode)
-    themes.ts              # Theme tokens per persona
-    icons.tsx              # Persona icons
-  pages/                   # One page component per persona (EngineerPage, PmPage, DesignerPage,
-                           # EverydayPage, AdaptationPage, RetroPage) + PdfPage (utility route)
-                           # + sibling *Content.ts content modules
-  sections/
-    Dial.tsx               # Quarter-arc dial navigation (bottom-right pill; scroll/drag to spin,
-                           # click to switch, Cmd/Ctrl+K toggles; poof cut on selection)
+    animation.ts           # GSAP kernel (only place gsap is imported)
+    useMotionPreference.tsx# Motion governor: tier + prefers-reduced-motion →
+                           # [data-motion] attr (none|calm|full)
+  pages/
+    FilmPage.tsx           # The one page (incl. LIGHTS OUT game component)
+    filmContent.ts         # All copy/data for the page
+  content/
+    resumeFacts.ts         # Canonical facts from the real resume — source of truth
+    contacts.ts            # Email/social links
+    chatPrompts.ts         # Single system prompt + greeting/suggestions for chat
+    contactCopy.ts         # Copy for the contact dialog
   components/
-    ThemeProvider.tsx      # Applies theme tokens
-    TransitionLayer.tsx    # Renders persona transition cuts
-  content/                 # Shared content: profile, contacts, types, engineer graph
-public/                    # Static assets
+    ThemeProvider.tsx      # Sets --mode-* CSS vars from the single filmTheme
+    ChatWidget.tsx         # Floating AI chat (Vercel AI SDK → /api/chat)
+    ContactWidget.tsx      # Floating contact form (→ /api/contact)
+api/                       # Vercel edge handlers (chat.ts, contact.ts)
+public/                    # Static assets, incl. Ayush_Saini_Resume.pdf (downloadable)
 dist/                      # Build output (gitignored)
 ```
 
 ## Key Conventions
 
-- **Personas/modes**: the site is 6 "personas" in the dial rotation (engineer, pm, designer, everyday, adaptation, retro) plus `pdf` as a utility route (printable resume — valid at `?as=pdf` but outside the dial; reachable via resume links and the engineer terminal's `resume` command). Navigation is via the `?as=` URL query param (no router) — `src/engine/useMode.ts` reads it, `setMode()` pushes history. `engineer` is the default and omits the param. Retired personas (signal, data, codebase, anime, director — see `RetiredModeId`) redirect via the `LEGACY` map in `useMode.ts`; keep those redirects working.
-- **Adding/changing a persona**: page component in `src/pages/`, content in a sibling `*Content.ts` (or `src/content/` if shared), theme in `src/modes/themes.ts`, persona entry in `src/modes/personas.ts`, registry entry in `src/engine/registry.ts` (pages are lazy-loaded with preload hooks), transition wiring in `src/engine/transitions.ts`.
-- **Content lives in data modules, not JSX**: typed arrays/constants in `src/pages/*Content.ts` and `src/content/`. Updating copy means editing those, not page markup.
-- **CSS is one append-only file** (`src/styles.css`, ~18k lines). Each persona rework appends a new commented "v2" section with a fresh short class prefix (current live prefixes: `prc-` engineer, `pmb-` PM, `designer-` designer, `evd-`/`everyday-` everyday, `adp-` adaptation, `os-` retro, `dial__` nav). Don't restyle old sections in place — append a new section with a new prefix. Watch specificity when overriding older rules from an appended block (e.g. `.everyday-letter p` beats `.everyday-letter__lede`).
-- **Motion is gated**: animations key off the `[data-motion]` attribute set by `useMotionPreference` (theme declares a motion tier; reduced-motion preference downgrades it). GSAP work goes through `src/engine/animation.ts`, not ad-hoc imports.
-- **PdfPage is the odd one out**: it takes `{ dark, onToggleTheme }` instead of `{ mode }`, and `App.tsx` owns that special case.
-- No external UI libraries or component frameworks (GSAP for animation is the exception) — keep it that way unless there is a strong reason.
+- **One page, no routing.** There is no persona/mode system, no dial, no `?as=` routing. `App.tsx` deletes any legacy `?as=` query param on load so old links resolve to the film. Do not reintroduce mode machinery.
+- **Content lives in data modules, not JSX**: `src/pages/filmContent.ts` and `src/content/`. Updating copy means editing those, not page markup. `resumeFacts.ts` is authoritative for factual claims.
+- **CSS is one append-only file** (`src/styles.css`, ~20k lines). The live section is the final `cg-` block. Don't restyle old dead sections; if reworking the page, append a new commented section with a fresh short prefix. Watch specificity when overriding earlier rules.
+- **Motion is gated**: all animation keys off `[data-motion]` set by `useMotionPreference` (`none|calm|full`). Static-first rule: everything must be fully visible/readable with no JS or at `none`; GSAP/CSS animations only subtract visibility at `full` (CSS keyframes gated behind `[data-motion="full"]`). GSAP goes through `src/engine/animation.ts`, never ad-hoc imports.
+- **The visual identity** (cg- block): tungsten black `#0b0a08`, bone `#f2ead8`, premiere gold `#e0a63c`, signal red `#e3312b`; type = Six Caps (display) + DM Serif Display italic (titles/narration) + JetBrains Mono (timecode/slates) + DM Sans (body). Film devices carry structure: slates, timecode HUD, sprocket rails, letterbox, subtitle lines, credit roll.
+- **Storage keys**: `cg-leader-seen` (sessionStorage — countdown plays once per session), `cg-lightsout-best` (localStorage — game PB).
+- No external UI libraries or component frameworks (GSAP is the exception) — keep it that way unless there is a strong reason.
 
 ## Deployment
 

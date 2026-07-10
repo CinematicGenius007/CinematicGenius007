@@ -1,73 +1,28 @@
-import { Suspense, useEffect, useState } from "react";
-import { useMode } from "./engine/useMode";
-import { registry, preloadPersona } from "./engine/registry";
-import { themes } from "./modes/themes";
-import { viewIndex, VIEW_ORDER } from "./engine/transitions";
+import { useEffect } from "react";
 import { MotionPreferenceProvider } from "./engine/useMotionPreference";
-import ThemeProvider from "./components/ThemeProvider";
-import TransitionLayer from "./components/TransitionLayer";
+import ThemeProvider, { filmTheme } from "./components/ThemeProvider";
 import ChatWidget from "./components/ChatWidget";
 import ContactWidget from "./components/ContactWidget";
-import Dial from "./sections/Dial";
-import type { ModeId } from "./modes/types";
-
-function Marker({ mode }: { mode: ModeId }) {
-  return (
-    <div className="marker" aria-hidden="true">
-      <span className="marker__name">AYUSH SAINI</span>
-      <span className="marker__view">
-        view {viewIndex(mode)}/{String(VIEW_ORDER.length).padStart(2, "0")} · {registry[mode].label.toLowerCase()}
-      </span>
-    </div>
-  );
-}
+import FilmPage from "./pages/FilmPage";
 
 function App() {
-  const target = useMode();
-  const [displayed, setDisplayed] = useState(target);
-  const [tx, setTx] = useState<{ from: ModeId; to: ModeId } | null>(null);
-  const [pdfDark, setPdfDark] = useState(false);
-
-  // Queue a transition whenever the URL-driven target drifts from the page on
-  // screen; chained switches resolve one cut at a time.
+  // The persona era is over — old ?as= links all land on the one film now.
   useEffect(() => {
-    if (target !== displayed && !tx) {
-      preloadPersona(target);
-      setTx({ from: displayed, to: target });
+    const url = new URL(window.location.href);
+    if (url.searchParams.has("as")) {
+      url.searchParams.delete("as");
+      window.history.replaceState({}, "", url);
     }
-  }, [target, displayed, tx]);
-
-  const { theme: personaTheme, Page } = registry[displayed];
-  const theme = displayed === "pdf" ? (pdfDark ? themes.pdfDark : themes.pdf) : personaTheme;
+  }, []);
 
   return (
-    <MotionPreferenceProvider tier={theme.motion}>
-      <ThemeProvider theme={theme}>
-        <div
-          className={`page-shell page-shell--${displayed}${
-            displayed === "pdf" && pdfDark ? " page-shell--pdf-dark" : ""
-          }`}
-        >
-          <Suspense fallback={null}>
-            {displayed === "pdf" ? (
-              <Page dark={pdfDark} onToggleTheme={() => setPdfDark((v) => !v)} />
-            ) : (
-              <Page mode={displayed} />
-            )}
-          </Suspense>
-          {displayed !== "pdf" ? <Marker mode={displayed} /> : null}
-          <ChatWidget mode={displayed} />
-          <ContactWidget mode={displayed} />
-          <Dial currentMode={displayed} />
+    <MotionPreferenceProvider tier="kinetic">
+      <ThemeProvider theme={filmTheme}>
+        <div className="page-shell page-shell--film">
+          <FilmPage />
+          <ChatWidget />
+          <ContactWidget />
         </div>
-        <TransitionLayer
-          from={tx?.from ?? displayed}
-          to={tx?.to ?? null}
-          onMidpoint={() => {
-            if (tx) setDisplayed(tx.to);
-          }}
-          onDone={() => setTx(null)}
-        />
       </ThemeProvider>
     </MotionPreferenceProvider>
   );

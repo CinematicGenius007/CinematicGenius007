@@ -1,12 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import type { ModeId } from "../modes/types";
 import { chatGreeting, chatSuggestions } from "../content/chatPrompts";
 
-type Props = { mode: ModeId };
-
-export default function ChatWidget({ mode }: Props) {
+export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -14,7 +11,6 @@ export default function ChatWidget({ mode }: Props) {
   const { messages, sendMessage, status, error } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",
-      body: () => ({ mode }),
     }),
   });
 
@@ -49,11 +45,11 @@ export default function ChatWidget({ mode }: Props) {
   }
 
   return (
-    <div className={`chat chat--${mode}${open ? " chat--open" : ""}`}>
+    <div className={`chat chat--film${open ? " chat--open" : ""}`}>
       {open ? (
         <div className="chat__panel" role="dialog" aria-label="Chat with Ayush's portfolio assistant">
           <div className="chat__head">
-            <span className="chat__title">{mode === "pdf" ? "Resume query / AI" : "Ask the portfolio"}</span>
+            <span className="chat__title">Ask the projectionist</span>
             <button type="button" className="chat__close" onClick={() => setOpen(false)} aria-label="Close chat">
               ×
             </button>
@@ -61,9 +57,9 @@ export default function ChatWidget({ mode }: Props) {
           <div className="chat__body" ref={scrollRef}>
             {messages.length === 0 ? (
               <>
-                <p className="chat__greeting">{chatGreeting[mode]}</p>
+                <p className="chat__greeting">{chatGreeting}</p>
                 <div className="chat__suggestions">
-                  {chatSuggestions[mode].map((s) => (
+                  {chatSuggestions.map((s) => (
                     <button
                       key={s}
                       type="button"
@@ -137,13 +133,7 @@ export default function ChatWidget({ mode }: Props) {
         aria-expanded={open}
         aria-label={open ? "Close chat" : "Open chat"}
       >
-        {open ? (
-          "×"
-        ) : mode === "pdf" ? (
-          <><span className="chat__toggle-index">AI /</span> Ask résumé</>
-        ) : (
-          "Ask"
-        )}
+        {open ? "×" : "Ask"}
       </button>
     </div>
   );

@@ -1,5 +1,4 @@
 import { useEffect, useId, useRef, useState } from "react";
-import type { ModeId } from "../modes/types";
 import { contactSurface } from "../content/contactCopy";
 
 type Status = "idle" | "submitting" | "success" | "validation" | "rate-limit" | "failure";
@@ -20,8 +19,8 @@ export function localErrors(fields: Fields) {
   return errors;
 }
 
-export default function ContactWidget({ mode }: { mode: ModeId }) {
-  const copy = contactSurface[mode];
+export default function ContactWidget() {
+  const copy = contactSurface;
   const titleId = useId();
   const statusId = useId();
   const [open, setOpen] = useState(false);
@@ -124,7 +123,7 @@ export default function ContactWidget({ mode }: { mode: ModeId }) {
   }[status];
 
   return (
-    <div className={`contact contact--${mode} contact--${copy.presentation}${open ? " contact--open" : ""}`}>
+    <div className={`contact contact--film contact--${copy.presentation}${open ? " contact--open" : ""}`}>
       <button ref={triggerRef} type="button" className="contact__trigger" onClick={() => setOpen(true)} aria-haspopup="dialog">
         {copy.trigger}
       </button>
