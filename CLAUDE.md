@@ -23,7 +23,7 @@ pnpm preview    # Preview production build
 
 ```
 src/
-  App.tsx                  # Shell: resolves current mode, mounts persona page + Switchboard + TransitionLayer
+  App.tsx                  # Shell: resolves current mode, mounts persona page + Dial + TransitionLayer
   main.tsx                 # React entry point
   styles.css               # ALL styles, append-only (see conventions)
   engine/
@@ -38,14 +38,14 @@ src/
     themes.ts              # Theme tokens per persona
     icons.tsx              # Persona icons
   pages/                   # One page component per persona (EngineerPage, PmPage, DesignerPage,
-                           # DataPage, EverydayPage, AnimePage, RetroPage, PdfPage, SignalPage,
-                           # DirectorPage, CodebasePage) + sibling *Content.ts content modules
+                           # EverydayPage, AdaptationPage, RetroPage) + PdfPage (utility route)
+                           # + sibling *Content.ts content modules
   sections/
-    Switchboard.tsx        # Fullscreen channel-grid navigation between personas
+    Dial.tsx               # Quarter-arc dial navigation (bottom-right pill; scroll/drag to spin,
+                           # click to switch, Cmd/Ctrl+K toggles; poof cut on selection)
   components/
     ThemeProvider.tsx      # Applies theme tokens
     TransitionLayer.tsx    # Renders persona transition cuts
-    engineer/              # Persona-specific subcomponents (ServiceMap, AttachTicker)
   content/                 # Shared content: profile, contacts, types, engineer graph
 public/                    # Static assets
 dist/                      # Build output (gitignored)
@@ -53,10 +53,10 @@ dist/                      # Build output (gitignored)
 
 ## Key Conventions
 
-- **Personas/modes**: the site is 11 "personas" (engineer, pm, designer, data, everyday, anime, retro, pdf, signal, director, codebase), each a full-page experience. Navigation is via the `?as=` URL query param (no router) — `src/engine/useMode.ts` reads it, `setMode()` pushes history. `engineer` is the default and omits the param.
+- **Personas/modes**: the site is 6 "personas" in the dial rotation (engineer, pm, designer, everyday, adaptation, retro) plus `pdf` as a utility route (printable resume — valid at `?as=pdf` but outside the dial; reachable via resume links and the engineer terminal's `resume` command). Navigation is via the `?as=` URL query param (no router) — `src/engine/useMode.ts` reads it, `setMode()` pushes history. `engineer` is the default and omits the param. Retired personas (signal, data, codebase, anime, director — see `RetiredModeId`) redirect via the `LEGACY` map in `useMode.ts`; keep those redirects working.
 - **Adding/changing a persona**: page component in `src/pages/`, content in a sibling `*Content.ts` (or `src/content/` if shared), theme in `src/modes/themes.ts`, persona entry in `src/modes/personas.ts`, registry entry in `src/engine/registry.ts` (pages are lazy-loaded with preload hooks), transition wiring in `src/engine/transitions.ts`.
 - **Content lives in data modules, not JSX**: typed arrays/constants in `src/pages/*Content.ts` and `src/content/`. Updating copy means editing those, not page markup.
-- **CSS is one append-only file** (`src/styles.css`, ~11k lines). Each persona rework appends a new commented "v2" section with a fresh short class prefix (e.g. `dbg-` engineer, `inv-` signal, `pmb-` PM, `swb-` switchboard). Don't restyle old sections in place — append a new section with a new prefix.
+- **CSS is one append-only file** (`src/styles.css`, ~18k lines). Each persona rework appends a new commented "v2" section with a fresh short class prefix (current live prefixes: `prc-` engineer, `pmb-` PM, `designer-` designer, `evd-`/`everyday-` everyday, `adp-` adaptation, `os-` retro, `dial__` nav). Don't restyle old sections in place — append a new section with a new prefix. Watch specificity when overriding older rules from an appended block (e.g. `.everyday-letter p` beats `.everyday-letter__lede`).
 - **Motion is gated**: animations key off the `[data-motion]` attribute set by `useMotionPreference` (theme declares a motion tier; reduced-motion preference downgrades it). GSAP work goes through `src/engine/animation.ts`, not ad-hoc imports.
 - **PdfPage is the odd one out**: it takes `{ dark, onToggleTheme }` instead of `{ mode }`, and `App.tsx` owns that special case.
 - No external UI libraries or component frameworks (GSAP for animation is the exception) — keep it that way unless there is a strong reason.
